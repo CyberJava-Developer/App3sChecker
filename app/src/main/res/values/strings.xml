@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">3s Checker</string>
+    <string name="next">NEXT</string>
+    <string name="skip_intro">Skip Intro</string>
+</resources>
