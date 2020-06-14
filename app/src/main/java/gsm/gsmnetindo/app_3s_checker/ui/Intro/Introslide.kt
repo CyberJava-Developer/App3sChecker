@@ -16,6 +16,26 @@ import kotlinx.android.synthetic.main.activity_introslide.*
 
 class Introslide : AppCompatActivity() {
 
+    private  val Introslideadapter = introslideadapter(
+        listOf(
+            dataintroslide(
+                "Menggunakan Masker",
+                "Pastikan Menggunakan Masker Sesuai Protokol Kesehatan",
+                R.drawable.s2
+            ),
+            dataintroslide(
+                "Jaga Jarak",
+            "Pengaturan Jarak Dapat Mencegah Penyebaran COVID - 19",
+                R.drawable.s1
+            ),
+            dataintroslide(
+                "Cegah Isu Negative",
+            "Pastikan Semua Kondisi Berdasarkan Data",
+                R.drawable.s3
+            )
+        )
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_introslide)
@@ -92,24 +112,4 @@ class Introslide : AppCompatActivity() {
             }
         }
     }
-
-    private  val Introslideadapter = introslideadapter(
-        listOf(
-            dataintroslide(
-                "Menggunakan Masker",
-                "Pastikan Menggunakan Masker Sesuai Protokol Kesehatan",
-                R.drawable.s2
-            ),
-            dataintroslide(
-                "Jaga Jarak",
-                "Pengaturan Jarak Dapat Mencegah Penyebaran COVID - 19",
-                R.drawable.s1
-            ),
-            dataintroslide(
-                "Cegah Isu Negative",
-                "Pastikan Semua Kondisi Berdasarkan Data",
-                R.drawable.s3
-            )
-        )
-    )
 }
