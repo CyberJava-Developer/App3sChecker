@@ -1,2 +1,8 @@
 # 3s-Checker
-# App3sChecker
+====================
+
+#Feature
+====================
+- Include QR-code Scanner
+- Splash Screen
+- Intro
