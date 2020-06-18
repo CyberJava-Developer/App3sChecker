@@ -1,12 +1,12 @@
 package gsm.gsmnetindo.app_3s_checker.ui.Intro
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.viewpager2.widget.ViewPager2
@@ -19,19 +19,13 @@ class Introslide : AppCompatActivity() {
     private  val Introslideadapter = introslideadapter(
         listOf(
             dataintroslide(
-                "Menggunakan Masker",
-                "Pastikan Menggunakan Masker Sesuai Protokol Kesehatan",
                 R.drawable.s2
             ),
             dataintroslide(
-                "Jaga Jarak",
-            "Pengaturan Jarak Dapat Mencegah Penyebaran COVID - 19",
-                R.drawable.s1
+              R.drawable.s1
             ),
             dataintroslide(
-                "Cegah Isu Negative",
-            "Pastikan Semua Kondisi Berdasarkan Data",
-                R.drawable.s3
+             R.drawable.s3
             )
         )
     )

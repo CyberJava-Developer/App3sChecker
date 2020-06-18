@@ -11,9 +11,10 @@
         android:id="@+id/txtskip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/skip_intro"
-        android:textSize="10sp"
+        android:textColor="@color/design_default_color_background"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/buttonui"
         android:minWidth="110dp"
         android:text="@string/next"
         app:layout_constraintBottom_toTopOf="@+id/txtskip"
@@ -37,15 +39,18 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/buttonnext"
-        android:orientation="horizontal" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/introsliderviewpage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="12dp"
         android:overScrollMode="never"
         app:layout_constraintBottom_toTopOf="@+id/indicatorcontainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
