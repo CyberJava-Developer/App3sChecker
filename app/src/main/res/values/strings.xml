@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">3s Checker</string>
-    <string name="next">NEXT</string>
-    <string name="skip_intro">Skip Intro</string>
+    <string name="next">Lanjut</string>
+    <string name="skip_intro">Lewati</string>
+
+
+    <string name="texthintnomor" translatable="false">masukkan nomor telepon kamu</string>
+    <string name="start" translatable="false">mulai</string>
+    <string name="agreement1" translatable="false">Dengan masuk atau mendaftar berarti kamu menyetujui</string>
+    <string name="agreement2" translatable="false">Syarat dan Ketentuan dan Kebijakan Privasi</string>
 </resources>

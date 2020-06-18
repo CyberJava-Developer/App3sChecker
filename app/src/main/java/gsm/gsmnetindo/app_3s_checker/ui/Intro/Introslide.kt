@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.viewpager2.widget.ViewPager2
-import gsm.gsmnetindo.app_3s_checker.MainActivity
 import gsm.gsmnetindo.app_3s_checker.R
+import gsm.gsmnetindo.app_3s_checker.ui.login.loginverification
 import kotlinx.android.synthetic.main.activity_introslide.*
 
 class Introslide : AppCompatActivity() {
@@ -46,19 +46,19 @@ class Introslide : AppCompatActivity() {
             }
         })
 
-        buttonnext.setOnClickListener{
-            if (introsliderviewpage.currentItem + 1 < Introslideadapter.itemCount){
-                introsliderviewpage.currentItem+=1
-            } else{
-                Intent(applicationContext, MainActivity::class.java).also{
-                    startActivity(it)
-                }
-            }
-        }
+//        buttonnext.setOnClickListener{
+//            if (introsliderviewpage.currentItem + 1 < Introslideadapter.itemCount){
+//                introsliderviewpage.currentItem+=1
+//            } else{
+//                Intent(applicationContext, MainActivity::class.java).also{
+//                    startActivity(it)
+//                }
+//            }
+//        }
 
         val txt = findViewById<TextView>(R.id.txtskip)
         txt.setOnClickListener{
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, loginverification::class.java)
             startActivity(intent)
             finish()
         }

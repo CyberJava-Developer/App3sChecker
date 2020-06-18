@@ -34,7 +34,12 @@
         <activity android:name=".ui.Intro.Introslide"
             android:theme="@style/intro"/>
         <activity android:name=".MainActivity" />
+        <activity android:name=".ui.login.loginverification"
+            android:theme="@style/login"/>
+        <activity android:name=".ui.login.verivicationclass"
+            android:theme="@style/login"/>
         <activity
+
             android:name=".ui.splash.Splash"
             android:theme="@style/splash">
             <intent-filter>
