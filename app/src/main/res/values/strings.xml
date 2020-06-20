@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">3s Checker</string>
     <string name="next">Lanjut</string>
-    <string name="skip_intro">Lewati</string>
+    <string name="skip_intro">LEWATI</string>
 
 
     <string name="texthintnomor" translatable="false">masukkan nomor telepon kamu</string>
