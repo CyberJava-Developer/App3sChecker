@@ -15,7 +15,7 @@ Java_gsm_gsmnetindo_app_13s_1checker_internal_Secret_apiKey(JNIEnv *env, jobject
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_gsm_gsmnetindo_app_13s_1checker_internal_Secret_apiVersion(JNIEnv *env, jobject thiz) {
-    std::string api_version = "v2";
+    std::string api_version = "v1";
     return env->NewStringUTF(api_version.c_str());
 }
 

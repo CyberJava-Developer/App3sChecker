@@ -10,8 +10,11 @@ android {
         applicationId "gsm.gsmnetindo.app_3s_checker"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+
+        // versioning schema
+        // Major.Minor.Patch.Stage
+        versionCode 10111
+        versionName "1.0.1.1-beta-1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
