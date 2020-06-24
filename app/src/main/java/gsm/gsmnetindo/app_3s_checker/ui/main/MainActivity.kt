@@ -1,4 +1,4 @@
-package gsm.gsmnetindo.app_3s_checker
+package gsm.gsmnetindo.app_3s_checker.ui.main
 
 import android.Manifest
 import android.content.Context
@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.*
 
 class MainActivity : AppCompatActivity() {
