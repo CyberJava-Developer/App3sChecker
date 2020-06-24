@@ -58,6 +58,7 @@ class Fragment_QRcode : Fragment() {
          val dialogView: View = inflater.inflate(R.layout.popup_qrcode_scanner, null)
 
          val txtcloses = dialogView.findViewById<TextView>(R.id.txtclose)
+         
          val btncloses: Button = dialogView.findViewById(R.id.btnclose)
          btncloses.setOnClickListener {
              alertDialog.dismiss()
