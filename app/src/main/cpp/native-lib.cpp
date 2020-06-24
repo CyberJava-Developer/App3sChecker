@@ -8,7 +8,7 @@
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_gsm_gsmnetindo_app_13s_1checker_internal_Secret_apiKey(JNIEnv *env, jobject thiz) {
-    std::string api_key = "A5CA1qB1p9lWmIln";
+    std::string api_key = "llEGoxWsLf1Fvcbv";
     return env->NewStringUTF(api_key.c_str());
 }
 
@@ -22,6 +22,6 @@ Java_gsm_gsmnetindo_app_13s_1checker_internal_Secret_apiVersion(JNIEnv *env, job
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_gsm_gsmnetindo_app_13s_1checker_internal_Secret_baseApi(JNIEnv *env, jobject thiz) {
-    std::string base_api = "http://my3s.co/api/status/";
+    std::string base_api = "http://my3s.co/api/checker/";
     return env->NewStringUTF(base_api.c_str());
 }
