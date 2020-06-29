@@ -27,7 +27,7 @@
                 android:layout_marginBottom="40dp"
                 android:background="@drawable/buttonui"
                 android:fontFamily="sans-serif"
-                android:text="Verification"
+                android:text="KEMBALI"
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,31 +48,32 @@
                 android:id="@+id/textView9"
                 android:layout_width="370dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="32dp"
                 android:text="Untuk dapat mengetahui status nomor yang didaftarkan Anda dapat menghubungi"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@+id/textView10"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/Contactperson"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginTop="28dp"
                 android:fontFamily="sans-serif-black"
                 android:text="TEAM SUPPORT"
                 android:textColor="@color/colorPrimary"
-                app:layout_constraintBottom_toTopOf="@+id/btn_verify"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:background="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,34 +81,16 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="350dp"
             android:background="#FFFF">
-
-            <EditText
-                android:id="@+id/txt_verify"
-                android:layout_width="360dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:ems="6"
-                android:focusable="true"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.461"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_numberphone" />
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="250dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-black"
-                android:text="Nomor Telepon Anda Belum Terdaftar"
+                android:text="Nomor telepon anda belum terdaftar sebagai petugas checker"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -118,7 +101,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif"
                 android:text="Anda login dengan nomor ponsel"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -126,50 +109,28 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/Ubah_noponsel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="1dp"
-                android:text="Apakah Anda Salah Memasukan Nomor Ponsel ?"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toTopOf="@+id/Ubah_noponsel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_verify" />
-
-            <TextView
-                android:id="@+id/Ubah_noponsel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:text="Ubah Nomor Telepon"
-                android:textColor="#E81D1D"
-                android:textSize="10sp"
+                android:fontFamily="sans-serif-black"
+                android:text="GANTI NOMOR"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-            <ProgressBar
-                android:id="@+id/progress_verification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Ubah_noponsel" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_numberphone" />
 
             <TextView
                 android:id="@+id/txt_numberphone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-black"
-                android:text="+628935469093"
+                android:text="NOMOR TELEPON"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -186,4 +147,15 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBaricon"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

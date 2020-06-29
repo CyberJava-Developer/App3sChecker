@@ -8,4 +8,5 @@
     <string name="start" translatable="false">mulai</string>
     <string name="agreement1" translatable="false">Dengan masuk atau mendaftar berarti kamu menyetujui</string>
     <string name="agreement2" translatable="false">Syarat dan Ketentuan dan Kebijakan Privasi</string>
+    <string name = "link1"><a href = "https://wa.me/628155555830" >TEAM SUPPORT</a></string>
 </resources>

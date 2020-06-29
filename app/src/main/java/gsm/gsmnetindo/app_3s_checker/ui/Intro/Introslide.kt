@@ -1,11 +1,16 @@
 package gsm.gsmnetindo.app_3s_checker.ui.Intro
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
@@ -19,20 +24,48 @@ class Introslide : AppCompatActivity() {
     private  val Introslideadapter = introslideadapter(
         listOf(
             dataintroslide(
-                R.drawable.s2
+                R.drawable.msker
             ),
             dataintroslide(
-              R.drawable.s1
+              R.drawable.test
             ),
             dataintroslide(
-             R.drawable.s3
+             R.drawable.pmeriksaan
             )
         )
     )
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_introslide)
+        val connectifitymanager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activenetwork: NetworkInfo? = connectifitymanager.activeNetworkInfo
+        val isconnec: Boolean = activenetwork?.isConnectedOrConnecting ==true
+        if (!isconnec){
+            Toast.makeText(applicationContext,
+                "Koneksi Internet Tidak ada", Toast.LENGTH_SHORT).show()
+
+        }
+        else{
+            val txt = findViewById<TextView>(R.id.txtskip)
+            txt.setOnClickListener{
+                if (isconnec){
+                    val intent = Intent(this, loginverification::class.java)
+                    startActivity(intent)
+                    finish()
+                }else{
+                    Toast.makeText(applicationContext,
+                        "Koneksi Internet Tidak ada", Toast.LENGTH_SHORT).show()
+                }
+//                val intent = Intent(this, loginverification::class.java)
+//                startActivity(intent)
+//                finish()
+            }
+        }
+
         introsliderviewpage.adapter = Introslideadapter
         setupIndicator()
         setcurrentIndicator(0)
@@ -45,23 +78,6 @@ class Introslide : AppCompatActivity() {
                 setcurrentIndicator(position)
             }
         })
-
-//        buttonnext.setOnClickListener{
-//            if (introsliderviewpage.currentItem + 1 < Introslideadapter.itemCount){
-//                introsliderviewpage.currentItem+=1
-//            } else{
-//                Intent(applicationContext, MainActivity::class.java).also{
-//                    startActivity(it)
-//                }
-//            }
-//        }
-
-        val txt = findViewById<TextView>(R.id.txtskip)
-        txt.setOnClickListener{
-            val intent = Intent(this, loginverification::class.java)
-            startActivity(intent)
-            finish()
-        }
     }
 
     private fun setupIndicator(){
