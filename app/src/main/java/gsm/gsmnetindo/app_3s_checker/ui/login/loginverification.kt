@@ -25,7 +25,7 @@ class loginverification: AppCompatActivity() {
             //check if the EditText have values or not
             if(msg.trim().length>0) {
                 Toast.makeText(applicationContext, "Please enter some message! ", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, verivicationclass::class.java)
+                val intent = Intent(this, verificationlogin::class.java)
                 val mEditText = findViewById<EditText>(R.id.phone_login)
                 val str = mEditText.text.toString()
                 intent.putExtra("number", str)
