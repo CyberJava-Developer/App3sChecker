@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import gsm.gsmnetindo.app_3s_checker.R
-import gsm.gsmnetindo.app_3s_checker.ui.Intro.Introslide
+import gsm.gsmnetindo.app_3s_checker.ui.Intro.IntroActivity
 
 class Splash : AppCompatActivity() {
     lateinit var topanim:Animation
@@ -33,7 +33,7 @@ class Splash : AppCompatActivity() {
         handler = Handler()
         handler.postDelayed({
 
-            val intent = Intent(this, Introslide::class.java)
+            val intent = Intent(this, IntroActivity::class.java)
             startActivity(intent)
             finish()
         }, 5000)

@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "513339223196",
+    "firebase_url": "https://s3-status.firebaseio.com",
+    "project_id": "s3-status",
+    "storage_bucket": "s3-status.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513339223196:android:a49077663f196a54e81159",
+        "android_client_info": {
+          "package_name": "com.gsmnetindo.s3status"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513339223196-pgpienoos60kg3fpk9jgiccstlvcncak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMW7zZMXy3-lzoEOff1vgMs331ZS1-Zbg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513339223196-pgpienoos60kg3fpk9jgiccstlvcncak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513339223196:android:e5cc6608fad9f4b4e81159",
+        "android_client_info": {
+          "package_name": "gsm.gsmnetindo.app_3s_checker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513339223196-pgpienoos60kg3fpk9jgiccstlvcncak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMW7zZMXy3-lzoEOff1vgMs331ZS1-Zbg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513339223196-pgpienoos60kg3fpk9jgiccstlvcncak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

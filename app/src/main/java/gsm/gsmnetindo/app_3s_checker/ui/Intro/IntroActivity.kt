@@ -14,12 +14,21 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import gsm.gsmnetindo.app_3s_checker.R
+import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.ui.login.loginverification
 import kotlinx.android.synthetic.main.activity_introslide.*
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 
-class Introslide : AppCompatActivity() {
+class IntroActivity : ScopedActivity(), KodeinAware {
+
+    override val kodein by closestKodein()
+    private val introViewModelFactory: IntroViewModelFactory by instance()
+    private lateinit var introViewModel: IntroViewModel
 
     private  val Introslideadapter = introslideadapter(
         listOf(
@@ -41,6 +50,7 @@ class Introslide : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_introslide)
+        introViewModel = ViewModelProvider(this, introViewModelFactory).get(IntroViewModel::class.java)
         val connectifitymanager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activenetwork: NetworkInfo? = connectifitymanager.activeNetworkInfo
         val isconnec: Boolean = activenetwork?.isConnectedOrConnecting ==true
@@ -121,5 +131,8 @@ class Introslide : AppCompatActivity() {
                 )
             }
         }
+    }
+    private fun setFirstInstall(){
+        introViewModel.setFirst()
     }
 }

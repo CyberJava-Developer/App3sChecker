@@ -8,7 +8,17 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     defaultConfig {
+        multiDexEnabled true
         applicationId "gsm.gsmnetindo.app_3s_checker"
         minSdkVersion 19
         targetSdkVersion 29
@@ -42,6 +52,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
+    // multi dex support
+    implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.android.support:design:29.0.0'
 
