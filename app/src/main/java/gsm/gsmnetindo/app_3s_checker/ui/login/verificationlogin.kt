@@ -13,9 +13,9 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import com.gsmnetindo.s3status.ui.base.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.NotVerifiedException
+import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.smsgateway.Api
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsListener
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsReceiver
