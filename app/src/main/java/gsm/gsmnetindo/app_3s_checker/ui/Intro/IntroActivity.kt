@@ -14,11 +14,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.ui.login.loginverification
+import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import kotlinx.android.synthetic.main.activity_introslide.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -29,6 +33,8 @@ class IntroActivity : ScopedActivity(), KodeinAware {
     override val kodein by closestKodein()
     private val introViewModelFactory: IntroViewModelFactory by instance()
     private lateinit var introViewModel: IntroViewModel
+    private val accountViewModelFactory: AccountViewModelFactory by instance()
+    private lateinit var accountViewModel: AccountViewModel
 
     private  val Introslideadapter = introslideadapter(
         listOf(
@@ -51,6 +57,7 @@ class IntroActivity : ScopedActivity(), KodeinAware {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_introslide)
         introViewModel = ViewModelProvider(this, introViewModelFactory).get(IntroViewModel::class.java)
+        accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         val connectifitymanager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activenetwork: NetworkInfo? = connectifitymanager.activeNetworkInfo
         val isconnec: Boolean = activenetwork?.isConnectedOrConnecting ==true
@@ -62,10 +69,12 @@ class IntroActivity : ScopedActivity(), KodeinAware {
         else{
             val txt = findViewById<TextView>(R.id.txtskip)
             txt.setOnClickListener{
+                setFirstInstall()
                 if (isconnec){
-                    val intent = Intent(this, loginverification::class.java)
-                    startActivity(intent)
-                    finish()
+                    isLoggedIn()
+//                    val intent = Intent(this, loginverification::class.java)
+//                    startActivity(intent)
+//                    finish()
                 }else{
                     Toast.makeText(applicationContext,
                         "Koneksi Internet Tidak ada", Toast.LENGTH_SHORT).show()
@@ -134,5 +143,28 @@ class IntroActivity : ScopedActivity(), KodeinAware {
     }
     private fun setFirstInstall(){
         introViewModel.setFirst()
+    }
+    private fun isLoggedIn(){
+        accountViewModel.isLoggedIn().observe(this, Observer {
+            if (it){
+                toMain()
+            } else {
+                toLogin()
+            }
+        })
+    }
+    private fun toMain(){
+        Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(this)
+            finish()
+        }
+    }
+    private fun toLogin(){
+        Intent(this, loginverification::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(this)
+            finish()
+        }
     }
 }

@@ -17,6 +17,10 @@ import gsm.gsmnetindo.app_3s_checker.BuildConfig
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.ui.Intro.IntroActivity
+import gsm.gsmnetindo.app_3s_checker.ui.login.loginverification
+import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -29,6 +33,8 @@ class Splash : ScopedActivity(), KodeinAware {
     override val kodein by closestKodein()
     private val splashViewModelFactory: SplashViewModelFactory by instance()
     private lateinit var splashViewModel: SplashViewModel
+    private val accountViewModelFactory: AccountViewModelFactory by instance()
+    private lateinit var accountViewModel: AccountViewModel
 
     lateinit var topanim:Animation
     lateinit var buttomanim:Animation
@@ -40,6 +46,7 @@ class Splash : ScopedActivity(), KodeinAware {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_splash)
         splashViewModel = ViewModelProvider(this, splashViewModelFactory).get(SplashViewModel::class.java)
+        accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
 
         topanim = AnimationUtils.loadAnimation(this, R.anim.top_animation)
         buttomanim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
@@ -106,6 +113,26 @@ class Splash : ScopedActivity(), KodeinAware {
         })
     }
     private fun isLoggedIn(){
-
+        accountViewModel.isLoggedIn().observe(this, Observer {
+            if (it){
+                toMain()
+            } else {
+                toLogin()
+            }
+        })
+    }
+    private fun toMain(){
+        Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(this)
+            finish()
+        }
+    }
+    private fun toLogin(){
+        Intent(this, loginverification::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(this)
+            finish()
+        }
     }
 }

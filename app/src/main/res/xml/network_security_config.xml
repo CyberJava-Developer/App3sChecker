@@ -2,6 +2,7 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">my3s.co</domain>
-        <!--        <domain includeSubdomains="true">192.168.1.5</domain>-->
+        <domain includeSubdomains="true">my3s.local</domain>
+        <domain includeSubdomains="true">192.168.1.5</domain>
     </domain-config>
 </network-security-config>

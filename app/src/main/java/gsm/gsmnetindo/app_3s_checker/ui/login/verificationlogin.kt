@@ -2,56 +2,83 @@ package gsm.gsmnetindo.app_3s_checker.ui.login
 
 import android.Manifest
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import gsm.gsmnetindo.app_3s_checker.R
-import gsm.gsmnetindo.app_3s_checker.internal.NotVerifiedException
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.smsgateway.Api
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsListener
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsReceiver
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_verification.*
 import kotlinx.android.synthetic.main.activity_verificationlogin.*
 import kotlinx.android.synthetic.main.activity_verificationlogin.btn_verify
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
-import java.net.SocketTimeoutException
-import kotlin.concurrent.timer
+
 private lateinit var phone: String
 private lateinit var api: Api
-class verificationlogin : ScopedActivity(), SmsListener {
+class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
+    override val kodein by closestKodein()
+    private val accountViewModelFactory: AccountViewModelFactory by instance()
+    private lateinit var accountViewModel: AccountViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verificationlogin)
+        accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         checkRuntimePermission()
         initRetrofit()
         bindSmsReceiver()
         phone = intent.getStringExtra("number")
         val mText = findViewById<TextView>(R.id.number_txt)
         mText.text = phone
-        timeractiviti(phone)
+//        timeractiviti(phone)
+        val filtered =  phone.filter { c -> c.isDigit() }
+        login(filtered)
         btnverifylogin()
 
         //ubah nomor
         changenumber()
+    }
+
+    private fun login(phonenumber: String) = launch {
+        try {
+            accountViewModel.login(phonenumber).observe(this@verificationlogin, Observer {
+                // for demo purpose, change role to be more than 1 (example: 2, 3, 4, up to 7)
+                val role = it.role
+                if (role == 1){
+                    Toast.makeText(this@verificationlogin, "anda tidak memiliki izin untuk login", Toast.LENGTH_LONG).show()
+                } else {
+                    Intent(this@verificationlogin, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(this)
+                        finish()
+                    }
+                }
+            })
+        } catch (e: HttpException) {
+            Toast.makeText(this@verificationlogin, e.message(), Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun changenumber(){
