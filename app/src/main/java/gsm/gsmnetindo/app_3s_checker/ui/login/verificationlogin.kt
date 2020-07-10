@@ -243,6 +243,7 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
                 textnum.requestFocus()
                 return@setOnClickListener
             }
+            login()
 //            verifyCode(code);
             val textcode = code
             api.updateOtp(textcode)

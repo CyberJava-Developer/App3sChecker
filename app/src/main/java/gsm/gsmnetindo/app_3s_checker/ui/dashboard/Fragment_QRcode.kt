@@ -1,16 +1,14 @@
 package gsm.gsmnetindo.app_3s_checker.ui.dashboard
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.budiyev.android.codescanner.CodeScanner
@@ -33,6 +31,7 @@ import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModelFactory
+import kotlinx.android.synthetic.main.popup_qrcode_scanner.*
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -113,6 +112,7 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
         val status = dialogView.findViewById<TextView>(R.id.dialog_status)
         val name = dialogView.findViewById<TextView>(R.id.dialog_name)
         val lastCheck = dialogView.findViewById<TextView>(R.id.dialog_last)
+        val backg = dialogView.findViewById<LinearLayout>(R.id.backgr)
 
         val url = "${Secret.baseApi()}${Secret.apiVersion()}/${accountViewModel.getPhone().value}/avatar/$code"
         val glideUrl = GlideUrl(
@@ -154,15 +154,19 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
         when(user.status.status){
             "negative"->{
                 status.text = "Sehat"
+                backg.setBackgroundColor(Color.parseColor("#6DBEAF"))
             }
             "odp"->{
                 status.text = "Dalam Pengawasan"
+                backg.setBackgroundColor(Color.parseColor("#E4B761"))
             }
             "pdp"->{
                 status.text = "Pasien Pengawasan"
+                backg.setBackgroundColor(Color.parseColor("#E4B761"))
             }
             "positive"->{
                 status.text = "Positif Corona"
+                backg.setBackgroundColor(Color.parseColor("#E06E71"))
             }
         }
         name.text = user.user.name

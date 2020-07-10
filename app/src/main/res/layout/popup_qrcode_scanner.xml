@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="350dp"
-    android:layout_height="475dp"
-    android:padding="15dp"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/backgr"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@color/colorPrimary">
+    android:orientation="vertical"
+    android:padding="15dp">
 
     <TextView
         android:id="@+id/txtclose"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:background="@drawable/circle_close"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
         android:text="X"
         android:textColor="#ffff"
-        android:textStyle="bold"
         android:textSize="21sp"
-        android:layout_gravity="end"
-        android:gravity="center"
-        android:background="@drawable/circle_close"
-        />
+        android:textStyle="bold" />
 
     <LinearLayout
-        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/dialog_avatar"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_gravity="center"
-            android:scaleType="fitXY"
-            android:adjustViewBounds="true"
             android:layout_marginTop="15dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:src="@drawable/ic_baseline_account_box_24" />
 
         <TextView
@@ -42,7 +42,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif"
             android:text="SEHAT"
+            android:textAlignment="center"
             android:textColor="#ffff"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -53,17 +55,22 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif"
             android:text="Nama : Zarul"
+            android:textAlignment="center"
             android:textColor="#ffff"
             android:textSize="18sp"
             android:textStyle="normal" />
+
         <TextView
             android:id="@+id/dialog_last"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif"
             android:text="Nik : 356725829308203"
+            android:textAlignment="center"
             android:textColor="#ffff"
             android:textSize="18sp"
             android:textStyle="normal" />
@@ -73,11 +80,12 @@
 
     <Button
         android:id="@+id/btnclose"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
+        android:background="@drawable/buttonuiaccount"
+        android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:text="CLOSE"
-        android:background="@drawable/buttonui"
-        />
+        android:textColor="#3E3939" />
 </LinearLayout>
