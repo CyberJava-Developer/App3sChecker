@@ -11,6 +11,7 @@ import gsm.gsmnetindo.app_3s_checker.data.repository.*
 import gsm.gsmnetindo.app_3s_checker.internal.network.Network
 import gsm.gsmnetindo.app_3s_checker.internal.network.NetworkImpl
 import gsm.gsmnetindo.app_3s_checker.ui.Intro.IntroViewModelFactory
+import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.splash.SplashViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModelFactory
@@ -52,6 +53,7 @@ class CheckerApplication: Application(), KodeinAware {
         bind() from provider { IntroViewModelFactory(instance()) }
         bind() from provider { AccountViewModelFactory(instance()) }
         bind() from provider { BarcodeViewModelFactory(instance()) }
+        bind() from provider { ResultViewModelFactory(instance()) }
 
     }
 

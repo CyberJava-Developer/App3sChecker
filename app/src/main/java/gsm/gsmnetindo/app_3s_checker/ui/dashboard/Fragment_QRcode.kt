@@ -1,6 +1,7 @@
 package gsm.gsmnetindo.app_3s_checker.ui.dashboard
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -27,6 +28,9 @@ import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
 import gsm.gsmnetindo.app_3s_checker.internal.Secret
 import gsm.gsmnetindo.app_3s_checker.internal.glide.GlideApp
+import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultActivity
+import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModel
+import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModel
@@ -46,6 +50,8 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
     private lateinit var barcodeViewModel: BarcodeViewModel
     private val accountViewModelFactory by instance<AccountViewModelFactory>()
     private lateinit var accountViewModel: AccountViewModel
+    private val resultViewModelFactory by instance<ResultViewModelFactory>()
+    private lateinit var resultViewModel: ResultViewModel
 
     private lateinit var codeScanner: CodeScanner
     private lateinit var alertDialog: AlertDialog
@@ -83,6 +89,7 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
         }
         barcodeViewModel = ViewModelProvider(this, barcodeViewModelFactory).get(BarcodeViewModel::class.java)
         accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
+        resultViewModel = ViewModelProvider(this, resultViewModelFactory).get(ResultViewModel::class.java)
     }
 
     override fun onResume() {
@@ -97,12 +104,22 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
     private fun scan(code: String) = launch {
         try {
             barcodeViewModel.scan(code).observe(viewLifecycleOwner, Observer {
-                showpopup(code, it)
+//                showpopup(code, it)
+                showResult(code, it)
             })
         } catch (e: HttpException) {
             Toast.makeText(requireContext(), e.message(), Toast.LENGTH_LONG).show()
             codeScanner.startPreview()
         }
+    }
+    private fun showResult(code: String, user: BarcodeDetailResponse){
+        resultViewModel.setDetail(code, user)
+        Intent(requireContext(), ResultActivity::class.java).apply {
+            putExtra("code", code)
+
+//                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(this)
+            }
     }
     fun showpopup(code: String, user: BarcodeDetailResponse) {
         val inflater: LayoutInflater = this.layoutInflater

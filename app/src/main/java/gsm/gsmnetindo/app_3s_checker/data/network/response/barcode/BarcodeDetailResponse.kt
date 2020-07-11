@@ -7,5 +7,6 @@ data class BarcodeDetailResponse(
     val account: Account,
     val history: List<History>,
     val status: Status,
-    val user: User
+    val user: User,
+    val location: List<Location>
 )

@@ -23,5 +23,6 @@ extern "C"
 JNIEXPORT jstring JNICALL
 Java_gsm_gsmnetindo_app_13s_1checker_internal_Secret_baseApi(JNIEnv *env, jobject thiz) {
     std::string base_api = "http://my3s.co/api/checker/";
+//    std::string base_api = "http://my3s.local/checker/";
     return env->NewStringUTF(base_api.c_str());
 }
