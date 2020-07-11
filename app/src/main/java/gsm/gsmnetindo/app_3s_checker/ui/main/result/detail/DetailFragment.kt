@@ -59,22 +59,27 @@ class DetailFragment: ScopedFragment(), KodeinAware {
                 "negative"->{
                     detail_status.text = "Status Sehat"
                     detail_status.setTextColor(Color.parseColor("#32a86d"))
+                    detail_container.setCardBackgroundColor(Color.parseColor("#6DBEAF"))
                 }
                 "odp"->{
                     detail_status.text = "Status"
                     detail_status.setTextColor(Color.parseColor("#dae600"))
+                    detail_container.setCardBackgroundColor(Color.parseColor("#E4B761"))
                 }
                 "pdp" -> {
                     detail_status.text = "Pasien Perawatan"
                     detail_status.setTextColor(Color.parseColor("#e67e00"))
+                    detail_container.setCardBackgroundColor(Color.parseColor("#E4B761"))
                 }
                 "positive" -> {
                     detail_status.text = "Status Positif"
                     detail_status.setTextColor(Color.parseColor("#e60000"))
+                    detail_container.setCardBackgroundColor(Color.parseColor("#E06E71"))
                 }
                 else -> {
                     detail_status.text = "Tidak Terverifikasi"
                     detail_status.setTextColor(Color.parseColor("#00c5e3"))
+                    detail_container.setCardBackgroundColor(Color.parseColor("#E06E71"))
                 }
             }
             val urls = "http://my3s.local/checker/v1/6281249499076/avatar/xJ6UMTh3lokKiHvPI78my2ZprcNf5tV9"
