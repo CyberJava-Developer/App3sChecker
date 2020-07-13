@@ -37,8 +37,8 @@ import java.util.*
 
 class DetailFragment: ScopedFragment(), KodeinAware {
     override val kodein by closestKodein()
-    private val resultViewModelFactory by instance<ResultViewModelFactory>()
-    private val accountViewModelFactory by instance<AccountViewModelFactory>()
+    private val resultViewModelFactory: ResultViewModelFactory by instance()
+    private val accountViewModelFactory: AccountViewModelFactory by instance()
     private lateinit var resultViewModel: ResultViewModel
     private lateinit var accountViewModel: AccountViewModel
 

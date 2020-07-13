@@ -1,6 +1,5 @@
 package gsm.gsmnetindo.app_3s_checker.ui.main.result
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations

@@ -1,11 +1,9 @@
 package gsm.gsmnetindo.app_3s_checker.ui.main.result.location
 
-import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,17 +17,15 @@ import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import kotlinx.android.synthetic.main.fragment_result_location.*
-import kotlinx.android.synthetic.main.item_location.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
-import java.util.*
 
 
 class LocationFragment: ScopedFragment(), KodeinAware {
     override val kodein by closestKodein()
-    private val resultViewModelFactory by instance<ResultViewModelFactory>()
-    private val accountViewModelFactory by instance<AccountViewModelFactory>()
+    private val resultViewModelFactory: ResultViewModelFactory by instance()
+    private val accountViewModelFactory: AccountViewModelFactory by instance()
     private lateinit var resultViewModel: ResultViewModel
     private lateinit var accountViewModel: AccountViewModel
 
