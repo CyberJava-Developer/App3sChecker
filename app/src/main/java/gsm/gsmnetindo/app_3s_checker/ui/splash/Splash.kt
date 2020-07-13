@@ -29,6 +29,7 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
+import kotlin.system.exitProcess
 
 class Splash : ScopedActivity(), KodeinAware {
 
@@ -86,7 +87,7 @@ class Splash : ScopedActivity(), KodeinAware {
             Toast.makeText(applicationContext,
                 "ya", Toast.LENGTH_SHORT).show()
             finish()
-            System.exit(0)
+            exitProcess(0)
         }
         builder.show()
 
