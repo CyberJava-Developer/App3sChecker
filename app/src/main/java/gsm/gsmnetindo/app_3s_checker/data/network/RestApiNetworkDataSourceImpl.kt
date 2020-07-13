@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import gsm.gsmnetindo.app_3s_checker.data.db.entity.CountryStatusItem
 import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostLogin
 import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
@@ -13,6 +14,7 @@ import retrofit2.HttpException
 
 class RestApiNetworkDataSourceImpl(
     private val context: Context,
+    private val covid19Service: Covid19Service,
     private val restApiService: RestApiService
 ) : RestApiNetworkDataSource {
     fun getPhone(): String {
@@ -29,6 +31,21 @@ class RestApiNetworkDataSourceImpl(
         val phone = phonePreferences.getString(ACCOUNT_PHONE, "")
         Log.d("phone is", "$phone")
         return phonePreferences.getString(ACCOUNT_PHONE, "")!!
+    }
+
+    // for getiing covid-19 data
+    private val _dataCovid = MutableLiveData<List<CountryStatusItem>>()
+    override val dataCovid19Service: LiveData<List<CountryStatusItem>>
+        get() = _dataCovid
+
+    override suspend fun fetchCovidData() {
+        try {
+            covid19Service.dataAsync().apply {
+                _dataCovid.postValue(this)
+            }
+        } catch (e: HttpException) {
+            throw e
+        }
     }
 
     // for version

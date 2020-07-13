@@ -33,6 +33,8 @@ interface RestApiService {
         @Path("code") code: String
     ): BarcodeDetailResponse
 
+    // https://api.covid19api.com/country/indonesia
+
     companion object {
         operator fun invoke(
             networkRequestInterceptor: NetworkRequestInterceptor

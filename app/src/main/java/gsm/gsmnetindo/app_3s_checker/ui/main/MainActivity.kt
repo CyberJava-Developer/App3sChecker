@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.*
+import gsm.gsmnetindo.app_3s_checker.ui.dashboard.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,12 +23,15 @@ class MainActivity : AppCompatActivity() {
 
         val navview = findViewById<BottomNavigationView>(R.id.navbar)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer, Fragment_home()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer,
+                HomeFragment()
+            ).commit()
         }
         navview.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
             var frg: Fragment? = null
             when (menuItem.itemId) {
-                R.id.homedashboard -> frg = Fragment_home()
+                R.id.homedashboard -> frg =
+                    HomeFragment()
                 R.id.pesan -> frg = Fragment_pesan()
                 R.id.barcode -> frg = Fragment_QRcode()
                 R.id.akun -> frg = Fragment_akun()

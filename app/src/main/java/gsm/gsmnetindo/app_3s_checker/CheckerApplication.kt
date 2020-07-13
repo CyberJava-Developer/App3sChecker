@@ -2,6 +2,7 @@ package gsm.gsmnetindo.app_3s_checker
 
 import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
+import gsm.gsmnetindo.app_3s_checker.data.db.CheckerDatabase
 import gsm.gsmnetindo.app_3s_checker.data.network.*
 import gsm.gsmnetindo.app_3s_checker.data.preference.installer.InstallManager
 import gsm.gsmnetindo.app_3s_checker.data.preference.installer.InstallManagerImpl
@@ -11,6 +12,7 @@ import gsm.gsmnetindo.app_3s_checker.data.repository.*
 import gsm.gsmnetindo.app_3s_checker.internal.network.Network
 import gsm.gsmnetindo.app_3s_checker.internal.network.NetworkImpl
 import gsm.gsmnetindo.app_3s_checker.ui.Intro.IntroViewModelFactory
+import gsm.gsmnetindo.app_3s_checker.ui.dashboard.home.HomeViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.splash.SplashViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
@@ -38,18 +40,25 @@ class CheckerApplication: Application(), KodeinAware {
         // account manager
         bind<UserManager>() with singleton { UserManagerImpl(instance()) }
 
+        // room instantiation
+        bind() from singleton { CheckerDatabase(instance()) }
+        bind() from singleton { instance<CheckerDatabase>().covidDao() }
+
         // networking
         bind<NetworkRequestInterceptor>() with singleton { NetworkRequestInterceptorImpl(instance(), instance()) }
+        bind() from singleton { Covid19Service(instance()) }
         bind() from singleton { RestApiService(instance()) }
-        bind<RestApiNetworkDataSource>() with singleton { RestApiNetworkDataSourceImpl(instance(), instance()) }
+        bind<RestApiNetworkDataSource>() with singleton { RestApiNetworkDataSourceImpl(instance(), instance(), instance()) }
 
         // repository
+        bind<Covid19Repository>() with singleton { Covid19RepositoryImpl(instance(), instance()) }
         bind<VersionRepository>() with singleton { VersionRepositoryImpl(instance()) }
         bind<AccountRepository>() with singleton { AccountRepositoryImpl(instance(), instance()) }
         bind<BarcodeRepository>() with singleton { BarcodeRepositoryImpl(instance()) }
 
         // view model factory
-        bind() from  provider { SplashViewModelFactory(instance(), instance(), instance()) }
+        bind() from provider { HomeViewModelFactory(instance()) }
+        bind() from provider { SplashViewModelFactory(instance(), instance(), instance()) }
         bind() from provider { IntroViewModelFactory(instance()) }
         bind() from provider { AccountViewModelFactory(instance()) }
         bind() from provider { BarcodeViewModelFactory(instance()) }
