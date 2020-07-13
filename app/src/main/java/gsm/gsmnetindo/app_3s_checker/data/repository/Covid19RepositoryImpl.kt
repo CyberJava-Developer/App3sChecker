@@ -2,7 +2,7 @@ package gsm.gsmnetindo.app_3s_checker.data.repository
 
 import androidx.lifecycle.LiveData
 import gsm.gsmnetindo.app_3s_checker.data.db.CovidDao
-import gsm.gsmnetindo.app_3s_checker.data.db.entity.CountryStatusItem
+import gsm.gsmnetindo.app_3s_checker.data.db.entity.CovidDataItem
 import gsm.gsmnetindo.app_3s_checker.data.network.RestApiNetworkDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -26,13 +26,13 @@ class Covid19RepositoryImpl(
         }
     }
 
-    override suspend fun getData(): LiveData<List<CountryStatusItem>> {
+    override suspend fun getData(): LiveData<List<CovidDataItem>> {
         restApiNetworkDataSource.fetchCovidData()
         return withContext(Dispatchers.IO){
             return@withContext covidDao.getAll()
         }
     }
-    private fun persistData(data: List<CountryStatusItem>){
+    private fun persistData(data: List<CovidDataItem>){
         fun deleteOldData(){
             covidDao.deleteAll()
         }

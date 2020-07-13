@@ -43,6 +43,7 @@ class CheckerApplication: Application(), KodeinAware {
         // room instantiation
         bind() from singleton { CheckerDatabase(instance()) }
         bind() from singleton { instance<CheckerDatabase>().covidDao() }
+        bind() from singleton { instance<CheckerDatabase>().feedsDao() }
 
         // networking
         bind<NetworkRequestInterceptor>() with singleton { NetworkRequestInterceptorImpl(instance(), instance()) }
@@ -54,10 +55,11 @@ class CheckerApplication: Application(), KodeinAware {
         bind<Covid19Repository>() with singleton { Covid19RepositoryImpl(instance(), instance()) }
         bind<VersionRepository>() with singleton { VersionRepositoryImpl(instance()) }
         bind<AccountRepository>() with singleton { AccountRepositoryImpl(instance(), instance()) }
+        bind<FeedsRepository>() with singleton { FeedsRepositoryImpl(instance(), instance()) }
         bind<BarcodeRepository>() with singleton { BarcodeRepositoryImpl(instance()) }
 
         // view model factory
-        bind() from provider { HomeViewModelFactory(instance()) }
+        bind() from provider { HomeViewModelFactory(instance(), instance()) }
         bind() from provider { SplashViewModelFactory(instance(), instance(), instance()) }
         bind() from provider { IntroViewModelFactory(instance()) }
         bind() from provider { AccountViewModelFactory(instance()) }

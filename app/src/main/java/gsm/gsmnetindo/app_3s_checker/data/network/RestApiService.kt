@@ -2,6 +2,7 @@ package gsm.gsmnetindo.app_3s_checker.data.network
 
 import android.util.Log
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import gsm.gsmnetindo.app_3s_checker.data.db.entity.FeedItem
 import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostLogin
 import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
@@ -26,6 +27,11 @@ interface RestApiService {
     suspend fun userLoginAsync(
         @Body dataPostLogin: DataPostLogin
     ): UserLoginResponse
+
+    @GET("{phone}/feeds.json")
+    suspend fun getFeedsAsync(
+        @Path("phone") phone: String
+    ) : List<FeedItem>
 
     @GET("{phone}/scan/{code}")
     suspend fun scanCodeAsync(

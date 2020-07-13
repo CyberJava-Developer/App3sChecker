@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "days_status", indices = [Index(value = ["id"], unique = true)])
-data class CountryStatusItem(
+data class CovidDataItem(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     @SerializedName("Active")

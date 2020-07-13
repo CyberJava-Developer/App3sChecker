@@ -28,6 +28,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 import retrofit2.HttpException
+import java.net.SocketTimeoutException
 
 class Splash : ScopedActivity(), KodeinAware {
 
@@ -92,9 +93,16 @@ class Splash : ScopedActivity(), KodeinAware {
                     isFirstTime()
                 }
             })
-        } catch (e: HttpException) {
-            Log.e("version update", e.message(), e)
-            Toast.makeText(this@Splash, e.message(), Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Log.e("version update", e.message, e)
+            when(e) {
+                is SocketTimeoutException -> {
+                    Toast.makeText(this@Splash, "Tidak bisa menyambung ke server, coba beberapa saat lagi", Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    Toast.makeText(this@Splash, e.message, Toast.LENGTH_LONG).show()
+                }
+            }
             finish()
         }
     }

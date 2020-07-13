@@ -5,15 +5,15 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import gsm.gsmnetindo.app_3s_checker.data.db.entity.CountryStatusItem
+import gsm.gsmnetindo.app_3s_checker.data.db.entity.CovidDataItem
 
 @Dao
 interface CovidDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsert(items: List<CountryStatusItem>)
+    fun upsert(items: List<CovidDataItem>)
 
     @Query("select * from days_status")
-    fun getAll(): LiveData<List<CountryStatusItem>>
+    fun getAll(): LiveData<List<CovidDataItem>>
 
     @Query("select count(id) from days_status")
     fun count(): LiveData<Int>

@@ -1,7 +1,7 @@
 package gsm.gsmnetindo.app_3s_checker.data.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import gsm.gsmnetindo.app_3s_checker.data.db.entity.CountryStatusItem
+import gsm.gsmnetindo.app_3s_checker.data.db.entity.CovidDataItem
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 interface Covid19Service {
 
     @GET("country/indonesia")
-    suspend fun dataAsync(): List<CountryStatusItem>
+    suspend fun dataAsync(): List<CovidDataItem>
 
     companion object {
         operator fun invoke(

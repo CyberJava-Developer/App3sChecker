@@ -5,7 +5,8 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import gsm.gsmnetindo.app_3s_checker.data.db.entity.CountryStatusItem
+import gsm.gsmnetindo.app_3s_checker.data.db.entity.CovidDataItem
+import gsm.gsmnetindo.app_3s_checker.data.db.entity.FeedItem
 import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostLogin
 import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
@@ -34,8 +35,8 @@ class RestApiNetworkDataSourceImpl(
     }
 
     // for getiing covid-19 data
-    private val _dataCovid = MutableLiveData<List<CountryStatusItem>>()
-    override val dataCovid19Service: LiveData<List<CountryStatusItem>>
+    private val _dataCovid = MutableLiveData<List<CovidDataItem>>()
+    override val dataCovid19Service: LiveData<List<CovidDataItem>>
         get() = _dataCovid
 
     override suspend fun fetchCovidData() {
@@ -77,6 +78,21 @@ class RestApiNetworkDataSourceImpl(
         } catch (e: HttpException) {
             //Toast.makeText(context, e.message().toString(), Toast.LENGTH_SHORT).show()
             Log.d("Login Attempt", e.message.toString())
+            throw e
+        }
+    }
+
+    // for feeds
+    private val _downloadedFeedsResponse = MutableLiveData<List<FeedItem>>()
+    override val downloadedFeedsResponse: LiveData<List<FeedItem>>
+        get() = _downloadedFeedsResponse
+
+    override suspend fun fetchFeeds() {
+        try {
+            restApiService.getFeedsAsync(getPhone()).apply {
+                _downloadedFeedsResponse.postValue(this)
+            }
+        } catch (e: HttpException){
             throw e
         }
     }
