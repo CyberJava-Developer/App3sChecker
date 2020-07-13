@@ -29,6 +29,7 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
+import kotlin.system.exitProcess
 
 class Splash : ScopedActivity(), KodeinAware {
 
@@ -68,12 +69,30 @@ class Splash : ScopedActivity(), KodeinAware {
     }
     private fun checkNetwork(){
         if (splashViewModel.isOnline().not()){
+            alerndialog()
             Toast.makeText(this,"tidak ada koneksi internet", Toast.LENGTH_LONG).show();
-            finish()
+            //finish()
         } else {
             checkUpdate()
         }
     }
+
+    fun alerndialog(){
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Error")
+        builder.setMessage("Koneksi Internet anda buruk, harap pastikan koneksi internet anda baik Dan jalankan ulang aplikasi 3s checker")
+//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton("IYA") { dialog, which ->
+            Toast.makeText(applicationContext,
+                "ya", Toast.LENGTH_SHORT).show()
+            finish()
+            exitProcess(0)
+        }
+        builder.show()
+
+    }
+
     private fun checkUpdate() = launch {
         try {
             splashViewModel.getLatestVersion().observe(this@Splash, Observer {
