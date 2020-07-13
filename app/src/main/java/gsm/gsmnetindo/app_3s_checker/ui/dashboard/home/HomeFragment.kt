@@ -39,7 +39,7 @@ class HomeFragment : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        feed_refresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+        feed_refresh.setProgressBackgroundColorSchemeResource(R.color.colorPrimary)
         feed_refresh.setColorSchemeColors(Color.WHITE)
         feed_refresh.isRefreshing = true
         feed_refresh.setOnRefreshListener {
