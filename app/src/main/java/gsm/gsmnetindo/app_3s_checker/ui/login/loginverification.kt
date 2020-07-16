@@ -45,8 +45,6 @@ class loginverification: AppCompatActivity() {
 //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
 
         builder.setPositiveButton("IYA") { dialog, which ->
-//            Toast.makeText(applicationContext,
-//                "ya", Toast.LENGTH_SHORT).show()
         }
 
         builder.setNegativeButton("TIDAK") { dialog, which ->
