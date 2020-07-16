@@ -124,7 +124,7 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        Toast.makeText(this, "SMS has been sent", Toast.LENGTH_LONG)
+                        Toast.makeText(this, "kode dikirimkan ke nomer Whatsapp anda", Toast.LENGTH_LONG)
                             .show()
                     },
                     {
@@ -195,11 +195,11 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
 //                    hideProgressDialog()
                     val jsonObjectResponse = JSONObject(it.string())
                     if (jsonObjectResponse.getBoolean("success")) {
-                        Toast.makeText(this, "OTP valid", Toast.LENGTH_LONG)
+                        Toast.makeText(this, "Kode OTP benar", Toast.LENGTH_LONG)
                             .show()
                         login()
                     } else {
-                        Toast.makeText(this, "OTP invalid", Toast.LENGTH_LONG)
+                        Toast.makeText(this, "Kode OTP salah", Toast.LENGTH_LONG)
                             .show()
                     }
                 },
@@ -220,7 +220,7 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
                 finish()
             }
         } catch (e: Exception){
-            loginProcess(false, "menunggu sms verifikasi")
+            loginProcess(false, "menunggu whatsapp verifikasi")
 
         }
     }
@@ -254,11 +254,11 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
 //                        hideProgressDialog()
                         val jsonObjectResponse = JSONObject(it.string())
                         if (jsonObjectResponse.getBoolean("success")) {
-                            Toast.makeText(this, "OTP valid", Toast.LENGTH_LONG)
+                            Toast.makeText(this, "Kode OTP benar", Toast.LENGTH_LONG)
                                 .show()
                             login()
                         } else {
-                            Toast.makeText(this, "OTP invalid", Toast.LENGTH_LONG)
+                            Toast.makeText(this, "Kode OTP salah", Toast.LENGTH_LONG)
                                 .show()
                         }
                     },

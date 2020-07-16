@@ -24,7 +24,7 @@ class loginverification: AppCompatActivity() {
 
             //check if the EditText have values or not
             if(msg.trim().length>0) {
-                Toast.makeText(applicationContext, "Please enter some message! ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Tunggu sebentar hingga anda mendapatkan 4 digit nomor verifikasi ", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, verificationlogin::class.java)
                 val mEditText = findViewById<EditText>(R.id.phone_login)
                 val str = mEditText.text.toString()
@@ -45,13 +45,13 @@ class loginverification: AppCompatActivity() {
 //builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
 
         builder.setPositiveButton("IYA") { dialog, which ->
-            Toast.makeText(applicationContext,
-                "ya", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(applicationContext,
+//                "ya", Toast.LENGTH_SHORT).show()
         }
 
         builder.setNegativeButton("TIDAK") { dialog, which ->
-            Toast.makeText(applicationContext,
-                "tidak", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(applicationContext,
+//                "tidak", Toast.LENGTH_SHORT).show()
         }
         builder.show()
 

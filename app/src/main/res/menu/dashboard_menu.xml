@@ -16,7 +16,7 @@
     <item
         android:id="@+id/pesan"
         android:icon="@drawable/ic_email"
-        android:title="Pesan" />
+        android:title="@string/link2" />
     <item
         android:id="@+id/akun"
         android:icon="@drawable/ic_user"

@@ -116,14 +116,28 @@ class Splash : ScopedActivity(), KodeinAware {
             Log.e("version update", e.message, e)
             when(e) {
                 is SocketTimeoutException -> {
-                    Toast.makeText(this@Splash, "Tidak bisa menyambung ke server, coba beberapa saat lagi", Toast.LENGTH_LONG).show()
+                    alern()
+                    //Toast.makeText(this@Splash, "Tidak bisa menyambung ke server, coba beberapa saat lagi", Toast.LENGTH_LONG).show()
                 }
                 else -> {
                     Toast.makeText(this@Splash, e.message, Toast.LENGTH_LONG).show()
                 }
             }
-            finish()
+            //finish()
         }
+    }
+
+    fun alern(){
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Error")
+        builder.setMessage("internet koneksi buruk, pastikan koneksi anda stabil dan silakan coba kembali")
+//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton("IYA") { dialog, which ->
+            System.exit(0)
+        }
+        builder.show()
+
     }
     private fun isFirstTime() {
         splashViewModel.isFirst().observe(this, Observer {
