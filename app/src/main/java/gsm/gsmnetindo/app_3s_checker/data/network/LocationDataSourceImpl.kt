@@ -58,6 +58,13 @@ class LocationDataSourceImpl(
                     }
                     else requestNewLocation()
                 }
+                fusedLocationProviderClient.lastLocation.addOnSuccessListener {
+                    if (it != null){
+                        _location.postValue(it)
+                        _address.postValue(addressLocator(it))
+                    }
+                    else requestNewLocation()
+                }
             } else {
                 throw LocationNotEnabledException()
             }

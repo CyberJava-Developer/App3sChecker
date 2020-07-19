@@ -61,7 +61,14 @@ class HomeFragment : ScopedFragment(), KodeinAware {
                 }
             })
         } catch (e: Exception){
-            Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+            when(e){
+                is IllegalStateException -> {
+
+                }
+                else -> {
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
     private fun showFeeds() = launch {
@@ -74,8 +81,15 @@ class HomeFragment : ScopedFragment(), KodeinAware {
                 }
             })
         } catch (e: Exception){
-            Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
-            feed_refresh.isRefreshing = false
+            when(e){
+                is IllegalStateException -> {
+
+                }
+                else -> {
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+                    feed_refresh.isRefreshing = false
+                }
+            }
         }
     }
     private fun initRecyclerView(items: List<FeedItem>){

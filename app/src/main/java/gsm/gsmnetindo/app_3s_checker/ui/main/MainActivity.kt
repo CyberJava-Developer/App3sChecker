@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -58,6 +59,14 @@ class MainActivity : ScopedActivity(), KodeinAware {
             }
             true
         })
+    }
+
+    override fun onRestoreInstanceState(
+        savedInstanceState: Bundle?,
+        persistentState: PersistableBundle?
+    ) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState)
+        getLocation()
     }
     private fun getLocation() = launch {
         try {
