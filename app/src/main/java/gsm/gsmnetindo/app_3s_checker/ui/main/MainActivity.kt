@@ -3,21 +3,36 @@ package gsm.gsmnetindo.app_3s_checker.ui.main
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import gsm.gsmnetindo.app_3s_checker.R
+import gsm.gsmnetindo.app_3s_checker.internal.LocationNotEnabledException
+import gsm.gsmnetindo.app_3s_checker.internal.LocationPermissionException
+import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.*
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.home.HomeFragment
+import kotlinx.coroutines.launch
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ScopedActivity(), KodeinAware {
+    override val kodein by closestKodein()
+    private val mainViewModelFactory: MainViewModelFactory by instance()
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
 
         izincamera()
 
@@ -27,6 +42,7 @@ class MainActivity : AppCompatActivity() {
                 HomeFragment()
             ).commit()
         }
+        getLocation()
         navview.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
             var frg: Fragment? = null
             when (menuItem.itemId) {
@@ -43,8 +59,37 @@ class MainActivity : AppCompatActivity() {
             true
         })
     }
-
-    fun izincamera(){
+    private fun getLocation() = launch {
+        try {
+            mainViewModel.getAddress().observe(this@MainActivity, Observer {
+                supportActionBar?.subtitle = "${it.subLocality}, ${it.subAdminArea}"
+                Log.i("getAddressMain", "$it")
+            })
+        } catch (e: Exception){
+            when(e){
+                is LocationPermissionException -> {
+                    requestLocation()
+                }
+                is LocationNotEnabledException -> {
+                    Toast.makeText(this@MainActivity, "Mohon hidupkan GPS anda", Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
+                    Log.e("getLocationMain", e.message, e)
+                }
+            }
+        }
+    }
+    private fun requestLocation(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val permission = arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            requestPermissions(permission, 1001)
+        }
+    }
+    private fun izincamera(){
         //meminta izin camera
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)

@@ -1,6 +1,8 @@
 package gsm.gsmnetindo.app_3s_checker
 
 import android.app.Application
+import android.content.Context
+import android.location.LocationManager
 import com.jakewharton.threetenabp.AndroidThreeTen
 import gsm.gsmnetindo.app_3s_checker.data.db.CheckerDatabase
 import gsm.gsmnetindo.app_3s_checker.data.network.*
@@ -13,6 +15,7 @@ import gsm.gsmnetindo.app_3s_checker.internal.network.Network
 import gsm.gsmnetindo.app_3s_checker.internal.network.NetworkImpl
 import gsm.gsmnetindo.app_3s_checker.ui.Intro.IntroViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.home.HomeViewModelFactory
+import gsm.gsmnetindo.app_3s_checker.ui.main.MainViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.splash.SplashViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
@@ -49,9 +52,13 @@ class CheckerApplication: Application(), KodeinAware {
         bind<NetworkRequestInterceptor>() with singleton { NetworkRequestInterceptorImpl(instance(), instance()) }
         bind() from singleton { Covid19Service(instance()) }
         bind() from singleton { RestApiService(instance()) }
+
+        // data source
         bind<RestApiNetworkDataSource>() with singleton { RestApiNetworkDataSourceImpl(instance(), instance(), instance()) }
+        bind<LocationDataSource>() with singleton { LocationDataSourceImpl(instance(), getSystemService(Context.LOCATION_SERVICE) as LocationManager) }
 
         // repository
+        bind<LocationRepository>() with singleton { LocationRepositoryImpl(instance()) }
         bind<Covid19Repository>() with singleton { Covid19RepositoryImpl(instance(), instance()) }
         bind<VersionRepository>() with singleton { VersionRepositoryImpl(instance()) }
         bind<AccountRepository>() with singleton { AccountRepositoryImpl(instance(), instance()) }
@@ -63,6 +70,7 @@ class CheckerApplication: Application(), KodeinAware {
         bind() from provider { SplashViewModelFactory(instance(), instance(), instance()) }
         bind() from provider { IntroViewModelFactory(instance()) }
         bind() from provider { AccountViewModelFactory(instance()) }
+        bind() from provider { MainViewModelFactory(instance()) }
         bind() from provider { BarcodeViewModelFactory(instance()) }
         bind() from provider { ResultViewModelFactory(instance()) }
 
