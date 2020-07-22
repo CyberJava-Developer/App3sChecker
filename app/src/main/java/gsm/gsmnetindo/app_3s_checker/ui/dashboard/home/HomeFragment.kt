@@ -23,6 +23,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import retrofit2.HttpException
+import java.net.SocketTimeoutException
 
 class HomeFragment : ScopedFragment(), KodeinAware {
     override val kodein by closestKodein()
@@ -61,7 +62,14 @@ class HomeFragment : ScopedFragment(), KodeinAware {
                 }
             })
         } catch (e: Exception){
-            Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+            when (e) {
+                is SocketTimeoutException -> {
+                    alern()
+                }
+                else -> {
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
     private fun showFeeds() = launch {
@@ -73,11 +81,31 @@ class HomeFragment : ScopedFragment(), KodeinAware {
                     initRecyclerView(it)
                 }
             })
-        } catch (e: Exception){
-            Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
-            feed_refresh.isRefreshing = false
+        } catch (e: Exception) {
+            when (e) {
+                is SocketTimeoutException -> {
+                    alern()
+                }
+                else -> {
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+                    feed_refresh.isRefreshing = false
+                }
+            }
         }
     }
+
+    private fun alern() {
+        val builder = android.app.AlertDialog.Builder(context)
+        builder.setTitle("Error")
+        builder.setMessage("internet koneksi buruk, pastikan koneksi anda stabil dan silakan coba kembali")
+//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton("IYA") { dialog, which ->
+            feed_refresh.isRefreshing = true
+        }
+        builder.show()
+    }
+
     private fun initRecyclerView(items: List<FeedItem>){
         val groupAdapter = GroupAdapter<ViewHolder>()
         feed_recyclerView.adapter = groupAdapter

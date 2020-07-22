@@ -32,6 +32,7 @@ class Fragment_akun : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        progressktp.visibility = View.GONE
         accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         account_button_logout.setOnClickListener {
             logout()

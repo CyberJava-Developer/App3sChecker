@@ -15,8 +15,21 @@ class Fragment_pesan : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/628155555830"))
-        startActivity(i)
+        alern()
         return inflater.inflate(R.layout.activity_pesan, container, false)
+    }
+
+    fun alern(){
+        val builder = android.app.AlertDialog.Builder(context)
+        builder.setTitle("Pesan")
+        builder.setMessage("Setelah menggunakan menu perpesanan whatsapp, silakan klik tombol kembali agar anda bisa kembali ke aplikasi s3 checker")
+//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton("IYA") { dialog, which ->
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/628155555830"))
+            startActivity(i)
+            //finish()
+        }
+        builder.show()
     }
 }
