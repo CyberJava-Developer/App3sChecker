@@ -75,8 +75,8 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'org.slf4j:slf4j-android:1.7.25'
 
-    //pinverifikasi
-    implementation 'com.chaos.view:pinview:1.3.2'
+//    //pinverifikasi
+//    implementation 'com.chaos.view:pinview:1.3.2'
 
     // Firebase Authentication
     implementation 'com.google.firebase:firebase-analytics:17.4.4'
@@ -97,6 +97,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation 'com.android.support:cardview-v7:29.0.0'
+    implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.0'
     kapt "androidx.room:room-compiler:$room_version"
 
     // Gson
