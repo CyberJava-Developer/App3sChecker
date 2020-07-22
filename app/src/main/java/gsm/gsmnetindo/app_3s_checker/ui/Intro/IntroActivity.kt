@@ -45,7 +45,7 @@ class IntroActivity : ScopedActivity(), KodeinAware {
               R.drawable.test
             ),
             dataintroslide(
-             R.drawable.pmeriksaan
+             R.drawable.splash3
             )
         )
     )

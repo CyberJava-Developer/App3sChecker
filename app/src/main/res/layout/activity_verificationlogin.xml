@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="43dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif"
                 android:text="Masukkan 6 angka kode yang telah dikirim via whatsapp ke"
                 android:textColor="#232323"
                 android:textSize="12sp"
@@ -166,13 +166,13 @@
 
             <ImageView
                 android:id="@+id/imageView13"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ver1" />
+                app:srcCompat="@drawable/verifikasi1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
@@ -189,7 +189,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:lineColor="#DBD2CA"
+        app:lineColor="#93867B"
         app:viewType="rectangle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
