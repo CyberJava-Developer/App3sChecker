@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.mukesh.OtpView
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.smsgateway.Api
@@ -52,11 +53,14 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
         phone = intent.getStringExtra("number")
         val mText = findViewById<TextView>(R.id.number_txt)
         mText.text = phone
-//        timeractiviti(phone)
+        timeractiviti(phone)
         val filtered =  phone.filter { c -> c.isDigit() }
         login(filtered)
         btnverifylogin()
-
+        val otpView = findViewById<OtpView>(R.id.otp_view)
+        otpView.setOtpCompletionListener { otp -> // do Stuff
+            Log.d("onOtpCompleted=>", otp)
+        }
         //ubah nomor
         changenumber()
     }
@@ -185,7 +189,7 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
 
     private fun messageReceived1(message: String) {
         Log.d(javaClass.simpleName, "message: $message")
-        textnum.setText(message.toString())
+        otp_view.setText(message.toString())
 //        showProgressDialog()
         api.updateOtp(message)
             .subscribeOn(Schedulers.io())
@@ -237,10 +241,10 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
 
     private fun btnverifylogin(){
         btn_verify.setOnClickListener {
-            val code: String = textnum.text.toString()
+            val code: String = otp_view.text.toString()
             if (code.isEmpty() || code.length < 4) {
-                textnum.error = "Enter verification code"
-                textnum.requestFocus()
+                otp_view.error = "Enter verification code"
+                otp_view.requestFocus()
                 return@setOnClickListener
             }
             login()

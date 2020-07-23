@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,11 +16,10 @@ import gsm.gsmnetindo.app_3s_checker.data.db.entity.FeedItem
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.launch
-import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
-import retrofit2.HttpException
+import java.net.SocketTimeoutException
 
 class HomeFragment : ScopedFragment(), KodeinAware {
     override val kodein by closestKodein()
@@ -61,7 +58,10 @@ class HomeFragment : ScopedFragment(), KodeinAware {
                 }
             })
         } catch (e: Exception){
-            when(e){
+            when (e) {
+                is SocketTimeoutException -> {
+                    alern()
+                }
                 is IllegalStateException -> {
 
                 }
@@ -80,10 +80,10 @@ class HomeFragment : ScopedFragment(), KodeinAware {
                     initRecyclerView(it)
                 }
             })
-        } catch (e: Exception){
-            when(e){
-                is IllegalStateException -> {
-
+        } catch (e: Exception) {
+            when (e) {
+                is SocketTimeoutException -> {
+                    alern()
                 }
                 else -> {
                     Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
@@ -92,6 +92,19 @@ class HomeFragment : ScopedFragment(), KodeinAware {
             }
         }
     }
+
+    private fun alern() {
+        val builder = android.app.AlertDialog.Builder(context)
+        builder.setTitle("Error")
+        builder.setMessage("internet koneksi buruk, pastikan koneksi anda stabil dan silakan coba kembali")
+//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
+
+        builder.setPositiveButton("IYA") { dialog, which ->
+            feed_refresh.isRefreshing = true
+        }
+        builder.show()
+    }
+
     private fun initRecyclerView(items: List<FeedItem>){
         val groupAdapter = GroupAdapter<ViewHolder>()
         feed_recyclerView.adapter = groupAdapter
