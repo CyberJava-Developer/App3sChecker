@@ -35,6 +35,7 @@ import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModelFactory
+import kotlinx.android.synthetic.main.activity_qrcode.*
 import kotlinx.android.synthetic.main.popup_qrcode_scanner.*
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
@@ -83,6 +84,18 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
                 }
                 Log.d("code length", "${it.text.length}")
             }
+        }
+        scanner_flip.setOnClickListener {
+            codeScanner.stopPreview()
+            when(codeScanner.camera) {
+                1 -> {
+                    codeScanner.camera = CodeScanner.CAMERA_BACK
+                }
+                0 -> {
+                    codeScanner.camera = CodeScanner.CAMERA_FRONT
+                }
+            }
+            codeScanner.startPreview()
         }
         scannerView.setOnClickListener {
             codeScanner.startPreview()

@@ -21,4 +21,13 @@
         app:frameSize="0.75"
         app:frameThickness="2dp"
         app:maskColor="#77000000"/>
+
+    <ImageButton
+        android:id="@+id/scanner_flip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:background="@drawable/ic_baseline_switch_camera_24"
+        android:backgroundTint="@android:color/white"/>
 </FrameLayout>
