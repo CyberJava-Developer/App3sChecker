@@ -36,20 +36,31 @@ class loginverification: AppCompatActivity() {
                 alerndialog()
             }
         }
+
+        next_login2.setOnClickListener {
+            val msg: String = phone_login.text.toString()
+
+            //check if the EditText have values or not
+            if(msg.trim().length>0) {
+                Toast.makeText(applicationContext, "Tunggu sebentar hingga anda mendapatkan 4 digit nomor verifikasi ", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, verificationclass::class.java)
+                val mEditText = findViewById<EditText>(R.id.phone_login)
+                val str = mEditText.text.toString()
+                intent.putExtra("number", str)
+                startActivity(intent)
+                finish()
+
+            }else{
+                alerndialog()
+            }
+        }
     }
 
     fun alerndialog(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Error")
         builder.setMessage("Mohon Isi Nomor Ponsel Dengan Benar")
-//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
-
-        builder.setPositiveButton("IYA") { dialog, which ->
-        }
-
-        builder.setNegativeButton("TIDAK") { dialog, which ->
-//            Toast.makeText(applicationContext,
-//                "tidak", Toast.LENGTH_SHORT).show()
+        builder.setPositiveButton("IYA") { _, _ ->
         }
         builder.show()
 

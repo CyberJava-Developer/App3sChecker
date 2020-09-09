@@ -23,6 +23,9 @@
         <activity android:name=".ui.login.verificationlogin"
             android:theme="@style/verify"
             />
+        <activity android:name=".ui.login.verificationclass"
+            android:theme="@style/verify"
+            />
         <activity android:name=".ui.main.result.ResultActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <!--
@@ -46,10 +49,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.login.loginverification"
-            android:screenOrientation="portrait"
-            android:theme="@style/login" />
-        <activity
-            android:name=".ui.login.verivicationclass"
             android:screenOrientation="portrait"
             android:theme="@style/login" />
         <activity
