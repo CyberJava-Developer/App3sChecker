@@ -41,7 +41,7 @@ class LocationFragment: ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         resultViewModel.details.observe(viewLifecycleOwner, Observer {
-            initRecyclerView(it.location)
+            initRecyclerView(it.location.reversed())
         })
     }
     private fun initRecyclerView(items: List<Location>){

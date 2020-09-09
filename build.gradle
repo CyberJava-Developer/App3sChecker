@@ -6,13 +6,13 @@ buildscript {
     ext.kodein_version = '5.2.0'
     ext.lifecycle_versioin = '2.0.0'
     ext.retrofit_version = '2.4.0'
-    ext.work_version = "2.3.4"
+    ext.work_version = "2.4.0"
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.0"
+        classpath 'com.android.tools.build:gradle:4.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2"
         // NOTE: Do not place your application dependencies here; they belong

@@ -20,7 +20,7 @@ abstract class ScopedActivity : AppCompatActivity(), CoroutineScope {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         job.cancel()
+        super.onDestroy()
     }
 }

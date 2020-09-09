@@ -6,6 +6,8 @@ import android.location.LocationManager
 import com.jakewharton.threetenabp.AndroidThreeTen
 import gsm.gsmnetindo.app_3s_checker.data.db.CheckerDatabase
 import gsm.gsmnetindo.app_3s_checker.data.network.*
+import gsm.gsmnetindo.app_3s_checker.data.network.source.LocationDataSource
+import gsm.gsmnetindo.app_3s_checker.data.network.source.LocationDataSourceImpl
 import gsm.gsmnetindo.app_3s_checker.data.preference.installer.InstallManager
 import gsm.gsmnetindo.app_3s_checker.data.preference.installer.InstallManagerImpl
 import gsm.gsmnetindo.app_3s_checker.data.preference.user.UserManager
@@ -55,7 +57,12 @@ class CheckerApplication: Application(), KodeinAware {
 
         // data source
         bind<RestApiNetworkDataSource>() with singleton { RestApiNetworkDataSourceImpl(instance(), instance(), instance()) }
-        bind<LocationDataSource>() with singleton { LocationDataSourceImpl(instance(), getSystemService(Context.LOCATION_SERVICE) as LocationManager) }
+        bind<LocationDataSource>() with singleton {
+            LocationDataSourceImpl(
+                instance(),
+                getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            )
+        }
 
         // repository
         bind<LocationRepository>() with singleton { LocationRepositoryImpl(instance()) }

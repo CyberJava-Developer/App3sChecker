@@ -1,4 +1,4 @@
-package gsm.gsmnetindo.app_3s_checker.data.network
+package gsm.gsmnetindo.app_3s_checker.data.network.source
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -71,7 +71,6 @@ class LocationDataSourceImpl(
         } else {
             throw LocationPermissionException()
         }
-
     }
     private fun addressLocator(location: Location): Address{
         return geoCoder.getFromLocation(location.latitude, location.longitude, 1)[0]
