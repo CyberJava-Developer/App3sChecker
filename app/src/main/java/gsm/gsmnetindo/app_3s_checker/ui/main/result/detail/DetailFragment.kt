@@ -3,6 +3,7 @@ package gsm.gsmnetindo.app_3s_checker.ui.main.result.detail
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,15 +18,18 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.signature.ObjectKey
 import gsm.gsmnetindo.app_3s_checker.R
+import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.Kuesioner
 import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
 import gsm.gsmnetindo.app_3s_checker.internal.Secret
 import gsm.gsmnetindo.app_3s_checker.internal.glide.GlideApp
+import gsm.gsmnetindo.app_3s_checker.internal.process.Likert
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import kotlinx.android.synthetic.main.fragment_result_detail.*
+import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
@@ -54,32 +58,30 @@ class DetailFragment: ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        bindData()
+    }
+    private fun bindData() = launch {
         resultViewModel.details.observe(viewLifecycleOwner, Observer {
             when(it.status.status){
-                "negative"->{
-                    detail_status.text = "Status Sehat"
-                    detail_status.setTextColor(Color.parseColor("#32a86d"))
-                    detail_container.setCardBackgroundColor(Color.parseColor("#6DBEAF"))
+                "Sehat"->{
+                    status_status.text = "Sehat"
+                    status_status.setTextColor(Color.parseColor("#32a86d"))
+                    bg.setBackgroundColor(Color.parseColor("#32a86d"))
                 }
-                "odp"->{
-                    detail_status.text = "Status"
-                    detail_status.setTextColor(Color.parseColor("#dae600"))
-                    detail_container.setCardBackgroundColor(Color.parseColor("#E4B761"))
+                "Beresiko"->{
+                    status_status.text = "Beresiko"
+                    status_status.setTextColor(Color.parseColor("#dae600"))
+                    bg.setBackgroundColor(Color.parseColor("#dae600"))
                 }
-                "pdp" -> {
-                    detail_status.text = "Pasien Perawatan"
-                    detail_status.setTextColor(Color.parseColor("#e67e00"))
-                    detail_container.setCardBackgroundColor(Color.parseColor("#E4B761"))
-                }
-                "positive" -> {
-                    detail_status.text = "Status Positif"
-                    detail_status.setTextColor(Color.parseColor("#e60000"))
-                    detail_container.setCardBackgroundColor(Color.parseColor("#E06E71"))
+                "Positif" -> {
+                    status_status.text = "Positif"
+                    status_status.setTextColor(Color.parseColor("#e60000"))
+                    bg.setBackgroundColor(Color.parseColor("#e60000"))
                 }
                 else -> {
-                    detail_status.text = "Tidak Terverifikasi"
-                    detail_status.setTextColor(Color.parseColor("#00c5e3"))
-                    detail_container.setCardBackgroundColor(Color.parseColor("#E06E71"))
+                    status_status.text = "Tidak Terverifikasi"
+                    status_status.setTextColor(Color.parseColor("#00c5e3"))
+                    bg.setBackgroundColor(Color.parseColor("#ffffff"))
                 }
             }
             val urls = "http://my3s.local/checker/v1/6281249499076/avatar/xJ6UMTh3lokKiHvPI78my2ZprcNf5tV9"
@@ -95,7 +97,7 @@ class DetailFragment: ScopedFragment(), KodeinAware {
                     .build()
             )
             val key = ObjectKey(it.account.avatar)
-            GlideApp.with(this)
+            GlideApp.with(requireActivity())
                 .load(glideUrl)
                 .signature(key)
                 .listener(object : RequestListener<Drawable>{
@@ -105,6 +107,7 @@ class DetailFragment: ScopedFragment(), KodeinAware {
                         target: Target<Drawable>?,
                         isFirstResource: Boolean
                     ): Boolean {
+                        avatar_progress.visibility = View.GONE
                         Toast.makeText(requireContext(), "Tidak bisa memuat gambar", Toast.LENGTH_SHORT).show()
                         return e != null
                     }
@@ -116,18 +119,47 @@ class DetailFragment: ScopedFragment(), KodeinAware {
                         dataSource: DataSource?,
                         isFirstResource: Boolean
                     ): Boolean {
-                        target.apply { detail_avatar.setImageDrawable(resource) }
+                        avatar_progress.visibility = View.GONE
+                        target.apply { status_user_avatar.setImageDrawable(resource) }
                         return resource != null
                     }
 
                 })
-                .into(detail_avatar)
+                .into(status_user_avatar)
             val lastUpdate = LocalDateTimeParser.utcToLocal(it.status.updatedAt)
             val sixHoursLater = lastUpdate.plusHours(6)
-            detail_last_check.text = "Terakhir periksa:\n" + dateTimeDisplay(lastUpdate.toLocalDateTime().toString())
-            detail_expired_at.text = "Berlaku sampai:\n" + dateTimeDisplay(sixHoursLater.toLocalDateTime().toString())
-            detail_name.text = it.user.name
-            detail_birth.text = "${it.user.bornPlace}, ${it.user.bornDate}"
+            status_last_check.text = dateTimeDisplay(lastUpdate.toLocalDateTime().toString())
+            status_expired_at.text = dateTimeDisplay(sixHoursLater.toLocalDateTime().toString())
+            status_nama.text = it.user.name
+            status_ktp.text = "${it.user.bornPlace}, ${it.user.bornDate}"
+
+            val algo = it.history.last()
+            Log.d("kuesioner", "${it.kuesioner}")
+            val likert = Likert(algo).get()
+            when (likert.status) {
+                0 -> {
+                    status_status.text = "Sehat"
+                    status_status.setTextColor(Color.parseColor("#32a86d"))
+                    bg.setBackgroundColor(Color.parseColor("#32a86d"))
+                }
+                in 25..75 -> {
+                    status_status.text = "Beresiko"
+                    status_status.setTextColor(Color.parseColor("#E4B761"))
+                    bg.setBackgroundColor(Color.parseColor("#E4B761"))
+                }
+                in 100..175 -> {
+                    status_status.text = "Positif"
+                    status_status.setTextColor(Color.parseColor("#e60000"))
+                    bg.setBackgroundColor(Color.parseColor("#e60000"))
+                }
+            }
+            if (algo.answer3 == null) {
+                textView34.text = "*STATUS BELUM VERIFIKASI"
+                textView34.setTextColor(Color.parseColor("#e60000"))
+            } else {
+                textView34.text = "*STATUS TERVERIFIKASI\nKEABSAHAN DATA: ${likert.accuracy}%"
+                textView34.setTextColor(Color.parseColor("#32a86d"))
+            }
         })
     }
     private fun dateTimeDisplay(dateTime: String): String {

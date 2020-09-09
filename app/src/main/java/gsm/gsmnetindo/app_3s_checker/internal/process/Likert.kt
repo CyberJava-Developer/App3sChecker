@@ -1,8 +1,9 @@
 package gsm.gsmnetindo.app_3s_checker.internal.process
 
+import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.History
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.Kuesioner
 
-class Likert(data: Kuesioner) {
+class Likert(data: History) {
     private var likertResult: LikertResult
     private var status: Int
     private var accuracy: Double
