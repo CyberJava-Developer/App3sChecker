@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
 import gsm.gsmnetindo.app_3s_checker.BuildConfig
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
@@ -78,19 +79,14 @@ class Splash : ScopedActivity(), KodeinAware {
     }
 
     fun alerndialog(){
-        val builder = android.app.AlertDialog.Builder(this)
-        builder.setTitle("Error")
-        builder.setMessage("Koneksi Internet anda buruk, harap pastikan koneksi internet anda baik Dan jalankan ulang aplikasi 3s checker")
-//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
-
-        builder.setPositiveButton("IYA") { dialog, which ->
-            Toast.makeText(applicationContext,
-                "ya", Toast.LENGTH_SHORT).show()
-            finish()
-            exitProcess(0)
-        }
-        builder.show()
-
+        SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Kesalahan Jaringan")
+            .setContentText("internet koneksi buruk, pastikan koneksi anda stabil dan silakan coba kembali")
+            .setConfirmText("Terima Kasih")
+            .setConfirmClickListener { sDialog -> sDialog.dismissWithAnimation()
+                exitProcess(0)
+            }
+            .show()
     }
 
     private fun checkUpdate() = launch {
@@ -128,15 +124,14 @@ class Splash : ScopedActivity(), KodeinAware {
     }
 
     fun alern(){
-        val builder = android.app.AlertDialog.Builder(this)
-        builder.setTitle("Error")
-        builder.setMessage("internet koneksi buruk, pastikan koneksi anda stabil dan silakan coba kembali")
-//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
-
-        builder.setPositiveButton("IYA") { dialog, which ->
-            System.exit(0)
-        }
-        builder.show()
+        SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Kesalahan Jaringan")
+            .setContentText("internet koneksi buruk, pastikan koneksi anda stabil dan silakan coba kembali")
+            .setConfirmText("Terima Kasih")
+            .setConfirmClickListener { sDialog -> sDialog.dismissWithAnimation()
+                exitProcess(0)
+            }
+            .show()
 
     }
     private fun isFirstTime() {
