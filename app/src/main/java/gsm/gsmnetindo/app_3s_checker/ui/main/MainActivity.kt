@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -59,6 +60,9 @@ class MainActivity : ScopedActivity(), KodeinAware {
             }
             true
         })
+        //menghilangkan Menuitem
+        val p = findViewById<View>(R.id.pengawas)
+        p.visibility = View.GONE
     }
 
     override fun onRestoreInstanceState(
