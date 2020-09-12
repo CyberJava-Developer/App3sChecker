@@ -63,7 +63,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     //ui alern dialog
-    implementation 'com.github.thomper:sweet-alert-dialog:1.4.0'
+    implementation 'com.github.f0ris.sweetalert:library:1.6.2'
 
     // multi dex support
     implementation 'com.android.support:multidex:1.0.3'

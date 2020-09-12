@@ -13,7 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
+import cn.pedant.SweetAlert.SweetAlertDialog
 import gsm.gsmnetindo.app_3s_checker.BuildConfig
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
@@ -94,16 +94,16 @@ class Splash : ScopedActivity(), KodeinAware {
             splashViewModel.getLatestVersion().observe(this@Splash, Observer {
                 val currentVersion = BuildConfig.VERSION_CODE
                 if (currentVersion < it.appVersionCode) {
-                    AlertDialog.Builder(this@Splash).apply {
-                        setTitle("Versi terbaru telah rilis")
-                        setMessage("Mohon update ${it.appName} ke versi ${it.appVersionName}")
-                        setPositiveButton("Ok") { dialog, _ ->
-                            dialog.dismiss()
-                            finish()
-//                        Intent(Intent(this@SplashActivity, Intent.ACTION_ANSWER))
+                    SweetAlertDialog(this@Splash, SweetAlertDialog.SUCCESS_TYPE).apply {
+                        setTitleText("Versi terbaru telah rilis")
+                        .setContentText("Mohon update ${it.appName} ke versi ${it.appVersionName}")
+                        .setConfirmText("OK")
+                        .setConfirmClickListener { sDialog -> sDialog.dismissWithAnimation()
+                            exitProcess(0)
                         }
-                        show()
+                        .show()
                     }
+
                 } else {
                     isFirstTime()
                 }
