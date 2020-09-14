@@ -18,5 +18,6 @@ class AccountViewModel(
 
     fun getToken() = accountRepository.getToken()
 
+    fun setRole(role: Int) = accountRepository.setRole(role)
     fun getRolePref() = accountRepository.getRolePref()
 }

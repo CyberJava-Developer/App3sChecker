@@ -54,5 +54,9 @@ class AccountRepositoryImpl(
         }
     }
 
+    override fun setRole(role: Int) {
+        userManager.setRole(role)
+    }
+
     override fun getRolePref() = userManager.getRolePref()
 }
