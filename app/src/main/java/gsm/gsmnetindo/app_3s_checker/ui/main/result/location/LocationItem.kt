@@ -38,7 +38,8 @@ class LocationItem(
             create.toLocalDateTime().toString()
         )
         viewHolder.apply {
-            location_coba.text = "${cityName}\n${formateCreate}\n${formateupdate}"
+            SetTitle.text = formateCreate
+            LocationTrack.text = "${cityName}\n${formateupdate}"
         }
     }
 
@@ -53,7 +54,7 @@ class LocationItem(
         val day =
             zonedDateTime.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("ID"))
         val month = zonedDateTime.month.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("ID"))
-        return "$day, ${zonedDateTime.dayOfMonth} $month ${zonedDateTime.year} ${zonedDateTime.toLocalTime()}"
+        return "${zonedDateTime.dayOfMonth} $month ${zonedDateTime.year}"
     }
 
     override fun getLayout() = R.layout.item_location

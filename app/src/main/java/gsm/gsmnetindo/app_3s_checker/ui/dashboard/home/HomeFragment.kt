@@ -31,6 +31,7 @@ class HomeFragment : ScopedFragment(), KodeinAware {
         savedInstanceState: Bundle?
     ): View? {
         homeViewModel = ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
+
         return inflater.inflate(R.layout.activity_home, container, false)
     }
 
