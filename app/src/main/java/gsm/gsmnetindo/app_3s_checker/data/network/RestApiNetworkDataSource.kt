@@ -6,17 +6,20 @@ import gsm.gsmnetindo.app_3s_checker.data.db.entity.FeedItem
 import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
+import gsm.gsmnetindo.app_3s_checker.data.network.response.detail.UserDetailResponse
 
 interface RestApiNetworkDataSource {
     val dataCovid19Service: LiveData<List<CovidDataItem>>
     val downloadedVersion: LiveData<VersionResponse>
     val downloadedLoginResponse: LiveData<UserLoginResponse>
     val downloadedFeedsResponse: LiveData<List<FeedItem>>
+    val downloadedDetailResponse: LiveData<UserDetailResponse>
     val downloadedScanResponse: LiveData<BarcodeDetailResponse>
 
     suspend fun fetchCovidData()
     suspend fun fetchVersion()
     suspend fun fetchLogin(phone: String)
     suspend fun fetchFeeds()
+    suspend fun fetchDetail()
     suspend fun fetchBarcode(code: String)
 }

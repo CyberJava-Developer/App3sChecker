@@ -8,7 +8,7 @@
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_gsm_gsmnetindo_app_13s_1checker_internal_Secret_apiKey(JNIEnv *env, jobject thiz) {
-    std::string api_key = "1x9YCulZjRF9fHjf";
+    std::string api_key = "hvUreSakEapi8xjt";
     return env->NewStringUTF(api_key.c_str());
 }
 

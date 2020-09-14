@@ -11,6 +11,7 @@ import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostLogin
 import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
+import gsm.gsmnetindo.app_3s_checker.data.network.response.detail.UserDetailResponse
 import retrofit2.HttpException
 
 class RestApiNetworkDataSourceImpl(
@@ -34,7 +35,7 @@ class RestApiNetworkDataSourceImpl(
         return phonePreferences.getString(ACCOUNT_PHONE, "")!!
     }
 
-    // for getiing covid-19 data
+    // for getting covid-19 data
     private val _dataCovid = MutableLiveData<List<CovidDataItem>>()
     override val dataCovid19Service: LiveData<List<CovidDataItem>>
         get() = _dataCovid
@@ -97,11 +98,25 @@ class RestApiNetworkDataSourceImpl(
         }
     }
 
+    // for user detail
+    private val _downloadedDetailResponse = MutableLiveData<UserDetailResponse>()
+    override val downloadedDetailResponse: LiveData<UserDetailResponse>
+        get() = _downloadedDetailResponse
+    override suspend fun fetchDetail() {
+        try {
+            restApiService.fetchDetailAsync(getPhone()).apply {
+                _downloadedDetailResponse.postValue(this)
+            }
+        } catch (e: Exception) {
+            Log.e("detch detail ds", e.message.toString(), e)
+            throw e
+        }
+    }
+
     // for barcode
     private val _downloadedBarcodeResponse = MutableLiveData<BarcodeDetailResponse>()
     override val downloadedScanResponse: LiveData<BarcodeDetailResponse>
         get() = _downloadedBarcodeResponse
-
     override suspend fun fetchBarcode(code: String) {
         try {
             restApiService.scanCodeAsync(getPhone(), code).apply {

@@ -1,9 +1,11 @@
 package gsm.gsmnetindo.app_3s_checker.data.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import gsm.gsmnetindo.app_3s_checker.data.network.RestApiNetworkDataSource
 import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
+import gsm.gsmnetindo.app_3s_checker.data.network.response.detail.UserDetailResponse
 import gsm.gsmnetindo.app_3s_checker.data.preference.user.UserManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -15,6 +17,25 @@ class AccountRepositoryImpl(
     private val userManager: UserManager,
     private val restApiNetworkDataSource: RestApiNetworkDataSource
 ) : AccountRepository {
+    init {
+        restApiNetworkDataSource.downloadedDetailResponse.observeForever {
+            if (it == null) {
+                GlobalScope.launch {
+                    restApiNetworkDataSource.fetchDetail()
+                }
+            } else {
+                _detail.postValue(it)
+            }
+        }
+        userManager.isLoggedIn().observeForever{
+            if (it){
+                GlobalScope.launch {
+                    restApiNetworkDataSource.fetchDetail()
+                }
+            }
+        }
+    }
+
     override fun isLoggedIn() = userManager.isLoggedIn()
 
     override fun getLivePhone() = userManager.getPhone()
@@ -45,7 +66,7 @@ class AccountRepositoryImpl(
 
     override suspend fun doLogin(phone: String): LiveData<UserLoginResponse> {
         restApiNetworkDataSource.fetchLogin(phone)
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             restApiNetworkDataSource.downloadedLoginResponse.value?.let {
                 userManager.setPhone(it.phone)
                 userManager.setToken(it.jwt)
@@ -60,4 +81,12 @@ class AccountRepositoryImpl(
     }
 
     override fun getRolePref() = userManager.getRolePref()
+
+    private val _detail = MutableLiveData<UserDetailResponse>()
+    override val detail: LiveData<UserDetailResponse>
+        get() = _detail
+
+    override suspend fun fetchDetail() {
+        restApiNetworkDataSource.fetchDetail()
+    }
 }

@@ -10,6 +10,10 @@ class AccountViewModel(
     suspend fun login(phone: String) = accountRepository.doLogin(phone)
     fun logout() = accountRepository.doLogout()
 
+    val detail = accountRepository.detail
+    suspend fun syncDetail() = accountRepository.fetchDetail()
+
+
     fun getPhone() = accountRepository.getLivePhone()
     fun getPhonePref() = accountRepository.getPhonePref()
 

@@ -2,6 +2,7 @@ package gsm.gsmnetindo.app_3s_checker.data.repository
 
 import androidx.lifecycle.LiveData
 import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
+import gsm.gsmnetindo.app_3s_checker.data.network.response.detail.UserDetailResponse
 import okhttp3.MultipartBody
 
 interface AccountRepository {
@@ -24,4 +25,7 @@ interface AccountRepository {
     suspend fun doLogin(phone: String): LiveData<UserLoginResponse>
     fun setRole(role: Int)
     fun getRolePref(): Int
+
+    suspend fun fetchDetail()
+    val detail: LiveData<UserDetailResponse>
 }

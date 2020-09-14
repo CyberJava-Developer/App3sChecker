@@ -7,6 +7,7 @@ import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostLogin
 import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
+import gsm.gsmnetindo.app_3s_checker.data.network.response.detail.UserDetailResponse
 import gsm.gsmnetindo.app_3s_checker.internal.Secret
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -32,6 +33,11 @@ interface RestApiService {
     suspend fun getFeedsAsync(
         @Path("phone") phone: String
     ) : List<FeedItem>
+
+    @GET("{phone}/detail.json")
+    suspend fun fetchDetailAsync(
+        @Path("phone") phone: String
+    ): UserDetailResponse
 
     @GET("{phone}/scan/{code}")
     suspend fun scanCodeAsync(
