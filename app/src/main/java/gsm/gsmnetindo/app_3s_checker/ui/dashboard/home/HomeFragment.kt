@@ -78,7 +78,7 @@ class HomeFragment : ScopedFragment(), KodeinAware {
                 if (it.isNullOrEmpty()) return@Observer
                 else {
                     feed_refresh.isRefreshing = false
-                    initRecyclerView(it)
+                    initRecyclerView(it.reversed())
                 }
             })
         } catch (e: Exception) {
