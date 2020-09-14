@@ -17,4 +17,6 @@ class AccountViewModel(
     fun setRegistered() = accountRepository.setRegistered()
 
     fun getToken() = accountRepository.getToken()
+
+    fun getRolePref() = accountRepository.getRolePref()
 }
