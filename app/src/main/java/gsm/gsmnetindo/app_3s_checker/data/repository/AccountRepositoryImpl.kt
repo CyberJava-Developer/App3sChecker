@@ -49,6 +49,7 @@ class AccountRepositoryImpl(
             restApiNetworkDataSource.downloadedLoginResponse.value?.let {
                 userManager.setPhone(it.phone)
                 userManager.setToken(it.jwt)
+                userManager.setRole(it.role)
             }
             return@withContext restApiNetworkDataSource.downloadedLoginResponse
         }
