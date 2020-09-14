@@ -18,6 +18,7 @@ import gsm.gsmnetindo.app_3s_checker.smsgateway.Api
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsListener
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsReceiver
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
+import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivityRole2
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -36,6 +37,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
+
 
 private lateinit var phone: String
 private lateinit var api: Api
@@ -72,7 +74,14 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
                 val role = it.role
                 if (role == 1){
                     Toast.makeText(this@verificationlogin, "anda tidak memiliki izin untuk login", Toast.LENGTH_LONG).show()
-                } else {
+                } else if(role == 2){
+                    Intent(this@verificationlogin, MainActivityRole2::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(this)
+                        finish()
+                    }
+                }
+                else{
                     Intent(this@verificationlogin, MainActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(this)
@@ -133,7 +142,7 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        Toast.makeText(this, "kode dikirimkan ke nomer Whatsapp anda", Toast.LENGTH_LONG)
+                        Toast.makeText(this, "kode verifikasi telah dikirim ke nomer whatsapp anda", Toast.LENGTH_LONG)
                             .show()
                     },
                     {
@@ -206,7 +215,7 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
                     if (jsonObjectResponse.getBoolean("success")) {
                         Toast.makeText(this, "Kode OTP benar", Toast.LENGTH_LONG)
                             .show()
-                        login()
+                        login(phone)
                     } else {
                         Toast.makeText(this, "Kode OTP salah", Toast.LENGTH_LONG)
                             .show()
@@ -252,7 +261,7 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
                 otp_view.requestFocus()
                 return@setOnClickListener
             }
-            login()
+            login(phone)
 //            verifyCode(code);
             val textcode = code
             api.updateOtp(textcode)
@@ -265,7 +274,7 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
                         if (jsonObjectResponse.getBoolean("success")) {
                             Toast.makeText(this, "Kode OTP benar", Toast.LENGTH_LONG)
                                 .show()
-                            login()
+                            login(phone)
                         } else {
                             Toast.makeText(this, "Kode OTP salah", Toast.LENGTH_LONG)
                                 .show()

@@ -50,6 +50,9 @@
             android:name=".ui.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.main.MainActivityRole2"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.login.loginverification"
             android:screenOrientation="portrait"
             android:theme="@style/login" />

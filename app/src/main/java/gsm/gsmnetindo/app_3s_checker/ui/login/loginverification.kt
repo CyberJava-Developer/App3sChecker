@@ -18,10 +18,10 @@ class loginverification: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_login)
 
-        next_login.setOnClickListener{
+        whatsapp_verifikasi.setOnClickListener{
             val msg: String = phone_login.text.toString()
 
             //check if the EditText have values or not
@@ -30,43 +30,47 @@ class loginverification: AppCompatActivity() {
                 val mEditText = findViewById<EditText>(R.id.phone_login)
                 val str = mEditText.text.toString()
                 if (str.startsWith("62")){
-                    val phonenmber = "62${str.drop(2)}"
+                    val phonenmber = "62${str.substring(2)}"
                     Toast.makeText(applicationContext, "pakek 62  $phonenmber", Toast.LENGTH_SHORT).show()
                     intent.putExtra("number", phonenmber)
                     startActivity(intent)
                     finish()
                 }
-                else if (str.startsWith("0")){
-                    val phonenmber = "62${str.drop(1)}"
+                else if (str.startsWith("08")){
+                    val phonenmber = "62${str.substring(1)}"
                     Toast.makeText(applicationContext, "pakek 08  $phonenmber", Toast.LENGTH_SHORT).show()
                     intent.putExtra("number", phonenmber)
                     startActivity(intent)
                     finish()
                 }
-
-            }else{
+            } else{
                 alerndialog()
             }
         }
 
         next_login2.setOnClickListener {
-            val intent = Intent(this, verificationlogin::class.java)
-            val mEditText = findViewById<EditText>(R.id.phone_login)
-            val str = mEditText.text.toString()
-            if (str.startsWith("62")){
-                val phonenmber = "62${str.substring(2)}"
-                Toast.makeText(applicationContext, "pakek 62  $phonenmber", Toast.LENGTH_SHORT).show()
-                intent.putExtra("number", phonenmber)
-                startActivity(intent)
-                finish()
-            }
-            else if (str.startsWith("08")){
-                val phonenmber = "62${str.substring(1)}"
-                Toast.makeText(applicationContext, "pakek 08  $phonenmber", Toast.LENGTH_SHORT).show()
-                intent.putExtra("number", phonenmber)
-                startActivity(intent)
-                finish()
-            }else{
+            val msg: String = phone_login.text.toString()
+
+            //check if the EditText have values or not
+            if(msg.trim().isNotEmpty()) {
+                val intent = Intent(this, verificationclass::class.java)
+                val mEditText = findViewById<EditText>(R.id.phone_login)
+                val str = mEditText.text.toString()
+                if (str.startsWith("62")){
+                    val phonenmber = "62${str.substring(2)}"
+                    Toast.makeText(applicationContext, "pakek 62  $phonenmber", Toast.LENGTH_SHORT).show()
+                    intent.putExtra("number", phonenmber)
+                    startActivity(intent)
+                    finish()
+                }
+                else if (str.startsWith("08")){
+                    val phonenmber = "62${str.substring(1)}"
+                    Toast.makeText(applicationContext, "pakek 08  $phonenmber", Toast.LENGTH_SHORT).show()
+                    intent.putExtra("number", phonenmber)
+                    startActivity(intent)
+                    finish()
+                }
+            } else{
                 alerndialog()
             }
         }

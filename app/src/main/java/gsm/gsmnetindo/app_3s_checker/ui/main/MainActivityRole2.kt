@@ -26,21 +26,21 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 
-class MainActivity : ScopedActivity(), KodeinAware {
+class MainActivityRole2 : ScopedActivity(), KodeinAware {
     override val kodein by closestKodein()
     private val mainViewModelFactory: MainViewModelFactory by instance()
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main_role_2)
         mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
 
         izincamera()
 
-        val navview = findViewById<BottomNavigationView>(R.id.navbar)
+        val navview = findViewById<BottomNavigationView>(R.id.navbar2)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer,
+            supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer2,
                 HomeFragment()
             ).commit()
         }
@@ -53,10 +53,9 @@ class MainActivity : ScopedActivity(), KodeinAware {
                 R.id.pesan -> frg = Fragment_pesan()
                 R.id.barcode -> frg = Fragment_QRcode()
                 R.id.akun -> frg = Fragment_akun()
-                R.id.pengawas -> frg = Fragment_pengawas()
             }
             if (frg != null) {
-                supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer, frg).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer2, frg).commit()
             }
             true
         })
@@ -71,7 +70,7 @@ class MainActivity : ScopedActivity(), KodeinAware {
     }
     private fun getLocation() = launch {
         try {
-            mainViewModel.getAddress().observe(this@MainActivity, Observer {
+            mainViewModel.getAddress().observe(this@MainActivityRole2, Observer {
                 supportActionBar?.subtitle = "${it.subLocality}, ${it.subAdminArea}"
                 Log.i("getAddressMain", "$it")
             })
@@ -81,10 +80,10 @@ class MainActivity : ScopedActivity(), KodeinAware {
                     requestLocation()
                 }
                 is LocationNotEnabledException -> {
-                    Toast.makeText(this@MainActivity, "Mohon hidupkan GPS anda", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainActivityRole2, "Mohon hidupkan GPS anda", Toast.LENGTH_LONG).show()
                 }
                 else -> {
-                    Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainActivityRole2, e.message, Toast.LENGTH_LONG).show()
                     Log.e("getLocationMain", e.message, e)
                 }
             }
