@@ -22,4 +22,5 @@ interface AccountRepository {
     fun doLogout()
 
     suspend fun doLogin(phone: String): LiveData<UserLoginResponse>
+    fun getRolePref(): Int
 }

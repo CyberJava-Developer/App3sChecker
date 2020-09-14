@@ -53,4 +53,6 @@ class AccountRepositoryImpl(
             return@withContext restApiNetworkDataSource.downloadedLoginResponse
         }
     }
+
+    override fun getRolePref() = userManager.getRolePref()
 }

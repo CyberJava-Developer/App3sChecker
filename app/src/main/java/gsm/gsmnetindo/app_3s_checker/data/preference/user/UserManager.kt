@@ -20,4 +20,8 @@ interface UserManager {
 
     fun setRegistered(registered: Boolean)
     fun isRegistered(): LiveData<Boolean>
+
+    fun setRole(role: Int)
+    fun getRole(): LiveData<Int>
+    fun getRolePref(): Int
 }
