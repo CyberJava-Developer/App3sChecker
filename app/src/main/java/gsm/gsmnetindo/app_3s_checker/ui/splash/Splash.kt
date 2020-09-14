@@ -20,6 +20,7 @@ import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.ui.Intro.IntroActivity
 import gsm.gsmnetindo.app_3s_checker.ui.login.loginverification
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
+import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivityRole2
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultActivity
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
@@ -159,11 +160,32 @@ class Splash : ScopedActivity(), KodeinAware {
         })
     }
     private fun toMain(){
-        Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(this)
-            finish()
+        accountViewModel.getRolePref().apply {
+            when {
+                this == 1 -> {
+                    Toast.makeText(this@Splash, "anda tidak memiliki izin untuk login", Toast.LENGTH_LONG).show()
+                }
+                this == 2 -> {
+                    Intent(this@Splash, MainActivityRole2::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(this)
+                        finish()
+                    }
+                }
+                else -> {
+                    Intent(this@Splash, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(this)
+                        finish()
+                    }
+                }
+            }
         }
+//        Intent(this, MainActivity::class.java).apply {
+//            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            startActivity(this)
+//            finish()
+//        }
     }
     private fun toLogin(){
         Intent(this, loginverification::class.java).apply {
