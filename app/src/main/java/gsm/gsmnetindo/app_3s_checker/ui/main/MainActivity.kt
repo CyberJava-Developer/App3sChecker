@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.Menu
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -22,6 +23,9 @@ import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_akun
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_pengawas
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_pesan
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.home.HomeFragment
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -30,13 +34,21 @@ import org.kodein.di.generic.instance
 class MainActivity : ScopedActivity(), KodeinAware {
     override val kodein by closestKodein()
     private val mainViewModelFactory: MainViewModelFactory by instance()
+    private val accountViewModelFactory: AccountViewModelFactory by instance()
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var accountViewModel: AccountViewModel
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val navView = findViewById<BottomNavigationView>(R.id.navbar)
+//        navView.menu = MenuInflater(this).inflate(R.menu.dashboard_menu_role_2, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
-
+        accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         izincamera()
 
         val navView = findViewById<BottomNavigationView>(R.id.navbar)
@@ -46,6 +58,13 @@ class MainActivity : ScopedActivity(), KodeinAware {
             ).commit()
         }
         getLocation()
+        when(accountViewModel.getRolePref()) {
+            2 -> { navbar.inflateMenu(R.menu.dashboard_menu_role_2) }
+            3 -> { navbar.inflateMenu(R.menu.dashboard_menu_role_3) }
+            4 or 7 -> { navbar.inflateMenu(R.menu.dashboard_menu_role_4_7) }
+            else -> { navbar.inflateMenu(R.menu.dashboard_menu_role_else) }
+        }
+//        navbar.inflateMenu(R.menu.dashboard_menu_role_2)
         navView.setOnNavigationItemSelectedListener { menuItem ->
             var frg: Fragment? = null
             when (menuItem.itemId) {

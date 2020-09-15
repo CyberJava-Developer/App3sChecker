@@ -9,8 +9,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -20,16 +18,12 @@ import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.ui.Intro.IntroActivity
 import gsm.gsmnetindo.app_3s_checker.ui.login.loginverification
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
-import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivityRole2
-import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultActivity
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import kotlinx.coroutines.launch
-import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
-import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import kotlin.system.exitProcess
 
@@ -161,24 +155,14 @@ class Splash : ScopedActivity(), KodeinAware {
     }
     private fun toMain(){
         accountViewModel.getRolePref().apply {
-            when {
-                this == 1 -> {
-                    Toast.makeText(this@Splash, "anda tidak memiliki izin untuk login", Toast.LENGTH_LONG).show()
+            if (this >= 2) {
+                Intent(this@Splash, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(this)
+                    finish()
                 }
-                this == 2 -> {
-                    Intent(this@Splash, MainActivityRole2::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(this)
-                        finish()
-                    }
-                }
-                else -> {
-                    Intent(this@Splash, MainActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(this)
-                        finish()
-                    }
-                }
+            } else {
+                Toast.makeText(this@Splash, "anda tidak memiliki izin untuk login", Toast.LENGTH_LONG).show()
             }
         }
 //        Intent(this, MainActivity::class.java).apply {

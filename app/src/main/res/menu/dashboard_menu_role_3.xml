@@ -6,10 +6,6 @@
         android:icon="@drawable/ic_home"
         android:title="Home" />
     <item
-        android:id="@+id/pengawas"
-        android:icon="@drawable/ic_find"
-        android:title="Pengawasan" />
-    <item
         android:id="@+id/barcode"
         android:icon="@drawable/ic_barcode"
         android:title="Check" />

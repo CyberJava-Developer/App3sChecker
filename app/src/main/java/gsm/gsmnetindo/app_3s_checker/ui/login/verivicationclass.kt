@@ -16,7 +16,6 @@ import gsm.gsmnetindo.app_3s_checker.smsgateway.Api
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsListener
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsReceiver
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
-import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivityRole2
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -69,24 +68,14 @@ class verificationclass : ScopedActivity(), SmsListener, KodeinAware {
             accountViewModel.login(phonenumber).observe(this@verificationclass, Observer {
                 // for demo purpose, change role to be more than 1 (example: 2, 3, 4, up to 7)
                 accountViewModel.getRolePref().apply {
-                    when {
-                        this == 1 -> {
-                            Toast.makeText(this@verificationclass, "anda tidak memiliki izin untuk login", Toast.LENGTH_LONG).show()
+                    if (this >= 2) {
+                        Intent(this@verificationclass, MainActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(this)
+                            finish()
                         }
-                        this == 2 -> {
-                            Intent(this@verificationclass, MainActivityRole2::class.java).apply {
-                                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                startActivity(this)
-                                finish()
-                            }
-                        }
-                        else -> {
-                            Intent(this@verificationclass, MainActivity::class.java).apply {
-                                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                startActivity(this)
-                                finish()
-                            }
-                        }
+                    } else {
+                        Toast.makeText(this@verificationclass, "anda tidak memiliki izin untuk login", Toast.LENGTH_LONG).show()
                     }
                 }
             })

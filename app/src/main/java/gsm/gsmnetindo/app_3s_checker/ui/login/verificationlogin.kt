@@ -18,7 +18,6 @@ import gsm.gsmnetindo.app_3s_checker.smsgateway.Api
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsListener
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsReceiver
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
-import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivityRole2
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -41,6 +40,7 @@ import java.lang.Exception
 
 private lateinit var phone: String
 private lateinit var api: Api
+
 class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
     override val kodein by closestKodein()
     private val accountViewModelFactory: AccountViewModelFactory by instance()
@@ -48,7 +48,8 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_verificationlogin)
-        accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
+        accountViewModel =
+            ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         checkRuntimePermission()
         initRetrofit()
         bindSmsReceiver()
@@ -56,7 +57,7 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
         val mText = findViewById<TextView>(R.id.number_txt)
         mText.text = phone
         timeractiviti(phone)
-        val filtered =  phone.filter { c -> c.isDigit() }
+        val filtered = phone.filter { c -> c.isDigit() }
         login(filtered)
         btnverifylogin()
         val otpView = findViewById<OtpView>(R.id.otp_view)
@@ -71,34 +72,28 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
         try {
             accountViewModel.login(phonenumber).observe(this@verificationlogin, Observer {
                 accountViewModel.getRolePref().apply {
-                when {
-                    this == 1 -> {
-                        Toast.makeText(this@verificationlogin, "anda tidak memiliki izin untuk login", Toast.LENGTH_LONG).show()
-                    }
-                    this == 2 -> {
-                        Intent(this@verificationlogin, MainActivityRole2::class.java).apply {
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(this)
-                            finish()
-                        }
-                    }
-                    else -> {
+                    if (this >= 2) {
                         Intent(this@verificationlogin, MainActivity::class.java).apply {
                             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(this)
                             finish()
                         }
+                    } else {
+                        Toast.makeText(
+                            this@verificationlogin,
+                            "anda tidak memiliki izin untuk login",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
-            }
             })
         } catch (e: HttpException) {
             Toast.makeText(this@verificationlogin, e.message(), Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun changenumber(){
-        ubahnomor.setOnClickListener{
+    private fun changenumber() {
+        ubahnomor.setOnClickListener {
             Toast.makeText(this, "Ubah nomor", Toast.LENGTH_LONG)
                 .show()
             Intent(this@verificationlogin, loginverification::class.java).apply {
@@ -145,7 +140,11 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        Toast.makeText(this, "kode verifikasi telah dikirim ke nomer whatsapp anda", Toast.LENGTH_LONG)
+                        Toast.makeText(
+                            this,
+                            "kode verifikasi telah dikirim ke nomer whatsapp anda",
+                            Toast.LENGTH_LONG
+                        )
                             .show()
                     },
                     {
@@ -158,12 +157,12 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
     }
 
     private fun progress(b: Boolean) {
-        if (b == true){
+        if (b == true) {
             progress_verification.visibility = View.VISIBLE
             progress_hint.visibility = View.VISIBLE
             resend_sms.isEnabled = false
             resend_sms.visibility = View.GONE
-        }else{
+        } else {
             progress_verification.visibility = View.GONE
             progress_hint.visibility = View.GONE
             resend_sms.isEnabled = true
@@ -172,24 +171,24 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
 
     }
 
-    private fun timeractiviti(phonenumber: String){
+    private fun timeractiviti(phonenumber: String) {
         progress(true)
-        if (phonenumber.isNullOrBlank().not()){
+        if (phonenumber.isNullOrBlank().not()) {
             sendVerificationCode(phonenumber)
         }
         val textlefttimer = "0"
         val textrighttimer = "00:"
-        val timer = object: CountDownTimer(20000, 1000) {
+        val timer = object : CountDownTimer(20000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                timertxt.text = textrighttimer + millisUntilFinished/1000
-                if(millisUntilFinished/1000 < 10){
-                    timertxt.text = textrighttimer + textlefttimer + millisUntilFinished/1000
+                timertxt.text = textrighttimer + millisUntilFinished / 1000
+                if (millisUntilFinished / 1000 < 10) {
+                    timertxt.text = textrighttimer + textlefttimer + millisUntilFinished / 1000
                 }
             }
 
             override fun onFinish() {
                 progress(false)
-                timertxt.text = textrighttimer+textlefttimer+ 0
+                timertxt.text = textrighttimer + textlefttimer + 0
             }
         }
         timer.start()
@@ -240,7 +239,7 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
                 startActivity(this)
                 finish()
             }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             loginProcess(false, "menunggu whatsapp verifikasi")
 
         }
@@ -256,7 +255,7 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
         }
     }
 
-    private fun btnverifylogin(){
+    private fun btnverifylogin() {
         btn_verify.setOnClickListener {
             val code: String = otp_view.text.toString()
             if (code.isEmpty() || code.length < 4) {
