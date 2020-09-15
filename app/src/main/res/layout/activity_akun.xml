@@ -40,7 +40,7 @@
         android:id="@+id/acountL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="40dp"
+        android:padding="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,8 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@drawable/buttonuiaccount"
-            android:padding="20dp"
-            app:layout_constraintCircleRadius="15dp"
+            android:padding="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -110,14 +109,12 @@
 
             <ImageView
                 android:id="@+id/account_avatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:adjustViewBounds="true"
-                android:maxWidth="64dp"
-                android:minWidth="64dp"
                 android:scaleX="1"
                 android:scaleY="1"
-                android:src="@drawable/account"
+                android:src="@drawable/user120"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,6 +127,16 @@
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@id/account_avatar"
                 app:layout_constraintTop_toBottomOf="@id/account_avatar" />
+
+            <ProgressBar
+                android:id="@+id/progressktp"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -146,15 +153,5 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ProgressBar
-        android:id="@+id/progressktp"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
-        app:layout_constraintEnd_toEndOf="@+id/acountL"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

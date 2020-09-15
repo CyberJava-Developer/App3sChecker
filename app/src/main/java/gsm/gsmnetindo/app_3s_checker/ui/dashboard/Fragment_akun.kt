@@ -44,7 +44,7 @@ class Fragment_akun : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        progressktp.visibility = View.GONE
+//        progressktp.visibility = View.GONE
         accountViewModel =
             ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         account_button_logout.setOnClickListener {
@@ -103,6 +103,7 @@ class Fragment_akun : ScopedFragment(), KodeinAware {
                     target: Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
+                    progressktp.visibility = View.GONE
                     return e != null
                 }
 
@@ -113,6 +114,7 @@ class Fragment_akun : ScopedFragment(), KodeinAware {
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
+                    progressktp.visibility = View.GONE
                     target.apply { account_avatar.setImageDrawable(resource) }
                     return resource != null
                 }
