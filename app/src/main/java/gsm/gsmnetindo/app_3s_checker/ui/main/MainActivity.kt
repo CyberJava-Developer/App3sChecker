@@ -7,19 +7,20 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.LocationNotEnabledException
 import gsm.gsmnetindo.app_3s_checker.internal.LocationPermissionException
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
-import gsm.gsmnetindo.app_3s_checker.ui.dashboard.*
+import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_QRcode
+import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_akun
+import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_pengawas
+import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_pesan
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.home.HomeFragment
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
@@ -38,14 +39,14 @@ class MainActivity : ScopedActivity(), KodeinAware {
 
         izincamera()
 
-        val navview = findViewById<BottomNavigationView>(R.id.navbar)
+        val navView = findViewById<BottomNavigationView>(R.id.navbar)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer,
                 HomeFragment()
             ).commit()
         }
         getLocation()
-        navview.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
+        navView.setOnNavigationItemSelectedListener { menuItem ->
             var frg: Fragment? = null
             when (menuItem.itemId) {
                 R.id.homedashboard -> frg =
@@ -56,10 +57,11 @@ class MainActivity : ScopedActivity(), KodeinAware {
                 R.id.pengawas -> frg = Fragment_pengawas()
             }
             if (frg != null) {
-                supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer, frg).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer, frg)
+                    .commit()
             }
             true
-        })
+        }
     }
 
     override fun onRestoreInstanceState(
@@ -71,7 +73,7 @@ class MainActivity : ScopedActivity(), KodeinAware {
     }
     private fun getLocation() = launch {
         try {
-            mainViewModel.getAddress().observe(this@MainActivity, Observer {
+            mainViewModel.getAddress().observe(this@MainActivity, {
                 supportActionBar?.subtitle = "${it.subLocality}, ${it.subAdminArea}"
                 Log.i("getAddressMain", "$it")
             })
@@ -121,8 +123,9 @@ class MainActivity : ScopedActivity(), KodeinAware {
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
-        } else {
-            // Permission has already been granted
         }
+//        else {
+            // Permission has already been granted
+//        }
     }
 }
