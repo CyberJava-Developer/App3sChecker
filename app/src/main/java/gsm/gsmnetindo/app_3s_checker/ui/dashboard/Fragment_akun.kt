@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.model.GlideUrl
@@ -65,13 +66,13 @@ class Fragment_akun : ScopedFragment(), KodeinAware {
     }
 
     private fun bindUI() {
-        accountViewModel.detail.observe(viewLifecycleOwner, {
+        accountViewModel.detail.observe(viewLifecycleOwner) {
             Log.i("fragment detail", "$it")
             txtname.text = it.detail.name
             nomortelepon.text = "+${it.account.phone}"
             txtlahir.text = "${it.detail.bornPlace}, ${it.detail.bornDate}"
             loadAvatar(ObjectKey(it.account.avatar))
-        })
+        }
     }
 
     private fun syncDetail() = launch {
