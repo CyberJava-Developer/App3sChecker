@@ -18,7 +18,7 @@
     <FrameLayout
         android:id="@+id/frameLayout3"
         android:layout_width="0dp"
-        android:layout_height="260dp"
+        android:layout_height="250dp"
         android:background="@drawable/uilayout_login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,39 +111,21 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/whatsapp_verifikasi"
-                android:layout_width="160dp"
+                android:id="@+id/next_login2"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="59dp"
-                android:background="@drawable/buttonui"
-                android:drawableLeft="@drawable/icon_msg"
-                android:padding="5dp"
-                android:paddingStart="10dp"
-                android:text="WHATSAPP"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                app:layout_constraintEnd_toStartOf="@+id/next_login2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-            <Button
-                android:id="@+id/next_login2"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/buttonui"
-                android:drawableLeft="@drawable/icon_sms"
                 android:padding="5dp"
                 android:paddingStart="10dp"
-                android:text="PESAN SMS"
+                android:text="MULAI"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/whatsapp_verifikasi"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_input_layout" />
 
             <TextView
                 android:id="@+id/textView"
@@ -153,6 +135,7 @@
                 android:fontFamily="sans-serif"
                 android:text="PILIH METODE VERIFIKASI"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_input_layout" />
