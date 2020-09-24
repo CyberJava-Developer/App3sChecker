@@ -1,22 +1,20 @@
 package gsm.gsmnetindo.app_3s_checker.ui.Intro
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.util.Log
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.get
+import android.widget.Button
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager.widget.ViewPager
+import cn.pedant.SweetAlert.SweetAlertDialog
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.ui.login.loginverification
@@ -28,121 +26,147 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 
+const val PERMISSION_ID = 42
 class IntroActivity : ScopedActivity(), KodeinAware {
 
     override val kodein by closestKodein()
     private val introViewModelFactory: IntroViewModelFactory by instance()
-    private lateinit var introViewModel: IntroViewModel
     private val accountViewModelFactory: AccountViewModelFactory by instance()
     private lateinit var accountViewModel: AccountViewModel
-
-    private  val Introslideadapter = introslideadapter(
-        listOf(
-            dataintroslide(
-                R.drawable.msker
-            ),
-            dataintroslide(
-              R.drawable.test
-            ),
-            dataintroslide(
-             R.drawable.splash3
-            )
-        )
-    )
-
-
+    private lateinit var viewModelProvider : IntroViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_introslide)
-        introViewModel = ViewModelProvider(this, introViewModelFactory).get(IntroViewModel::class.java)
-        accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
-        val connectifitymanager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activenetwork: NetworkInfo? = connectifitymanager.activeNetworkInfo
-        val isconnec: Boolean = activenetwork?.isConnectedOrConnecting ==true
-        if (!isconnec){
-            Toast.makeText(applicationContext,
-                "Koneksi Internet Tidak ada", Toast.LENGTH_SHORT).show()
+        Log.i("Activity Started", "Splash Activity")
+        installerBind()
+        checkPermission()
 
-        }
-        else{
-            val txt = findViewById<TextView>(R.id.txtskip)
-            txt.setOnClickListener{
-                setFirstInstall()
-                if (isconnec){
-                    isLoggedIn()
-//                    val intent = Intent(this, loginverification::class.java)
-//                    startActivity(intent)
-//                    finish()
-                }else{
-                    Toast.makeText(applicationContext,
-                        "Koneksi Internet Tidak ada", Toast.LENGTH_SHORT).show()
-                }
-//                val intent = Intent(this, loginverification::class.java)
-//                startActivity(intent)
-//                finish()
+        viewpage.adapter = introslideadapter(supportFragmentManager)
+        dot()
+        buttonNextLayout()
+    }
+    private fun checkPermission(){
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+//                start()
             }
+        } else {
+            askPermission()
         }
+    }
 
-        introsliderviewpage.adapter = Introslideadapter
-        setupIndicator()
-        setcurrentIndicator(0)
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager =
+            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
 
-        introsliderviewpage.registerOnPageChangeCallback(object :
-        ViewPager2.OnPageChangeCallback(){
+    private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun askPermission() {
+        SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Izin Akses")
+            .setContentText("Agar aplikasi ${getString(R.string.app_name)} bisa berjalan normal, kami membutuhkan izin untuk mengakses: SMS, Kamera, Lokasi, dan Penyimpanan")
+            .setConfirmText("Izinkan")
+            .setConfirmClickListener { sDialog -> sDialog.dismissWithAnimation()
+                requestPermissions()
+            }
+            .show()
+    }
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.RECEIVE_SMS,
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ),
+            PERMISSION_ID
+        ).also {
+//            start()
+        }
+    }
+    private fun buttonNextLayout() {
+        val btn = findViewById<Button>(R.id.nextbtn)
+        viewpage.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrollStateChanged(state: Int) {
+                if (getItem(1) == 3){
+                    nextbtn.text = "Selesai"
+                } else {
+                    nextbtn.text = "Lanjut"
+                }
+                Log.d("onPageScrollStateChangd", state.toString())
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                Log.d("onPageScrolled", getItem(+0).toString())
+            }
 
             override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                setcurrentIndicator(position)
+                if (position == 3) Log.d("onPageSelected", getItem(+0).toString())
             }
+
         })
-    }
 
-    private fun setupIndicator(){
-        val indicator = arrayOfNulls<ImageView>(Introslideadapter.itemCount)
-        val layoutParams: LinearLayout.LayoutParams =
-            LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
-        layoutParams.setMargins(8, 0,8,0)
-        for (i in indicator.indices){
-            indicator[i] = ImageView(applicationContext)
-            indicator[i].apply {
-                this?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        applicationContext,
-                        R.drawable.indicator_activated
-                    )
-                )
-                this?.layoutParams = layoutParams
+        btn.setOnClickListener {
+
+            if (getItem(+1) != 3){
+                viewpage.setCurrentItem(getItem(+1), true)
             }
-            indicatorcontainer.addView(indicator[i])
-        }
-    }
+            else{
+                //setFirstInstall()
+                // intro end
+                viewModelProvider.setFirst()
+                Log.d("set First", viewModelProvider.isFirst().value.toString())
 
-    private fun setcurrentIndicator(index: Int){
-        val childCount = indicatorcontainer.childCount
-        for (i in 0 until childCount){
-            val imageView = indicatorcontainer[i] as ImageView
-
-            if (i == index){
-                imageView.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        applicationContext,
-                        R.drawable.indicator_inactive
-                    )
-                )
-            } else{
-                imageView.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        applicationContext,
-                        R.drawable.indicator_activated
-                    )
-                )
+                startActivity(Intent(this, loginverification::class.java))
+                finish()
             }
         }
     }
+
+    private fun getItem(i: Int): Int {
+        return viewpage.currentItem + i
+    }
+
+    private fun dot() {
+        val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
+        val viewPager = findViewById<ViewPager>(R.id.viewpage)
+        val adapter = introslideadapter(supportFragmentManager)
+        viewPager.adapter = adapter
+        dotsIndicator.setViewPager(viewPager)
+    }
+
+    private fun installerBind() {
+        viewModelProvider =  ViewModelProvider(this, introViewModelFactory).get(IntroViewModel::class.java)
+    }
+
     private fun setFirstInstall(){
-        introViewModel.setFirst()
+        viewModelProvider.setFirst()
     }
     private fun isLoggedIn(){
         accountViewModel.isLoggedIn().observe(this, Observer {

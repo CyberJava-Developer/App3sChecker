@@ -1,37 +1,33 @@
 package gsm.gsmnetindo.app_3s_checker.ui.Intro
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
-import gsm.gsmnetindo.app_3s_checker.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import gsm.gsmnetindo.app_3s_checker.ui.Intro.intro3.fragment_intro3
+import gsm.gsmnetindo.app_3s_checker.ui.Intro.masker.fragment_masker
+import gsm.gsmnetindo.app_3s_checker.ui.Intro.tes2.fragment_tes2
 
-class introslideadapter(private val introslide: List<dataintroslide>):
-    RecyclerView.Adapter<introslideadapter.Introslideholder>() {
+class introslideadapter(fm : FragmentManager): FragmentPagerAdapter(fm){
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Introslideholder {
-        return Introslideholder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.slide_item_container, parent, false
-            )
-        )
+    public val pages = listOf(
+        fragment_masker(),
+        fragment_tes2(),
+        fragment_intro3()
+    )
+    // menentukan fragment yang akan dibuka pada posisi tertentu
+    override fun getCount(): Int {
+        return pages.size
     }
 
-    override fun getItemCount(): Int {
-        return  introslide.size
+    override fun getItem(position: Int): Fragment {
+        return pages[position]
     }
-
-    override fun onBindViewHolder(holder: Introslideholder, position: Int) {
-        holder.bind(introslide[position])
-    }
-
-    inner class Introslideholder(view: View):RecyclerView.ViewHolder(view){
-
-        private val  imageicon = view.findViewById<ImageView>(R.id.imageslideicon)
-
-        fun bind(introslide: dataintroslide){
-            imageicon.setImageResource(introslide.icon)
+    // judul untuk tabs
+    override fun getPageTitle(position: Int): CharSequence? {
+        return when (position) {
+            0 -> "First Tab"
+            1 -> "Second Tab"
+            else -> "Third tab"
         }
     }
 }
