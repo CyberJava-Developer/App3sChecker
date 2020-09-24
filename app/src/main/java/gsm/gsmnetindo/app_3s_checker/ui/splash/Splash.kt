@@ -14,8 +14,10 @@ import androidx.lifecycle.ViewModelProvider
 import cn.pedant.SweetAlert.SweetAlertDialog
 import gsm.gsmnetindo.app_3s_checker.BuildConfig
 import gsm.gsmnetindo.app_3s_checker.R
+import gsm.gsmnetindo.app_3s_checker.internal.NoConnectivityException
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.ui.Intro.IntroActivity
+import gsm.gsmnetindo.app_3s_checker.ui.login.LoginActivity
 import gsm.gsmnetindo.app_3s_checker.ui.login.loginverification
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
@@ -106,6 +108,9 @@ class Splash : ScopedActivity(), KodeinAware {
         } catch (e: Exception) {
             Log.e("version update", e.message, e)
             when(e) {
+                is NoConnectivityException -> {
+                    alern()
+                }
                 is SocketTimeoutException -> {
                     alern()
                     //Toast.makeText(this@Splash, "Tidak bisa menyambung ke server, coba beberapa saat lagi", Toast.LENGTH_LONG).show()
@@ -172,7 +177,7 @@ class Splash : ScopedActivity(), KodeinAware {
 //        }
     }
     private fun toLogin(){
-        Intent(this, loginverification::class.java).apply {
+        Intent(this, LoginActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(this)
             finish()

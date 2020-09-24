@@ -17,6 +17,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
+import gsm.gsmnetindo.app_3s_checker.ui.login.LoginActivity
 import gsm.gsmnetindo.app_3s_checker.ui.login.loginverification
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
@@ -185,7 +186,7 @@ class IntroActivity : ScopedActivity(), KodeinAware {
         }
     }
     private fun toLogin(){
-        Intent(this, loginverification::class.java).apply {
+        Intent(this, LoginActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(this)
             finish()

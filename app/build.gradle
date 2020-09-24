@@ -20,7 +20,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "gsm.gsmnetindo.app_3s_checker"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
 
         // versioning schema

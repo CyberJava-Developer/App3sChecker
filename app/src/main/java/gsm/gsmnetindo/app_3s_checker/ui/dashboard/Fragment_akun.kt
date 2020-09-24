@@ -21,6 +21,7 @@ import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
 import gsm.gsmnetindo.app_3s_checker.internal.Secret
 import gsm.gsmnetindo.app_3s_checker.internal.glide.GlideApp
+import gsm.gsmnetindo.app_3s_checker.ui.login.LoginActivity
 import gsm.gsmnetindo.app_3s_checker.ui.login.loginverification
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
@@ -57,7 +58,7 @@ class Fragment_akun : ScopedFragment(), KodeinAware {
     private fun logout() {
         accountViewModel.logout()
         if (activity != null) {
-            Intent(activity, loginverification::class.java).apply {
+            Intent(activity, LoginActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(this)
                 requireActivity().finish()
@@ -66,13 +67,18 @@ class Fragment_akun : ScopedFragment(), KodeinAware {
     }
 
     private fun bindUI() {
-        accountViewModel.detail.observe(viewLifecycleOwner) {
-            Log.i("fragment detail", "$it")
-            txtname.text = it.detail.name
-            nomortelepon.text = "+${it.account.phone}"
-            txtlahir.text = "${it.detail.bornPlace}, ${it.detail.bornDate}"
-            loadAvatar(ObjectKey(it.account.avatar))
+        try {
+            accountViewModel.detail.observe(viewLifecycleOwner) {
+                Log.i("fragment detail", "$it")
+                txtname.text = it.detail.name
+                nomortelepon.text = "+${it.account.phone}"
+                txtlahir.text = "${it.detail.bornPlace}, ${it.detail.bornDate}"
+                loadAvatar(ObjectKey(it.account.avatar))
+            }
+        } catch (e: Exception){
+            Log.e("fragment akun", e.message, e)
         }
+
     }
 
     private fun syncDetail() = launch {

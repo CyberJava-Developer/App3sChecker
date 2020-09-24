@@ -4,5 +4,6 @@ data class UserLoginResponse(
     val phone: String,
     val registered: Boolean,
     val role: Int,
-    val jwt: String
+    val jwt: String,
+    val code: String
 )
