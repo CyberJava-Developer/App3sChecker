@@ -7,4 +7,5 @@ class BarcodeViewModel(
     private val barcodeRepository: BarcodeRepository
 ): ViewModel() {
     suspend fun scan(code: String) = barcodeRepository.scanCode(code)
+    suspend fun observation() = barcodeRepository.getObserved()
 }

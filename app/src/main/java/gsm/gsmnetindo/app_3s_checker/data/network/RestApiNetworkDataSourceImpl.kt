@@ -12,6 +12,7 @@ import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.detail.UserDetailResponse
+import gsm.gsmnetindo.app_3s_checker.data.network.response.observation.ObservationResponse
 import retrofit2.HttpException
 
 class RestApiNetworkDataSourceImpl(
@@ -124,6 +125,21 @@ class RestApiNetworkDataSourceImpl(
             }
         } catch (e: HttpException) {
             Log.e("scan Attempt", e.message.toString(), e)
+            throw e
+        }
+    }
+
+    // for observer
+    private val _downloadedLocationsResponse = MutableLiveData<ObservationResponse>()
+    override val downloadedLocationsResponse: LiveData<ObservationResponse>
+        get() = _downloadedLocationsResponse
+    override suspend fun fetchLocation() {
+        try {
+            restApiService.observeAsync(getPhone()).apply {
+                _downloadedLocationsResponse.postValue(this)
+            }
+        } catch (e: HttpException) {
+            Log.e("location all Attempt", e.message.toString(), e)
             throw e
         }
     }

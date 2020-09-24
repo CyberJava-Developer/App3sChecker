@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import gsm.gsmnetindo.app_3s_checker.data.network.RestApiNetworkDataSource
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
+import gsm.gsmnetindo.app_3s_checker.data.network.response.observation.ObservationResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -28,5 +29,11 @@ class BarcodeRepositoryImpl(
     override fun clear() {
         _code.postValue(null)
         _detail.postValue(null)
+    }
+    override suspend fun getObserved(): LiveData<ObservationResponse> {
+        restApiNetworkDataSource.fetchLocation()
+        return withContext(Dispatchers.IO){
+            return@withContext restApiNetworkDataSource.downloadedLocationsResponse
+        }
     }
 }

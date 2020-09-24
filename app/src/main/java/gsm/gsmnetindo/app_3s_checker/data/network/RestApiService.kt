@@ -8,6 +8,7 @@ import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.detail.UserDetailResponse
+import gsm.gsmnetindo.app_3s_checker.data.network.response.observation.ObservationResponse
 import gsm.gsmnetindo.app_3s_checker.internal.Secret
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -44,6 +45,11 @@ interface RestApiService {
         @Path("phone") phone: String,
         @Path("code") code: String
     ): BarcodeDetailResponse
+
+    @GET("{phone}/locations.json")
+    suspend fun observeAsync(
+        @Path("phone") phone: String
+    ): ObservationResponse
 
     companion object {
         operator fun invoke(

@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,19 +26,30 @@ import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainViewModelFactory
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModel
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModelFactory
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
+import java.lang.Exception
 
 
 class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
     override val kodein by closestKodein()
-    private lateinit var mMap: GoogleMap
+
+    private val barcodeViewModelFactory: BarcodeViewModelFactory by instance()
+    private lateinit var barcodeViewModel: BarcodeViewModel
     private val mainViewModelFactory: MainViewModelFactory by instance()
     private lateinit var mainViewModel: MainViewModel
+    private val accountViewModelFactory: AccountViewModelFactory by instance()
+    private lateinit var accountViewModel: AccountViewModel
+
+    private lateinit var mMap: GoogleMap
     private lateinit var myLocation: LatLng
 
     override fun onCreateView(
@@ -45,13 +57,33 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        barcodeViewModel = ViewModelProvider(this, barcodeViewModelFactory).get(BarcodeViewModel::class.java)
+        accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         val view = inflater.inflate(R.layout.activity_pengawas, container, false)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
 
         return view
+    }
+    private fun loadData() = launch {
+        try {
+            mMap.clear()
+            val me = accountViewModel.getPhonePref()
+            barcodeViewModel.observation().observe(viewLifecycleOwner, { all ->
+                all.map {
+                    if (it.user.account.phone != me) {
+                        Log.i("addMarker", "${it.user.name} in ${it.latitude} - ${it.longitude}")
+                        mMap.addMarker(
+                            MarkerOptions().position(LatLng(it.latitude, it.longitude)).title("${it.user.name}")
+                                .icon(bitmapDescriptorFromVector
+                                    (requireContext(), R.drawable.circlemap)))
+                    }
+                }
+            })
+        } catch (e: Exception){
+            Log.e("load data pengawas", "${e.message}", e)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -64,15 +96,15 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
         val surabaya2 = LatLng(-7.278445, 112.764920)
 
         //add penanda
-        mMap.addMarker(
-            MarkerOptions().position(surabaya).title("Virus Covid-19")
-                .icon(bitmapDescriptorFromVector
-                    (this.requireContext(), R.drawable.circlemap)))
-
-        mMap.addMarker(
-            MarkerOptions().position(surabaya2).title("Virus Covid-19")
-                .icon(bitmapDescriptorFromVector
-                    (this.requireContext(), R.drawable.circlemap)))
+//        mMap.addMarker(
+//            MarkerOptions().position(surabaya).title("Virus Covid-19")
+//                .icon(bitmapDescriptorFromVector
+//                    (this.requireContext(), R.drawable.circlemap)))
+//
+//        mMap.addMarker(
+//            MarkerOptions().position(surabaya2).title("Virus Covid-19")
+//                .icon(bitmapDescriptorFromVector
+//                    (this.requireContext(), R.drawable.circlemap)))
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(surabaya))
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(surabaya, 15f))
@@ -80,6 +112,7 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
         mMap.animateCamera(CameraUpdateFactory.zoomIn())
         // Zoom out to zoom level 10, animating with a duration of 2 seconds.
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15f), 2000, null)
+        loadData()
         myLocation()
 
 // Add some markers to the map, and add a data object to each marker.
@@ -95,12 +128,12 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
         mainViewModel.getLocation().observe(viewLifecycleOwner, Observer {
             val liveLocation = LatLng(it.latitude, it.longitude)
             myLocation = liveLocation
-            mMap.addMarker(
-                MarkerOptions().position(myLocation).title("Lokasi saya")
-                    .icon(bitmapDescriptorFromVector(
-                        requireContext(), R.drawable.circlemapme
-                    ))
-            )
+//            mMap.addMarker(
+//                MarkerOptions().position(myLocation).title("Lokasi saya")
+//                    .icon(bitmapDescriptorFromVector(
+//                        requireContext(), R.drawable.circlemapme
+//                    ))
+//            )
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f))
         })
     }
