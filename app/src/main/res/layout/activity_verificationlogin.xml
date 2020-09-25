@@ -179,14 +179,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
+        android:fontFamily="sans-serif-medium"
         android:inputType="number"
-        android:itemBackground="#F6EFEA"
-        android:textColor="@android:color/secondary_text_light"
+        android:itemBackground="@drawable/buttonui"
+        android:textColor="#FFFF"
+        android:textSize="24sp"
         app:itemCount="4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:lineColor="#93867B"
+        app:lineColor="@color/colorPrimary"
         app:viewType="rectangle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

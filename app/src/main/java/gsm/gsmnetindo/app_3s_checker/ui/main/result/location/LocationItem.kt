@@ -1,8 +1,14 @@
 package gsm.gsmnetindo.app_3s_checker.ui.main.result.location
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
+import android.content.Intent
 import android.location.Geocoder
+import android.net.Uri
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
@@ -13,10 +19,9 @@ import kotlinx.android.synthetic.main.item_location.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
-import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.TextStyle
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class LocationItem(
     private val location: Location,
@@ -40,6 +45,22 @@ class LocationItem(
         viewHolder.apply {
             SetTitle.text = formateCreate
             LocationTrack.text = "${cityName}\n${formateupdate}"
+            Coordinate.text = "${location.latitude}, ${location.longitude}"
+            copybtn.setOnClickListener {
+//                val textToCopy = Coordinate.text
+//
+//                val clipboardManager = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+//                val clipData = ClipData.newPlainText("text", textToCopy)
+//                clipboardManager.setPrimaryClip(clipData)
+//
+//                Toast.makeText(context, "${Coordinate.text} Copy to Clipboard", Toast.LENGTH_LONG).show()
+                // Creates an Intent that will load a map of San Francisco
+                val gmmIntentUri = Uri.parse("http://maps.google.com/maps?q=${location.latitude}, ${location.longitude}")
+                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                mapIntent.setPackage("com.google.android.apps.maps")
+                context.startActivity(mapIntent)
+            }
+
         }
     }
 
