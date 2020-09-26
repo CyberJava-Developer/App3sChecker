@@ -18,12 +18,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.data.network.response.observation.Status
+import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser
+import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser.toMoment
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainViewModelFactory
@@ -36,6 +37,7 @@ import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
+import org.threeten.bp.ZonedDateTime
 
 
 class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
@@ -56,8 +58,10 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        barcodeViewModel = ViewModelProvider(this, barcodeViewModelFactory).get(BarcodeViewModel::class.java)
-        accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
+        barcodeViewModel =
+            ViewModelProvider(this, barcodeViewModelFactory).get(BarcodeViewModel::class.java)
+        accountViewModel =
+            ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         val view = inflater.inflate(R.layout.activity_pengawas, container, false)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -65,42 +69,49 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
 
         return view
     }
+
     private fun loadData() = launch {
         try {
             mMap.clear()
             val me = accountViewModel.getPhonePref()
             barcodeViewModel.observation().observe(viewLifecycleOwner, { all ->
                 all.map {
-                    if (it.user.account.phone != me) {
-                        Log.i(
-                            "addMarker",
-                            "${it.user.name} ${it.user.status} in ${it.latitude} - ${it.longitude} - ${it.user.account.avatar}"
-                        )
-                        mMap.addMarker(
-                            MarkerOptions().position(LatLng(it.latitude, it.longitude))
-                                .title("${it.user.name}")
-                                .icon(
-                                    bitmapDescriptorFromVector
-                                        (requireContext(), R.drawable.circlemap)
-                                )
-                        )
-
-                        val status = it.user.status
-                        val lang = "${it.latitude}, ${it.longitude}"
-                        mMap.setOnMarkerClickListener(OnMarkerClickListener { marker ->
-                            Log.d("GoogleMap", " click")
-                            //focus the market
-                            mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.position))
-                            if (infowindow.visibility == View.VISIBLE) infowindow.visibility =
-                                View.GONE else displayCustomeInfoWindow(
-                                marker, status, lang
+                    if (it.updatedAt != null) {
+                        if (it.user.account.phone != me) {
+                            val timeAgo = ZonedDateTime.now().toEpochSecond() - LocalDateTimeParser.utcToLocal(it.updatedAt).toEpochSecond()
+                            Log.i(
+                                "addMarker",
+                                "${it.user.name} ${it.user.status} in {${it.latitude} ${it.longitude}} ${LocalDateTimeParser.utcToLocal(it.updatedAt).toMoment()}($timeAgo)"
                             )
-                            true
-                        })
+                            val icon = if (it.user.status.status == "negative") {R.drawable.circlemapme} else {R.drawable.circlemap}
+                            mMap.addMarker(
+                                MarkerOptions().position(LatLng(it.latitude, it.longitude))
+                                    .title("${it.user.name}")
+                                    .snippet("terakhir dilihat ${LocalDateTimeParser.utcToLocal(it.updatedAt).toMoment()}")
+                                    .icon(
+                                        bitmapDescriptorFromVector
+                                            (requireContext(), icon)
+                                    )
+                            )
+
+                            val status = it.user.status
+                            val lang = "${it.latitude}, ${it.longitude}"
+                            mMap.setOnMapClickListener {
+                                infowindow.visibility = View.GONE
+                            }
+                            mMap.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener { marker ->
+                                marker.showInfoWindow()
+                                Log.d("GoogleMap", " click")
+                                //focus the marker
+                                mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.position))
+                                displayCustomeInfoWindow(marker, status, lang)
+                                true
+                            })
+                        }
                     }
                 }
             })
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Log.e("load data pengawas", "${e.message}", e)
         }
     }
@@ -139,6 +150,8 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
 // Add some markers to the map, and add a data object to each marker.
 
     }
+
+
     @SuppressLint("MissingPermission")
     private fun myLocation() = launch {
         mMap.isMyLocationEnabled = true

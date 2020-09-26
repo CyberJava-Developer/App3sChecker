@@ -9,6 +9,6 @@ data class ObservationResponseItem(
     val latitude: Double,
     val longitude: Double,
     @SerializedName("updated_at")
-    val updatedAt: String,
+    val updatedAt: String?,
     val user: User
 )
