@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@drawable/shaoeui"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:focusableInTouchMode="true"
+        android:textColor="#696867"
+        app:helperText="Contoh: 0812-3456-7890"
+        app:helperTextEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:prefixTextAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:startIconDrawable="@drawable/ic_flag_of_indonesia"
+        app:startIconTintMode="screen">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/number_phone_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:fontFamily="sans-serif"
+            android:hint="Masukkan nomor pencarian kamu"
+            android:inputType="phone"
+            android:maxLength="14"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#696867"
+            android:textSize="18sp"
+            android:tooltipText="0812-3456-7890" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
