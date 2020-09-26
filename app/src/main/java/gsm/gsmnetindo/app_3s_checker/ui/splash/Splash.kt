@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
+import java.net.ConnectException
 import java.net.SocketTimeoutException
 import kotlin.system.exitProcess
 
@@ -114,6 +115,9 @@ class Splash : ScopedActivity(), KodeinAware {
                 is SocketTimeoutException -> {
                     alern()
                     //Toast.makeText(this@Splash, "Tidak bisa menyambung ke server, coba beberapa saat lagi", Toast.LENGTH_LONG).show()
+                }
+                is ConnectException -> {
+                    alern()
                 }
                 else -> {
                     Toast.makeText(this@Splash, e.message, Toast.LENGTH_LONG).show()

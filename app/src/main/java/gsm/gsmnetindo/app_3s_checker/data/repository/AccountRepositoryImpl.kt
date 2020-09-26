@@ -21,7 +21,7 @@ class AccountRepositoryImpl(
         restApiNetworkDataSource.downloadedDetailResponse.observeForever {
             if (it == null) {
                 GlobalScope.launch {
-                    restApiNetworkDataSource.fetchDetail()
+//                    restApiNetworkDataSource.fetchDetail()
                 }
             } else {
                 _detail.postValue(it)
@@ -30,7 +30,7 @@ class AccountRepositoryImpl(
         userManager.isLoggedIn().observeForever{
             if (it){
                 GlobalScope.launch {
-                    restApiNetworkDataSource.fetchDetail()
+//                    restApiNetworkDataSource.fetchDetail()
                 }
             }
         }
