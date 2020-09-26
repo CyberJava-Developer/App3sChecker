@@ -99,14 +99,14 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
                             mMap.setOnMapClickListener {
                                 infowindow.visibility = View.GONE
                             }
-                            mMap.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener { marker ->
+                            mMap.setOnMarkerClickListener { marker ->
                                 marker.showInfoWindow()
                                 Log.d("GoogleMap", " click")
                                 //focus the marker
                                 mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.position))
                                 displayCustomeInfoWindow(marker, status, lang)
                                 true
-                            })
+                            }
                         }
                     }
                 }
