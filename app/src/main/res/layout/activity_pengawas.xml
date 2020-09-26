@@ -22,7 +22,7 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="74dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/map"
