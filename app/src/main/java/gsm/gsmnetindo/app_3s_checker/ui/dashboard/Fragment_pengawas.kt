@@ -2,8 +2,11 @@ package gsm.gsmnetindo.app_3s_checker.ui.dashboard
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,18 +14,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import gsm.gsmnetindo.app_3s_checker.R
+import gsm.gsmnetindo.app_3s_checker.data.network.response.observation.Status
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainViewModelFactory
@@ -30,13 +31,11 @@ import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModelFactory
+import kotlinx.android.synthetic.main.activity_pengawas.*
 import kotlinx.coroutines.launch
-import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
-import org.kodein.di.android.closestKodein
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
-import java.lang.Exception
 
 
 class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
@@ -73,11 +72,31 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
             barcodeViewModel.observation().observe(viewLifecycleOwner, { all ->
                 all.map {
                     if (it.user.account.phone != me) {
-                        Log.i("addMarker", "${it.user.name} in ${it.latitude} - ${it.longitude}")
+                        Log.i(
+                            "addMarker",
+                            "${it.user.name} ${it.user.status} in ${it.latitude} - ${it.longitude} - ${it.user.account.avatar}"
+                        )
                         mMap.addMarker(
-                            MarkerOptions().position(LatLng(it.latitude, it.longitude)).title("${it.user.name}")
-                                .icon(bitmapDescriptorFromVector
-                                    (requireContext(), R.drawable.circlemap)))
+                            MarkerOptions().position(LatLng(it.latitude, it.longitude))
+                                .title("${it.user.name}")
+                                .icon(
+                                    bitmapDescriptorFromVector
+                                        (requireContext(), R.drawable.circlemap)
+                                )
+                        )
+
+                        val status = it.user.status
+                        val lang = "${it.latitude}, ${it.longitude}"
+                        mMap.setOnMarkerClickListener(OnMarkerClickListener { marker ->
+                            Log.d("GoogleMap", " click")
+                            //focus the market
+                            mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.position))
+                            if (infowindow.visibility == View.VISIBLE) infowindow.visibility =
+                                View.GONE else displayCustomeInfoWindow(
+                                marker, status, lang
+                            )
+                            true
+                        })
                     }
                 }
             })
@@ -86,25 +105,27 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
         }
     }
 
+    private fun displayCustomeInfoWindow(marker: Marker, status: Status, lang: String) {
+        infowindow.visibility = View.VISIBLE
+        namauser.text = marker.title
+        setUserStatus(status)
+        lang_user.text = lang
+
+        infowindow.setOnClickListener {
+            val gmmIntentUri = Uri.parse("http://maps.google.com/maps?q=${lang}")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            context?.startActivity(mapIntent)
+        }
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         googleMap.uiSettings.isZoomControlsEnabled = true
-        googleMap.setPadding(10,10,10,200)
+        googleMap.setPadding(10, 10, 10, 200)
 
         mMap = googleMap
         // Add a marker in surabaya and move the camera
         val surabaya = LatLng(-7.278030, 112.764384)
-        val surabaya2 = LatLng(-7.278445, 112.764920)
-
-        //add penanda
-//        mMap.addMarker(
-//            MarkerOptions().position(surabaya).title("Virus Covid-19")
-//                .icon(bitmapDescriptorFromVector
-//                    (this.requireContext(), R.drawable.circlemap)))
-//
-//        mMap.addMarker(
-//            MarkerOptions().position(surabaya2).title("Virus Covid-19")
-//                .icon(bitmapDescriptorFromVector
-//                    (this.requireContext(), R.drawable.circlemap)))
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(surabaya))
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(surabaya, 15f))
@@ -164,4 +185,29 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
+
+    private fun setUserStatus(status: Status) {
+        when (status.status) {
+            "negative" -> {
+                status_user.text = "SEHAT"
+                status_user.setTextColor(Color.parseColor("#32a86d"))
+            }
+            "odp" -> {
+                status_user.text = "BERESIKO"
+                status_user.setTextColor(Color.parseColor("#dae600"))
+            }
+            "pdp" -> {
+                status_user.text = "BERESIKO"
+                status_user.setTextColor(Color.parseColor("#e67e00"))
+            }
+            "positive" -> {
+                status_user.text = "POSITIF"
+                status_user.setTextColor(Color.parseColor("#e60000"))
+            }
+            else -> {
+                status_user.text = "Tidak Terverifikasi"
+                status_user.setTextColor(Color.parseColor("#00c5e3"))
+            }
+        }
+    }
 }
