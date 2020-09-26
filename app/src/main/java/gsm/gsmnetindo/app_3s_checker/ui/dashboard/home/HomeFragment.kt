@@ -9,10 +9,12 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.data.db.entity.FeedItem
+import gsm.gsmnetindo.app_3s_checker.internal.NoConnectivityException
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.launch
@@ -20,6 +22,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import java.net.SocketTimeoutException
+import kotlin.system.exitProcess
 
 class HomeFragment : ScopedFragment(), KodeinAware {
     override val kodein by closestKodein()
@@ -64,10 +67,10 @@ class HomeFragment : ScopedFragment(), KodeinAware {
                     alern()
                 }
                 is IllegalStateException -> {
-
+                    alern()
                 }
                 else -> {
-                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
+                    alern()
                 }
             }
         }
@@ -82,28 +85,19 @@ class HomeFragment : ScopedFragment(), KodeinAware {
                 }
             })
         } catch (e: Exception) {
-            when (e) {
-                is SocketTimeoutException -> {
-                    alern()
-                }
-                else -> {
-                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
-                    feed_refresh.isRefreshing = false
-                }
-            }
+
         }
     }
 
     private fun alern() {
-        val builder = android.app.AlertDialog.Builder(context)
-        builder.setTitle("Error")
-        builder.setMessage("internet koneksi buruk, pastikan koneksi anda stabil dan silakan coba kembali")
-//builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = x))
-
-        builder.setPositiveButton("IYA") { dialog, which ->
-            feed_refresh.isRefreshing = true
-        }
-        builder.show()
+        SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Kesalahan Jaringan")
+            .setContentText("internet koneksi buruk, pastikan koneksi anda stabil dan silakan coba kembali")
+            .setConfirmText("Terima Kasih")
+            .setConfirmClickListener { sDialog -> sDialog.dismissWithAnimation()
+                exitProcess(0)
+            }
+            .show()
     }
 
     private fun initRecyclerView(items: List<FeedItem>){

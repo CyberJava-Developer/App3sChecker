@@ -28,6 +28,8 @@ import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
 import gsm.gsmnetindo.app_3s_checker.internal.Secret
 import gsm.gsmnetindo.app_3s_checker.internal.glide.GlideApp
+import gsm.gsmnetindo.app_3s_checker.ui.dashboard.scan.scane_number
+import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultActivity
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModelFactory
@@ -100,6 +102,16 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
         scannerView.setOnClickListener {
             codeScanner.startPreview()
         }
+
+        search_number.setOnClickListener{
+//            Intent(Intent(context, scane_number::class.java)).apply {
+//                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                startActivity(this)
+//                }
+            val intent = Intent(context, scane_number::class.java)
+            startActivity(intent)
+        }
+
         barcodeViewModel = ViewModelProvider(this, barcodeViewModelFactory).get(BarcodeViewModel::class.java)
         accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         resultViewModel = ViewModelProvider(this, resultViewModelFactory).get(ResultViewModel::class.java)

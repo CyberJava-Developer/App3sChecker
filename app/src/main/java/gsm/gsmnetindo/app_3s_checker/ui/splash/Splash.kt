@@ -18,7 +18,6 @@ import gsm.gsmnetindo.app_3s_checker.internal.NoConnectivityException
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.ui.Intro.IntroActivity
 import gsm.gsmnetindo.app_3s_checker.ui.login.LoginActivity
-import gsm.gsmnetindo.app_3s_checker.ui.login.loginverification
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
@@ -67,7 +66,7 @@ class Splash : ScopedActivity(), KodeinAware {
         }, 5000)
     }
     private fun checkNetwork(){
-        if (splashViewModel.isOnline().not()){
+        if (!splashViewModel.isOnline()){
             alerndialog()
             Toast.makeText(this,"tidak ada koneksi internet", Toast.LENGTH_LONG).show();
             //finish()
@@ -139,19 +138,35 @@ class Splash : ScopedActivity(), KodeinAware {
 
     }
     private fun isFirstTime() {
-        splashViewModel.isFirst().observe(this, Observer {
-            if (it){
-                // to intro
-                Intent(this, IntroActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(this)
-                    finish()
+        try {
+            splashViewModel.isFirst().observe(this, Observer {
+                if (it){
+                    // to intro
+                    Intent(this, IntroActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(this)
+                        finish()
+                    }
+                } else {
+                    // is logged in
+                    isLoggedIn()
                 }
-            } else {
-                // is logged in
-                isLoggedIn()
+            })
+        }catch (e: Exception){
+            when(e) {
+                is NoConnectivityException -> {
+                    alern()
+                }
+                is SocketTimeoutException -> {
+                    alern()
+                    //Toast.makeText(this@Splash, "Tidak bisa menyambung ke server, coba beberapa saat lagi", Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    Toast.makeText(this@Splash, e.message, Toast.LENGTH_LONG).show()
+                }
             }
-        })
+        }
+
     }
     private fun isLoggedIn(){
         accountViewModel.isLoggedIn().observe(this, Observer {

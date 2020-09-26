@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.LocationNotEnabledException
@@ -30,6 +31,8 @@ import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
+import java.net.SocketTimeoutException
+import kotlin.system.exitProcess
 
 class MainActivity : ScopedActivity(), KodeinAware {
     override val kodein by closestKodein()
@@ -66,21 +69,45 @@ class MainActivity : ScopedActivity(), KodeinAware {
         }
 //        navbar.inflateMenu(R.menu.dashboard_menu_role_2)
         navView.setOnNavigationItemSelectedListener { menuItem ->
-            var frg: Fragment? = null
-            when (menuItem.itemId) {
-                R.id.homedashboard -> frg =
-                    HomeFragment()
-                R.id.pesan -> frg = Fragment_pesan()
-                R.id.barcode -> frg = Fragment_QRcode()
-                R.id.akun -> frg = Fragment_akun()
-                R.id.pengawas -> frg = Fragment_pengawas()
-            }
-            if (frg != null) {
-                supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer, frg)
-                    .commit()
+            try {
+                var frg: Fragment? = null
+                when (menuItem.itemId) {
+                    R.id.homedashboard -> frg =
+                        HomeFragment()
+                    R.id.pesan -> frg = Fragment_pesan()
+                    R.id.barcode -> frg = Fragment_QRcode()
+                    R.id.akun -> frg = Fragment_akun()
+                    R.id.pengawas -> frg = Fragment_pengawas()
+                }
+                if (frg != null) {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer, frg)
+                        .commit()
+                }
+            }catch (e: Exception){
+                when(e){
+                    is SocketTimeoutException -> {
+                        alern()
+                        //Toast.makeText(this@Splash, "Tidak bisa menyambung ke server, coba beberapa saat lagi", Toast.LENGTH_LONG).show()
+                    }
+                    else -> {
+                        //Toast.makeText(this@SplashActivity, e.message, Toast.LENGTH_LONG).show()
+                        alern()
+                    }
+                }
             }
             true
         }
+    }
+
+    private fun alern() {
+        SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Koneksi Habis")
+            .setContentText("${getString(R.string.app_name)} Membutuhkan Terlalu banyak waktu untuk merespon. Coba Periksa koneksi internet anda")
+            .setConfirmText("OK")
+            .setConfirmClickListener { sDialog -> sDialog.dismissWithAnimation()
+                exitProcess(0)
+            }
+            .show()
     }
 
     override fun onRestoreInstanceState(

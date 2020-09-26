@@ -65,6 +65,9 @@ dependencies {
     //ui alern dialog
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
 
+    //uipage
+    implementation 'com.klinkerapps:sliding-activity:1.5.2'
+
     // multi dex support
     implementation 'com.android.support:multidex:1.0.3'
 
