@@ -121,7 +121,7 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
         namauser.text = marker.title
         setUserStatus(status)
         lang_user.text = lang
-
+        user_last_location.text = marker.snippet
         infowindow.setOnClickListener {
             val gmmIntentUri = Uri.parse("http://maps.google.com/maps?q=${lang}")
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
