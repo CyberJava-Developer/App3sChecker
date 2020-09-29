@@ -71,6 +71,7 @@
                 android:id="@+id/nomortelepon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 android:text="Nomor telepon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtname" />
@@ -79,11 +80,21 @@
                 android:id="@+id/txtlahir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 android:fontFamily="sans-serif"
-                android:text="Tahun-bulan-tanggal lahir"
+                android:text="--tgl-bln-tahun--"
                 android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nomortelepon" />
+
+            <TextView
+                android:id="@+id/tempat_lahir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="--Tempat Lahir--"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtlahir" />
 
             <TextView
                 android:id="@+id/last"
