@@ -66,7 +66,7 @@ class Splash : ScopedActivity(), KodeinAware {
         }, 5000)
     }
     private fun checkNetwork(){
-        if (!splashViewModel.isOnline()){
+        if (splashViewModel.isOnline().not()){
             alerndialog()
             Toast.makeText(this,"tidak ada koneksi internet", Toast.LENGTH_LONG).show();
             //finish()
