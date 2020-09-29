@@ -50,16 +50,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/search_number"
-            android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/buttonuirounded"
-            android:text="Pencarian Menggunakan Nomor"
+        <LinearLayout
+            android:layout_width="260.3dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/white_roundshape"
+            android:elevation="4dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/search_number"
+                android:layout_width="match_parent"
+                android:layout_height="35.3dp"
+                android:layout_gravity="center"
+                android:background="@drawable/blue_roundshape"
+                android:gravity="center"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:text="Pencarian Menggunakan Nomor"
+                android:textSize="13.3sp"
+                android:textColor="#FFFF"/>
+
+        </LinearLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

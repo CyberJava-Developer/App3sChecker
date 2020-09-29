@@ -135,15 +135,15 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
         googleMap.setPadding(10, 10, 10, 200)
 
         mMap = googleMap
-        // Add a marker in surabaya and move the camera
-        val surabaya = LatLng(-7.278030, 112.764384)
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(surabaya))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(surabaya, 15f))
-        // Zoom in, animating the camera.
-        mMap.animateCamera(CameraUpdateFactory.zoomIn())
-        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15f), 2000, null)
+//        // Add a marker in surabaya and move the camera
+//        val surabaya = LatLng(-7.278030, 112.764384)
+//
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(surabaya))
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(surabaya, 15f))
+//        // Zoom in, animating the camera.
+//        mMap.animateCamera(CameraUpdateFactory.zoomIn())
+//        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
+//        mMap.animateCamera(CameraUpdateFactory.zoomTo(15f), 2000, null)
         loadData()
         myLocation()
 
