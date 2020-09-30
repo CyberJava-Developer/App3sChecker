@@ -78,20 +78,36 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
                 all.map {
                     if (it.updatedAt != null) {
                         if (it.user.account.phone != me) {
-                            val timeAgo = ZonedDateTime.now().toEpochSecond() - LocalDateTimeParser.utcToLocal(it.updatedAt).toEpochSecond()
+                            val timeAgo = ZonedDateTime.now()
+                                .toEpochSecond() - LocalDateTimeParser.utcToLocal(
+                                it.updatedAt
+                            ).toEpochSecond()
                             Log.i(
                                 "addMarker",
-                                "${it.user.name} ${it.user.status} in {${it.latitude} ${it.longitude}} ${LocalDateTimeParser.utcToLocal(it.updatedAt).toMoment()}($timeAgo)"
+                                "${it.user.name} ${it.user.status} in {${it.latitude} ${it.longitude}} ${
+                                    LocalDateTimeParser.utcToLocal(
+                                        it.updatedAt
+                                    ).toMoment()
+                                }($timeAgo)"
                             )
-                            val icon = if (it.user.status.status == "negative") {R.drawable.circlemapme} else {R.drawable.circlemap}
+                            val icon = if (it.user.status.status == "negative") {
+                                R.drawable.circlemapme
+                            } else {
+                                R.drawable.circlemap
+                            }
                             mMap.addMarker(
                                 MarkerOptions().position(LatLng(it.latitude, it.longitude))
                                     .title("${it.user.name}")
-                                    .snippet("terakhir dilihat ${LocalDateTimeParser.utcToLocal(it.updatedAt).toMoment()}")
+                                    .snippet(
+                                        "terakhir dilihat ${
+                                            LocalDateTimeParser.utcToLocal(it.updatedAt).toMoment()
+                                        }"
+                                    )
                                     .icon(
                                         bitmapDescriptorFromVector
                                             (requireContext(), icon)
                                     )
+                                    .flat(true)
                             )
 
                             val status = it.user.status
@@ -131,10 +147,12 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        val mapStyleOptions = MapStyleOptions.loadRawResourceStyle(context, R.raw.google_style)
         googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.setPadding(10, 10, 10, 200)
 
         mMap = googleMap
+        mMap.setMapStyle(mapStyleOptions)
 //        // Add a marker in surabaya and move the camera
 //        val surabaya = LatLng(-7.278030, 112.764384)
 //
