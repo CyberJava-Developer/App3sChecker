@@ -153,15 +153,7 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
 
         mMap = googleMap
         mMap.setMapStyle(mapStyleOptions)
-//        // Add a marker in surabaya and move the camera
-//        val surabaya = LatLng(-7.278030, 112.764384)
-//
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(surabaya))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(surabaya, 15f))
-//        // Zoom in, animating the camera.
-//        mMap.animateCamera(CameraUpdateFactory.zoomIn())
-//        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
-//        mMap.animateCamera(CameraUpdateFactory.zoomTo(15f), 2000, null)
+
         loadData()
         myLocation()
 
@@ -187,6 +179,21 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
 //                    ))
 //            )
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f))
+
+            // Zoom in, animating the camera.
+            mMap.animateCamera(CameraUpdateFactory.zoomIn())
+
+// Zoom out to zoom level 10, animating with a duration of 2 seconds.
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(10f), 2000, null)
+
+// Construct a CameraPosition focusing on Mountain View and animate the camera to that position.
+            val cameraPosition = CameraPosition.Builder()
+                .target(myLocation) // Sets the center of the map to Mountain View
+                .zoom(17f)            // Sets the zoom
+                .bearing(90f)         // Sets the orientation of the camera to east
+                .tilt(30f)            // Sets the tilt of the camera to 30 degrees
+                .build()              // Creates a CameraPosition from the builder
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         })
     }
 
