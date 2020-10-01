@@ -19,17 +19,9 @@ class ResultPagerAdapter(
 ): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val pages = listOf(
-        when(accountViewModel.getRolePref()) {
-            2 ->{
-                DetailFragment()}
-            3 -> {
-                DetailFragment()
-                QuestionnaireFragment()
-            }
-            else -> {DetailFragment()
-                QuestionnaireFragment()
-                LocationFragment()}
-        }
+        DetailFragment(),
+        QuestionnaireFragment(),
+        LocationFragment()
     )
 
     override fun getItem(position: Int): Fragment {
