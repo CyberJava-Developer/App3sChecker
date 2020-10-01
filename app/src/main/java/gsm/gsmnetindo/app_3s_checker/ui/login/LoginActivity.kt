@@ -55,7 +55,7 @@ class LoginActivity: AppCompatActivity() {
         val phone = "+$p"
         AlertDialog.Builder(this).apply {
             setTitle("Apakah nomor $phone sudah benar?")
-            setMessage("Kami akan mengirim kode WhatsApp verifikasi ke nomor $phone")
+            setMessage("Kami akan mengirim kode sms verifikasi ke nomor $phone")
             setPositiveButton("OK") { _, _ ->
                 Intent(this@LoginActivity, VerificationActivity::class.java).apply {
                     putExtra("phoneNumber", p)
