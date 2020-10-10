@@ -118,7 +118,8 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
         when(accountViewModel.getRolePref()) {
             2 -> { search_layout.visibility = View.GONE }
             3 -> { search_layout.visibility = View.GONE }
-            4,5 or 7-> { search_layout.visibility = View.VISIBLE }
+            4 -> { search_layout.visibility = View.GONE }
+            5 or 7 -> {search_layout.visibility = View.VISIBLE}
             else -> { search_layout.visibility = View.GONE }
         }
     }
