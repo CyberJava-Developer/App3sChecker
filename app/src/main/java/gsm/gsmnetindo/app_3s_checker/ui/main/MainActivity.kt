@@ -64,7 +64,7 @@ class MainActivity : ScopedActivity(), KodeinAware {
         when(accountViewModel.getRolePref()) {
             2 -> { navbar.inflateMenu(R.menu.dashboard_menu_role_2) }
             3 -> { navbar.inflateMenu(R.menu.dashboard_menu_role_3) }
-            4 or 7 -> { navbar.inflateMenu(R.menu.dashboard_menu_role_4_7) }
+            4,5 or 7 -> { navbar.inflateMenu(R.menu.dashboard_menu_role_4_7) }
             else -> { navbar.inflateMenu(R.menu.dashboard_menu_role_else) }
         }
 //        navbar.inflateMenu(R.menu.dashboard_menu_role_2)

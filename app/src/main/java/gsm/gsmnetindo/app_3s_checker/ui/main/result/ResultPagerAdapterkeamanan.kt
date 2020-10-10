@@ -11,21 +11,19 @@ import gsm.gsmnetindo.app_3s_checker.ui.main.result.questionnaire.QuestionnaireF
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 
 private val TAB_TITLES = arrayOf(
-    "Detail", "Check Up", "Locations"
+    "Detail"
 )
-
-class ResultPagerAdapter(
+private lateinit var accountViewModel: AccountViewModel
+class ResultPagerAdapterkeamanan(
     private val context: Context,
     fm: FragmentManager
 ): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-    private val pages = listOf(
-        DetailFragment(),
-        QuestionnaireFragment(),
-        LocationFragment()
+    private val pageskeamanan = listOf(
+        DetailFragment()
     )
 
     override fun getItem(position: Int): Fragment {
-        return pages[position] as Fragment
+        return pageskeamanan[position] as Fragment
     }
 
     override fun getCount(): Int {

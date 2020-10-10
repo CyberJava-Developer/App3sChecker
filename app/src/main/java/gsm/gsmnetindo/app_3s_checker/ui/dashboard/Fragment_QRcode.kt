@@ -30,13 +30,12 @@ import gsm.gsmnetindo.app_3s_checker.internal.Secret
 import gsm.gsmnetindo.app_3s_checker.internal.glide.GlideApp
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.scan.scane_number
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
-import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultActivity
-import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModel
-import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModelFactory
+import gsm.gsmnetindo.app_3s_checker.ui.main.result.*
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_qrcode.*
 import kotlinx.android.synthetic.main.popup_qrcode_scanner.*
 import kotlinx.coroutines.launch
@@ -115,6 +114,13 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
         barcodeViewModel = ViewModelProvider(this, barcodeViewModelFactory).get(BarcodeViewModel::class.java)
         accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         resultViewModel = ViewModelProvider(this, resultViewModelFactory).get(ResultViewModel::class.java)
+
+        when(accountViewModel.getRolePref()) {
+            2 -> { search_layout.visibility = View.GONE }
+            3 -> { search_layout.visibility = View.GONE }
+            4,5 or 7-> { search_layout.visibility = View.VISIBLE }
+            else -> { search_layout.visibility = View.GONE }
+        }
     }
 
     override fun onResume() {

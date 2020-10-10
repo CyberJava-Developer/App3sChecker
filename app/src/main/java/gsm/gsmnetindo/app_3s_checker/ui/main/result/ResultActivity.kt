@@ -8,6 +8,9 @@ import com.google.android.material.tabs.TabLayout
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.*
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
+import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -18,15 +21,26 @@ class ResultActivity: ScopedActivity(), KodeinAware {
     override val kodein by closestKodein()
     private val resultViewModelFactory by instance<ResultViewModelFactory>()
     private lateinit var resultViewModel: ResultViewModel
+    private lateinit var accountViewModel: AccountViewModel
+    private val accountViewModelFactory: AccountViewModelFactory by instance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
 
         resultViewModel = ViewModelProvider(this, resultViewModelFactory).get(ResultViewModel::class.java)
         bindViewModel()
+        accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
 
         val viewPager: ViewPager = findViewById(R.id.view_pager)
-        viewPager.adapter = ResultPagerAdapter(this, supportFragmentManager)
+
+        when(accountViewModel.getRolePref()) {
+            2 -> { viewPager.adapter = ResultPagerAdapterkeamanan(this, supportFragmentManager) }
+            3 -> { viewPager.adapter = ResultPagerAdapterparamedis(this, supportFragmentManager) }
+            4,5 or 7-> { viewPager.adapter = ResultPagerAdapter(this, supportFragmentManager) }
+            else -> { navbar.inflateMenu(R.menu.dashboard_menu_role_else) }
+        }
+
         val tabs: TabLayout = findViewById(R.id.tabs)
 
         tabs.setupWithViewPager(viewPager)

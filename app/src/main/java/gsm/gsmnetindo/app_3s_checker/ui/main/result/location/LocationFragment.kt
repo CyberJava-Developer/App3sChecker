@@ -47,7 +47,6 @@ class LocationFragment: ScopedFragment(), KodeinAware {
     private fun initRecyclerView(items: List<Location>){
         val groupAdapter = GroupAdapter<ViewHolder>()
         val linearLayoutManager = LinearLayoutManager(requireContext())
-        linearLayoutManager.stackFromEnd = true
         location_recyclerview.adapter = groupAdapter
         location_recyclerview.layoutManager = linearLayoutManager
         items.map {
