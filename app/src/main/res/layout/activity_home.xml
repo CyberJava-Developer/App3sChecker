@@ -9,8 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/home_stat"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:background="@color/colorAccent"
+        android:layout_height="140dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,10 +19,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="Informasi terbaru penyebaran COVID-19"
-            android:textColor="#fff"
-            android:textSize="13sp"
+            android:textColor="@color/material_blue_grey_90"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,15 +32,15 @@
             android:layout_height="80dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
+            app:cardBackgroundColor="#FF4C60"
             app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
+            app:cardElevation="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView_title">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#88cF0000">
+                android:layout_height="match_parent">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView_confirmed"
@@ -75,16 +74,16 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
+            app:cardBackgroundColor="#70C0B3"
             app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
+            app:cardElevation="2dp"
             app:layout_constraintEnd_toStartOf="@+id/materialLayout_deaths"
             app:layout_constraintStart_toEndOf="@+id/materialLayout_confirmed"
             app:layout_constraintTop_toBottomOf="@+id/textView_title">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#88009F3F">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/textView_recovered"
@@ -117,15 +116,15 @@
             android:layout_height="80dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
+            app:cardBackgroundColor="#666666"
             app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
+            app:cardElevation="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_title">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="100dp"
-                android:layout_height="80dp"
-                android:background="#882D2F31">
+                android:layout_height="80dp">
 
                 <TextView
                     android:id="@+id/textView_deaths"
@@ -159,14 +158,15 @@
         android:id="@+id/feed_refresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/home_stat">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/feed_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

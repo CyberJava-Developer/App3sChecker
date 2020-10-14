@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import com.ogaclejapan.smarttablayout.SmartTabLayout
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.*
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
@@ -41,11 +42,10 @@ class ResultActivity: ScopedActivity(), KodeinAware {
             else -> { navbar.inflateMenu(R.menu.dashboard_menu_role_else) }
         }
 
-        val tabs: TabLayout = findViewById(R.id.tabs)
+        val tabs: SmartTabLayout = findViewById(R.id.tabs)
 
-        tabs.setupWithViewPager(viewPager)
-        tabs.setSelectedTabIndicatorColor(Color.WHITE)
-        tabs.setTabTextColors(Color.parseColor("#eeeeee"), Color.WHITE)
+        tabs.setViewPager(viewPager)
+
     }
     private fun bindViewModel() = launch {
         val account = Account(

@@ -22,11 +22,25 @@
             android:text="@string/app_name"
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
-        <com.google.android.material.tabs.TabLayout
+        <com.ogaclejapan.smarttablayout.SmartTabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark" />
+            android:layout_height="60dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            app:stl_clickable="false"
+            app:stl_defaultTabTextColor="#FFFFFF"
+            app:stl_distributeEvenly="true"
+            app:stl_indicatorColor="#2D2F31"
+            app:stl_indicatorCornerRadius="40dp"
+            app:stl_indicatorGravity="center"
+            app:stl_indicatorThickness="40dp" />
+        <!--        <com.google.android.material.tabs.TabLayout-->
+<!--            android:id="@+id/tabs"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/material_blue_grey_80"-->
+<!--            app:tabIndicatorGravity="bottom" />-->
 
     </com.google.android.material.appbar.AppBarLayout>
 

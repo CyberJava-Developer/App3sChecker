@@ -67,7 +67,10 @@ dependencies {
 
     //uipage
     implementation 'com.klinkerapps:sliding-activity:1.5.2'
+    implementation 'com.ogaclejapan.smarttablayout:library:1.7.0@aar'
 
+    //Optional: see how to use the utility.
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.7.0@aar'
     // multi dex support
     implementation 'com.android.support:multidex:1.0.3'
 
