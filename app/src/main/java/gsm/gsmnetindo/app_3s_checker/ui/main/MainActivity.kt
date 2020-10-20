@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
@@ -19,6 +20,8 @@ import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.LocationNotEnabledException
 import gsm.gsmnetindo.app_3s_checker.internal.LocationPermissionException
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
+import gsm.gsmnetindo.app_3s_checker.smsgateway.networkchecker.isNetworkAvailable
+import gsm.gsmnetindo.app_3s_checker.smsgateway.networkchecker.networkcheckerfragment
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_QRcode
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_akun
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_pengawas
@@ -50,6 +53,9 @@ class MainActivity : ScopedActivity(), KodeinAware {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (!isNetworkAvailable.isNetwork(this@MainActivity)) {
+            alern()
+        }
         mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
         accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         izincamera()
@@ -120,7 +126,7 @@ class MainActivity : ScopedActivity(), KodeinAware {
     private fun getLocation() = launch {
         try {
             mainViewModel.getAddress().observe(this@MainActivity, {
-                supportActionBar?.subtitle = "${it.subLocality}, ${it.subAdminArea}"
+                supportActionBar?.subtitle = "${it.subLocality} ,${it.subAdminArea}"
                 Log.i("getAddressMain", "$it")
             })
         } catch (e: Exception){
@@ -173,5 +179,18 @@ class MainActivity : ScopedActivity(), KodeinAware {
 //        else {
             // Permission has already been granted
 //        }
+    }
+
+    private var doubleBackToExitPressedOnce = false
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Silakan klik Kembali 2x untuk keluar", Toast.LENGTH_SHORT).show()
+
+        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
 }

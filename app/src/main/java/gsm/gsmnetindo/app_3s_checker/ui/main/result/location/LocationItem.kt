@@ -8,9 +8,11 @@ import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.load.HttpException
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMapOptions
@@ -23,12 +25,15 @@ import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.Location
 import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser
+import gsm.gsmnetindo.app_3s_checker.internal.NoConnectivityException
+import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.item_location.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.TextStyle
 import java.util.*
+import java.util.concurrent.TimeoutException
 
 
 class LocationItem(
@@ -40,6 +45,7 @@ class LocationItem(
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun bind(viewHolder: ViewHolder, position: Int) {
+        try {
         val geocoder = Geocoder(context, Locale.getDefault())
         val addresses = geocoder.getFromLocation(
             location.latitude.toDouble(),
@@ -63,20 +69,20 @@ class LocationItem(
         )
 
         viewHolder.apply {
-            SetTitle.text = formateCreate
-            LocationTrack.text = "${cityName}, ${countryName}"
-            Coordinate.text = "${location.latitude}, ${location.longitude}"
-            mapView.onCreate(Bundle())
-            val options: GoogleMapOptions = GoogleMapOptions().liteMode(true)
-            options.liteMode.apply {
-                mapView.getMapAsync { googleMap ->
-                    googleMap.addMarker(
-                        MarkerOptions().position(myLocation).title(cityName)
-                    )
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f))
-                    mapView.onResume()
+                SetTitle.text = formateCreate
+                LocationTrack.text = "${cityName}, ${countryName}"
+                Coordinate.text = "${location.latitude}, ${location.longitude}"
+                mapView.onCreate(Bundle())
+                val options: GoogleMapOptions = GoogleMapOptions().liteMode(true)
+                options.liteMode.apply {
+                    mapView.getMapAsync { googleMap ->
+                        googleMap.addMarker(
+                            MarkerOptions().position(myLocation).title(cityName)
+                        )
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f))
+                        mapView.onResume()
+                    }
                 }
-            }
 
             copybtn.setOnClickListener {
 //                val textToCopy = Coordinate.text
@@ -94,6 +100,21 @@ class LocationItem(
             }
 
         }
+    }catch (e: Exception){
+        when(e){
+            is NoConnectivityException ->{
+                Log.d("Internet", "Internet Tidak Tersedia")
+            }
+            is HttpException->{
+                Log.d("Internet", "Kesalahan")
+            }
+            is TimeoutException ->{
+                Log.d("Koneksi", "Time Out")
+            }else -> {
+            Log.d("Kesalahan", "${e.message}")
+        }
+        }
+    }
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

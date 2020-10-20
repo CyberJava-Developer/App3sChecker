@@ -16,6 +16,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.load.HttpException
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -25,6 +26,7 @@ import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.data.network.response.observation.Status
 import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser
 import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser.toMoment
+import gsm.gsmnetindo.app_3s_checker.internal.NoConnectivityException
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainViewModelFactory
@@ -38,6 +40,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import org.threeten.bp.ZonedDateTime
+import java.util.concurrent.TimeoutException
 
 
 class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
@@ -128,7 +131,14 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
                 }
             })
         } catch (e: Exception) {
-            Log.e("load data pengawas", "${e.message}", e)
+            when(e){
+                is NoConnectivityException->{Log.d("Internet", "Internet Tidak Tersedia")}
+                is TimeoutException ->{Log.d("Internet", "Terlalu lama Menunggu Koneksi Anda")}
+                is HttpException -> {Log.d("Internet", "Kesalahan Jaringan")}
+                else ->{
+                    Log.d("Internet", "${e.message}")
+                }
+            }
         }
     }
 
@@ -147,54 +157,74 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        val mapStyleOptions = MapStyleOptions.loadRawResourceStyle(context, R.raw.google_style)
-        googleMap.uiSettings.isZoomControlsEnabled = true
-        googleMap.setPadding(10, 10, 10, 200)
+        try {
+            val mapStyleOptions = MapStyleOptions.loadRawResourceStyle(context, R.raw.google_style)
+            googleMap.uiSettings.isZoomControlsEnabled = true
+            googleMap.setPadding(10, 10, 10, 200)
 
-        mMap = googleMap
-        mMap.setMapStyle(mapStyleOptions)
+            mMap = googleMap
+            mMap.setMapStyle(mapStyleOptions)
 
-        loadData()
-        myLocation()
-
+            loadData()
+            myLocation()
 // Add some markers to the map, and add a data object to each marker.
-
+        }catch (e:Exception){
+            when(e){
+                is NoConnectivityException->{Log.d("Internet", "Internet Tidak Tersedia")}
+                is TimeoutException ->{Log.d("Internet", "Terlalu lama Menunggu Koneksi Anda")}
+                is HttpException -> {Log.d("Internet", "Kesalahan Jaringan")}
+                else ->{
+                    Log.d("Internet", "${e.message}")
+                }
+            }
+        }
     }
 
 
     @SuppressLint("MissingPermission")
     private fun myLocation() = launch {
-        mMap.isMyLocationEnabled = true
-        mMap.isBuildingsEnabled = true
-        mMap.setOnMyLocationClickListener {
+        try {
+            mMap.isMyLocationEnabled = true
+            mMap.isBuildingsEnabled = true
+            mMap.setOnMyLocationClickListener {
 
-        }
-        mainViewModel.getLocation().observe(viewLifecycleOwner, Observer {
-            val liveLocation = LatLng(it.latitude, it.longitude)
-            myLocation = liveLocation
+            }
+            mainViewModel.getLocation().observe(viewLifecycleOwner, Observer {
+                val liveLocation = LatLng(it.latitude, it.longitude)
+                myLocation = liveLocation
 //            mMap.addMarker(
 //                MarkerOptions().position(myLocation).title("Lokasi saya")
 //                    .icon(bitmapDescriptorFromVector(
 //                        requireContext(), R.drawable.circlemapme
 //                    ))
 //            )
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f))
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f))
 
-            // Zoom in, animating the camera.
-            mMap.animateCamera(CameraUpdateFactory.zoomIn())
+                // Zoom in, animating the camera.
+                mMap.animateCamera(CameraUpdateFactory.zoomIn())
 
 // Zoom out to zoom level 10, animating with a duration of 2 seconds.
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(10f), 2000, null)
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(10f), 2000, null)
 
 // Construct a CameraPosition focusing on Mountain View and animate the camera to that position.
-            val cameraPosition = CameraPosition.Builder()
-                .target(myLocation) // Sets the center of the map to Mountain View
-                .zoom(17f)            // Sets the zoom
-                .bearing(90f)         // Sets the orientation of the camera to east
-                .tilt(30f)            // Sets the tilt of the camera to 30 degrees
-                .build()              // Creates a CameraPosition from the builder
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-        })
+                val cameraPosition = CameraPosition.Builder()
+                    .target(myLocation) // Sets the center of the map to Mountain View
+                    .zoom(17f)            // Sets the zoom
+                    .bearing(90f)         // Sets the orientation of the camera to east
+                    .tilt(30f)            // Sets the tilt of the camera to 30 degrees
+                    .build()              // Creates a CameraPosition from the builder
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            })
+        }catch (e:Exception){
+            when(e){
+                is NoConnectivityException->{Log.d("Internet", "Internet Tidak Tersedia")}
+                is TimeoutException ->{Log.d("Internet", "Terlalu lama Menunggu Koneksi Anda")}
+                is HttpException -> {Log.d("Internet", "Kesalahan Jaringan")}
+                else ->{
+                    Log.d("Internet", "${e.message}")
+                }
+            }
+        }
     }
 
     //change icon circle
@@ -217,6 +247,7 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
             background.intrinsicHeight,
             Bitmap.Config.ARGB_8888
         )
+
         val canvas = Canvas(bitmap)
         background.draw(canvas)
         vectorDrawable.draw(canvas)

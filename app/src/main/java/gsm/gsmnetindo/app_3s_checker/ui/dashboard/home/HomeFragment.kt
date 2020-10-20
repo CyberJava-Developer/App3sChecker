@@ -2,6 +2,7 @@ package gsm.gsmnetindo.app_3s_checker.ui.dashboard.home
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.data.db.entity.FeedItem
 import gsm.gsmnetindo.app_3s_checker.internal.NoConnectivityException
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
+import gsm.gsmnetindo.app_3s_checker.smsgateway.networkchecker.isNetworkAvailable
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
@@ -34,7 +36,9 @@ class HomeFragment : ScopedFragment(), KodeinAware {
         savedInstanceState: Bundle?
     ): View? {
         homeViewModel = ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
-
+        if(!isNetworkAvailable.isNetwork(requireContext().applicationContext)) {
+            alern()
+        }
         return inflater.inflate(R.layout.activity_home, container, false)
     }
 
@@ -64,13 +68,14 @@ class HomeFragment : ScopedFragment(), KodeinAware {
         } catch (e: Exception){
             when (e) {
                 is SocketTimeoutException -> {
-                    alern()
+                    Log.d("Internet", "Internet Tidak Tersedia")
+                    Toast.makeText(context, "Internet Tidak Tersedia", Toast.LENGTH_SHORT).show()
                 }
                 is IllegalStateException -> {
-                    alern()
+                    Log.d("Internet", "Internet Tidak Tersedia")
                 }
                 else -> {
-                    alern()
+                    Log.d("Internet", "Internet Tidak Tersedia")
                 }
             }
         }
@@ -85,7 +90,18 @@ class HomeFragment : ScopedFragment(), KodeinAware {
                 }
             })
         } catch (e: Exception) {
-
+            when (e) {
+                is SocketTimeoutException -> {
+                    Log.d("Internet", "Internet Tidak Tersedia")
+                    Toast.makeText(context, "Internet Tidak Tersedia", Toast.LENGTH_SHORT).show()
+                }
+                is IllegalStateException -> {
+                    Log.d("Internet", "Internet Tidak Tersedia")
+                }
+                else -> {
+                    Log.d("Internet", "Internet Tidak Tersedia")
+                }
+            }
         }
     }
 
