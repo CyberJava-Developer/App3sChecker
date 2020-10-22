@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.load.HttpException
@@ -67,7 +68,9 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
             ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         val view = inflater.inflate(R.layout.activity_pengawas, container, false)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        mapFragment.getMapAsync {
+            onMapReady(it)
+        }
         mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
 
         return view
