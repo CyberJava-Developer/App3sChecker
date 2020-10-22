@@ -96,10 +96,16 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
                                     ).toMoment()
                                 }($timeAgo)"
                             )
-                            val icon = if (it.user.status.status == "negative") {
-                                R.drawable.circlemapme
-                            } else {
-                                R.drawable.circlemap
+                            val icon = when (it.user.status.status) {
+                                "negative" -> {
+                                    R.drawable.circlemapme
+                                }
+                                "beresiko" -> {
+                                    R.drawable.circlemapgreen
+                                }
+                                else -> {
+                                    R.drawable.circlemap
+                                }
                             }
                             mMap.addMarker(
                                 MarkerOptions().position(LatLng(it.latitude, it.longitude))

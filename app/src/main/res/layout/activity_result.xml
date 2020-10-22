@@ -10,7 +10,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="@color/colorPrimaryDark">
 
         <TextView
             android:id="@+id/title"
@@ -26,9 +27,10 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:background="@color/colorPrimary"
             app:stl_clickable="true"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             app:stl_defaultTabTextColor="#FFFFFF"
             app:stl_distributeEvenly="true"
             app:stl_indicatorColor="#2D2F31"
