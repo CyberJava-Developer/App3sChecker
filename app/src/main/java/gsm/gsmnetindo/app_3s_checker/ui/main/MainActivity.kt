@@ -10,6 +10,7 @@ import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -21,12 +22,12 @@ import gsm.gsmnetindo.app_3s_checker.internal.LocationNotEnabledException
 import gsm.gsmnetindo.app_3s_checker.internal.LocationPermissionException
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.smsgateway.networkchecker.isNetworkAvailable
-import gsm.gsmnetindo.app_3s_checker.smsgateway.networkchecker.networkcheckerfragment
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_QRcode
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_akun
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_pengawas
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_pesan
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.home.HomeFragment
+import gsm.gsmnetindo.app_3s_checker.ui.main.bottommenu.BottomNavigationViewBehavior
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
@@ -36,6 +37,7 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 import java.net.SocketTimeoutException
 import kotlin.system.exitProcess
+
 
 class MainActivity : ScopedActivity(), KodeinAware {
     override val kodein by closestKodein()
@@ -62,15 +64,22 @@ class MainActivity : ScopedActivity(), KodeinAware {
 
         val navView = findViewById<BottomNavigationView>(R.id.navbar)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragmentcontainer,
+            supportFragmentManager.beginTransaction().replace(
+                R.id.fragmentcontainer,
                 HomeFragment()
             ).commit()
         }
         getLocation()
         when(accountViewModel.getRolePref()) {
-            2 -> { navbar.inflateMenu(R.menu.dashboard_menu_role_2) }
-            3 -> { navbar.inflateMenu(R.menu.dashboard_menu_role_3) }
-            4,5 or 7 -> { navbar.inflateMenu(R.menu.dashboard_menu_role_4_7) }
+            2 -> {
+                navbar.inflateMenu(R.menu.dashboard_menu_role_2)
+            }
+            3 -> {
+                navbar.inflateMenu(R.menu.dashboard_menu_role_3)
+            }
+            4, 5 or 7 -> {
+                navbar.inflateMenu(R.menu.dashboard_menu_role_4_7)
+            }
             else -> { navbar.inflateMenu(R.menu.dashboard_menu_role_else) }
         }
 //        navbar.inflateMenu(R.menu.dashboard_menu_role_2)
@@ -103,6 +112,8 @@ class MainActivity : ScopedActivity(), KodeinAware {
             }
             true
         }
+        val cordinatlayout : CoordinatorLayout.LayoutParams = navbar.layoutParams as CoordinatorLayout.LayoutParams
+        cordinatlayout.behavior = BottomNavigationViewBehavior()
     }
 
     private fun alern() {
@@ -135,7 +146,8 @@ class MainActivity : ScopedActivity(), KodeinAware {
                     requestLocation()
                 }
                 is LocationNotEnabledException -> {
-                    Toast.makeText(this@MainActivity, "Mohon hidupkan GPS anda", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainActivity, "Mohon hidupkan GPS anda", Toast.LENGTH_LONG)
+                        .show()
                 }
                 else -> {
                     Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
@@ -155,21 +167,27 @@ class MainActivity : ScopedActivity(), KodeinAware {
     }
     private fun izincamera(){
         //meminta izin camera
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA)
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            )
             != PackageManager.PERMISSION_GRANTED) {
 
             // Permission is not granted
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CAMERA)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.CAMERA
+                )) {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
             } else {
                 // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.CAMERA), Context.CONTEXT_INCLUDE_CODE)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CAMERA), Context.CONTEXT_INCLUDE_CODE
+                )
 
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the

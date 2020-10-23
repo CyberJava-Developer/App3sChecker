@@ -203,7 +203,7 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
         when(user.status.status){
             "negative"->{
                 status.text = "Sehat"
-                backg.setBackgroundColor(Color.parseColor("#6DBEAF"))
+                backg.setBackgroundColor(Color.parseColor("#70C0B3"))
             }
             "odp"->{
                 status.text = "Dalam Pengawasan"
@@ -215,7 +215,7 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
             }
             "positive"->{
                 status.text = "Positif Corona"
-                backg.setBackgroundColor(Color.parseColor("#E06E71"))
+                backg.setBackgroundColor(Color.parseColor("#FF4C60"))
             }
         }
         name.text = user.user.name
