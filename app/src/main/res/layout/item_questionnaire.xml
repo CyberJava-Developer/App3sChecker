@@ -1,240 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/questionnaire_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
+    android:padding="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
-    app:rippleColor="@color/colorAccent"
-    tools:context=".ui.main.result.questionnaire.QuestionnaireItem">
+    app:rippleColor="@color/colorPrimary">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:orientation="horizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/title_text"
-                android:layout_width="match_parent"
+                android:id="@+id/questionnaire_date"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:fontFamily="sans-serif-black"
-                android:text="History Check Up"
-                android:textColor="#000"
+                android:fontFamily="sans-serif-medium"
+                android:padding="16dp"
+                android:text="01-06-1997 12:02:45"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/kuesioner_text_1"
-                android:layout_width="match_parent"
+                android:id="@+id/questionnaire_status"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="16dp"
-                android:text="@string/vrf1"
-                android:textColor="#000"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="18dp"
+                android:text="Verified"
+                android:textAllCaps="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_text" />
+                app:layout_constraintTop_toBottomOf="@id/questionnaire_date" />
 
-            <RadioGroup
-                android:id="@+id/kuesioner_group_1"
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/questionnaire_detail"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="9dp"
-                android:paddingBottom="8dp"
+                android:layout_margin="16dp"
+                android:text="Lihat"
+                app:layout_constraintBottom_toBottomOf="@id/questionnaire_status"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/kuesioner_text_1">
-
-                <RadioButton
-                    android:id="@+id/iya1"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="Iya" />
-
-                <RadioButton
-                    android:id="@+id/tidak1"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
-                    android:enabled="false"
-                    android:text="Tidak" />
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/kuesioner_text_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="16dp"
-                android:text="@string/vrf2"
-                android:textColor="#000"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/kuesioner_group_1" />
-
-            <RadioGroup
-                android:id="@+id/kuesioner_group_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="9dp"
-                android:paddingBottom="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/kuesioner_text_2">
-
-                <RadioButton
-                    android:id="@+id/iya2"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="Iya" />
-
-                <RadioButton
-                    android:id="@+id/tidak2"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
-                    android:enabled="false"
-                    android:text="Tidak" />
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FF2121"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/vrf"
-                android:textColor="#fff"
-                android:textSize="11sp"
-                app:layout_constraintTop_toBottomOf="@id/kuesioner_group_2"
-                tools:layout_editor_absoluteX="16dp" />
-
-            <TextView
-                android:id="@+id/kuesioner_text_3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="16dp"
-                android:text="@string/vrf3"
-                android:textColor="#000"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider" />
-
-            <RadioGroup
-                android:id="@+id/kuesioner_group_3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="9dp"
-                android:paddingBottom="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/kuesioner_text_3">
-
-                <RadioButton
-                    android:id="@+id/iya3"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="Iya" />
-
-                <RadioButton
-                    android:id="@+id/tidak3"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
-                    android:enabled="false"
-                    android:text="tidak" />
-
-                <RadioButton
-                    android:id="@+id/ragu3"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="40dp"
-                    android:enabled="false"
-                    android:text="ragu"
-                    android:textAlignment="textEnd" />
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/kuesioner_text_4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="16dp"
-                android:text="@string/vrf4"
-                android:textColor="#000"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/kuesioner_group_3" />
-
-            <RadioGroup
-                android:id="@+id/kuesioner_group_4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="9dp"
-                android:paddingBottom="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/kuesioner_text_4">
-
-                <RadioButton
-                    android:id="@+id/iya4"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="Iya" />
-
-                <RadioButton
-                    android:id="@+id/tidak4"
-                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
-                    android:enabled="false"
-                    android:text="tidak" />
-
-            </RadioGroup>
+                app:layout_constraintTop_toTopOf="@+id/questionnaire_status" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

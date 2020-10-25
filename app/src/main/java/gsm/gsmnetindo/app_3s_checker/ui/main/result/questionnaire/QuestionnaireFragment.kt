@@ -49,7 +49,7 @@ class QuestionnaireFragment: ScopedFragment(), KodeinAware {
         history_recyclerview.adapter = groupAdapter
         history_recyclerview.layoutManager = LinearLayoutManager(requireContext())
         item.map {
-            groupAdapter.add(QuestionnaireItem(it))
+            groupAdapter.add(QuestionnaireItem(requireContext(),it))
         }
     }
 }
