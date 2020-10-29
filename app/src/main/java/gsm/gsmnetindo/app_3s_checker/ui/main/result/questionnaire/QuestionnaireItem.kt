@@ -2,7 +2,10 @@ package gsm.gsmnetindo.app_3s_checker.ui.main.result.questionnaire
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.util.Log
+import android.widget.TextView
+import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import gsm.gsmnetindo.app_3s_checker.R
@@ -15,7 +18,7 @@ import java.util.*
 class QuestionnaireItem(
     private val context: Context,
     private val questionnaireEntry: History
-) : Item() {
+) : Item(), RecyclerViewFastScroller.OnPopupViewUpdate {
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
             val dateTime = DateTimeParser().parse(questionnaireEntry.createdAt)
@@ -42,5 +45,9 @@ class QuestionnaireItem(
         } else {
             questionnaire_status.text = "Belum terverifikasi"
         }
+    }
+
+    override fun onUpdate(position: Int, popupTextView: TextView) {
+        popupTextView.setBackgroundColor(Color.parseColor("#2D2F31"))
     }
 }

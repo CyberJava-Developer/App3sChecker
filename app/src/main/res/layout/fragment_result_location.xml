@@ -4,20 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:padding="16dp"
+    android:background="#ffff"
     tools:context=".ui.main.result.location.LocationFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/location_recyclerview"
+    <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
+        android:id="@+id/fastscroller"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scrollbars="vertical"
-        android:scrollbarSize="100dp"
-        android:scrollbarStyle="outsideOverlay"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/location_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

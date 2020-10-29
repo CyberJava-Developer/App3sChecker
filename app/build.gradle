@@ -65,8 +65,12 @@ dependencies {
     //ui alern dialog
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
 
+    //gulir cepat
+    implementation 'com.quiph.ui:recyclerviewfastscroller:1.0.0'
+
     //uipage
     implementation 'com.klinkerapps:sliding-activity:1.5.2'
+    implementation 'com.github.andrefrsousa:SuperBottomSheet:1.2.0'
     implementation 'com.ogaclejapan.smarttablayout:library:1.7.0@aar'
 
     //Optional: see how to use the utility.

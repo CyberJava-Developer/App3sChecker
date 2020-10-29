@@ -1,5 +1,6 @@
 package gsm.gsmnetindo.app_3s_checker.ui.main.result.location
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

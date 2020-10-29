@@ -4,44 +4,41 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Filter
-import android.widget.Filterable
+import android.view.View
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.HttpException
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.*
+import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.Location
 import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser
 import gsm.gsmnetindo.app_3s_checker.internal.NoConnectivityException
-import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.item_location.*
-import kotlinx.android.synthetic.main.item_location.view.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.TextStyle
 import java.util.*
 import java.util.concurrent.TimeoutException
-import kotlin.collections.ArrayList
 
 
 class LocationItem(
     private val location: Location,
     private val context: Context,
-): Item() {
+): Item(), RecyclerViewFastScroller.OnPopupViewUpdate {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun bind(viewHolder: ViewHolder, position: Int) {
@@ -101,7 +98,16 @@ class LocationItem(
                     mapIntent.setPackage("com.google.android.apps.maps")
                     context.startActivity(mapIntent)
                 }
-
+                showmap.setOnClickListener {
+                    if (mapView.visibility == View.VISIBLE){
+                        showmap.text = "Lihat Disini"
+                        mapView.visibility = View.GONE
+                    }
+                    else{
+                        showmap.text = "Sembunyikan"
+                        mapView.visibility = View.VISIBLE
+                    }
+                }
             }
         }catch (e: Exception){
             when(e){
@@ -133,38 +139,8 @@ class LocationItem(
         val month = zonedDateTime.month.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("ID"))
         return "$day, ${zonedDateTime.dayOfMonth} $month ${zonedDateTime.year} ${zonedDateTime.toLocalTime()}"
     }
-
-    private fun bitmapDescriptorFromVector(
-        context: Context,
-        @DrawableRes vectorDrawableResourceId: Int
-    ): BitmapDescriptor? {
-        val background =
-            ContextCompat.getDrawable(context, vectorDrawableResourceId)
-        background!!.setBounds(0, 0, background.intrinsicWidth, background.intrinsicHeight)
-        val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId)
-        vectorDrawable!!.setBounds(
-            40,
-            20,
-            vectorDrawable.intrinsicWidth + 40,
-            vectorDrawable.intrinsicHeight + 20
-        )
-        val bitmap = Bitmap.createBitmap(
-            background.intrinsicWidth,
-            background.intrinsicHeight,
-            Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        background.draw(canvas)
-        vectorDrawable.draw(canvas)
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
-    }
     override fun getLayout() = R.layout.item_location
-//    override fun onMapReady(googleMap: GoogleMap) {
-//        val mapStyleOptions = MapStyleOptions.loadRawResourceStyle(context, R.raw.google_style)
-//        googleMap.uiSettings.isZoomControlsEnabled = true
-//        googleMap.setPadding(10, 10, 10, 200)
-//
-//        mMap = googleMap
-//        mMap.setMapStyle(mapStyleOptions)
-//    }
+    override fun onUpdate(position: Int, popupTextView: TextView) {
+//        popupTextView.setBackgroundColor(Color.parseColor("#2D2F31")) // change some values etc
+    }
 }

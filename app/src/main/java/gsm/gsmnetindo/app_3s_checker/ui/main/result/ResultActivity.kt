@@ -2,6 +2,7 @@ package gsm.gsmnetindo.app_3s_checker.ui.main.result
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
@@ -27,6 +28,7 @@ class ResultActivity: ScopedActivity(), KodeinAware {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_result)
 
         resultViewModel = ViewModelProvider(this, resultViewModelFactory).get(ResultViewModel::class.java)

@@ -213,16 +213,16 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
                 mMap.animateCamera(CameraUpdateFactory.zoomIn())
 
 // Zoom out to zoom level 10, animating with a duration of 2 seconds.
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(10f), 2000, null)
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(20f), 2000, null)
 
-// Construct a CameraPosition focusing on Mountain View and animate the camera to that position.
-                val cameraPosition = CameraPosition.Builder()
-                    .target(myLocation) // Sets the center of the map to Mountain View
-                    .zoom(17f)            // Sets the zoom
-                    .bearing(90f)         // Sets the orientation of the camera to east
-                    .tilt(30f)            // Sets the tilt of the camera to 30 degrees
-                    .build()              // Creates a CameraPosition from the builder
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+//// Construct a CameraPosition focusing on Mountain View and animate the camera to that position.
+//                val cameraPosition = CameraPosition.Builder()
+//                    .target(myLocation) // Sets the center of the map to Mountain View
+//                    .zoom(17f)            // Sets the zoom
+//                    .bearing(90f)         // Sets the orientation of the camera to east
+//                    .tilt(30f)            // Sets the tilt of the camera to 30 degrees
+//                    .build()              // Creates a CameraPosition from the builder
+//                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
             })
         }catch (e:Exception){
             when(e){

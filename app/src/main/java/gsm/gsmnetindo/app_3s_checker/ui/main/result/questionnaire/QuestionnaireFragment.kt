@@ -1,5 +1,6 @@
 package gsm.gsmnetindo.app_3s_checker.ui.main.result.questionnaire
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
+import kotlinx.android.synthetic.main.fragment_result_location.*
 import kotlinx.android.synthetic.main.fragment_result_questionnaire.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -43,11 +45,15 @@ class QuestionnaireFragment: ScopedFragment(), KodeinAware {
         resultViewModel.details.observe(viewLifecycleOwner, Observer {
             initRecyclerView(it.history)
         })
+
     }
     private fun initRecyclerView(item: List<History>){
+        val linearLayoutManager = LinearLayoutManager(requireContext())
         val groupAdapter = GroupAdapter<ViewHolder>()
         history_recyclerview.adapter = groupAdapter
-        history_recyclerview.layoutManager = LinearLayoutManager(requireContext())
+        history_recyclerview.layoutManager = linearLayoutManager
+        linearLayoutManager.reverseLayout = true
+        linearLayoutManager.stackFromEnd = true
         item.map {
             groupAdapter.add(QuestionnaireItem(requireContext(),it))
         }

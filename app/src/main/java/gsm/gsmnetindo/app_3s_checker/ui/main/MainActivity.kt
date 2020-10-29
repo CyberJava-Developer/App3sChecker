@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
@@ -16,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import cn.pedant.SweetAlert.SweetAlertDialog
+import com.andrefrsousa.superbottomsheet.SuperBottomSheetFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.LocationNotEnabledException
@@ -53,6 +55,7 @@ class MainActivity : ScopedActivity(), KodeinAware {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+//        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (!isNetworkAvailable.isNetwork(this@MainActivity)) {

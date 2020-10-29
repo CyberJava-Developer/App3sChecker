@@ -56,7 +56,8 @@
             android:theme="@style/intro" />
         <activity
             android:name=".ui.main.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ui.login.loginverification"
             android:screenOrientation="portrait"
