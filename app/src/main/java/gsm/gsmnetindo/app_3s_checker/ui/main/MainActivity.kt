@@ -9,7 +9,6 @@ import android.os.Handler
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
@@ -26,7 +25,7 @@ import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.smsgateway.networkchecker.isNetworkAvailable
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_QRcode
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_akun
-import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_pengawas
+import gsm.gsmnetindo.app_3s_checker.ui.dashboard.pengawas.Fragment_pengawas
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.Fragment_pesan
 import gsm.gsmnetindo.app_3s_checker.ui.dashboard.home.HomeFragment
 import gsm.gsmnetindo.app_3s_checker.ui.main.bottommenu.BottomNavigationViewBehavior

@@ -1,4 +1,4 @@
-package gsm.gsmnetindo.app_3s_checker.ui.dashboard
+package gsm.gsmnetindo.app_3s_checker.ui.dashboard.pengawas
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.load.HttpException

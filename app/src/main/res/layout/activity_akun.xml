@@ -162,13 +162,18 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
+        <TextView
             android:id="@+id/account_button_logout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/buttonui"
-            android:text="Logout"
+            android:background="@drawable/blue_roundshape"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="LOG OUT"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
