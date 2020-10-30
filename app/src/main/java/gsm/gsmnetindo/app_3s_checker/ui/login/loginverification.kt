@@ -31,14 +31,14 @@ class loginverification: AppCompatActivity() {
                 val str = mEditText.text.toString()
                 if (str.startsWith("62")){
                     val phonenmber = "62${str.substring(2)}"
-                    Toast.makeText(applicationContext, "pakek 62  $phonenmber", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(applicationContext, "pakek 62  $phonenmber", Toast.LENGTH_SHORT).show()
                     intent.putExtra("number", phonenmber)
                     startActivity(intent)
                     finish()
                 }
                 else if (str.startsWith("08")){
                     val phonenmber = "62${str.substring(1)}"
-                    Toast.makeText(applicationContext, "pakek 08  $phonenmber", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(applicationContext, "pakek 08  $phonenmber", Toast.LENGTH_SHORT).show()
                     intent.putExtra("number", phonenmber)
                     startActivity(intent)
                     finish()

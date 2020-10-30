@@ -11,13 +11,16 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.load.HttpException
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMapOptions
+import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.*
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -65,24 +68,11 @@ class LocationItem(
                 create.toLocalDateTime().toString()
             )
             viewHolder.apply {
+                this.containerView.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transtition)
+                this.containerView.animation = AnimationUtils.loadAnimation(context, R.anim.fade_scale_transtition)
                     SetTitle.text = formateCreate
                     LocationTrack.text = "${cityName}, ${countryName}"
                     Coordinate.text = "${location.latitude}, ${location.longitude}"
-                    mapView.onCreate(Bundle())
-                    val options: GoogleMapOptions = GoogleMapOptions().liteMode(true)
-                    options.liteMode.apply {
-                        mapView.getMapAsync { googleMap ->
-                            googleMap.addMarker(
-                                MarkerOptions().position(myLocation).title(cityName)
-                            )
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f))
-                            val mapStyleOptions = MapStyleOptions.loadRawResourceStyle(context, R.raw.google_style)
-                            googleMap.uiSettings.isZoomControlsEnabled = true
-                            googleMap.setPadding(10, 10, 10, 180)
-                            googleMap.setMapStyle(mapStyleOptions)
-                            mapView.onResume()
-                        }
-                    }
 
                 copybtn.setOnClickListener {
     //                val textToCopy = Coordinate.text
@@ -105,6 +95,7 @@ class LocationItem(
                     }
                     else{
                         showmap.text = "Sembunyikan"
+                        creatmap(mapView, myLocation, cityName)
                         mapView.visibility = View.VISIBLE
                     }
                 }
@@ -142,5 +133,24 @@ class LocationItem(
     override fun getLayout() = R.layout.item_location
     override fun onUpdate(position: Int, popupTextView: TextView) {
 //        popupTextView.setBackgroundColor(Color.parseColor("#2D2F31")) // change some values etc
+    }
+
+    private fun creatmap(mMap: MapView, myLocation: LatLng, cityName: String){
+        val options: GoogleMapOptions = GoogleMapOptions()
+        options.liteMode
+        options.apply {
+            mMap.onCreate(Bundle())
+            mMap.getMapAsync { googleMap ->
+                googleMap.addMarker(
+                    MarkerOptions().position(myLocation).title(cityName)
+                )
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f))
+                val mapStyleOptions = MapStyleOptions.loadRawResourceStyle(context, R.raw.google_style)
+                googleMap.uiSettings.isZoomControlsEnabled = true
+                googleMap.setPadding(10, 10, 10, 180)
+                googleMap.setMapStyle(mapStyleOptions)
+                mMap.onResume()
+            }
+        }
     }
 }

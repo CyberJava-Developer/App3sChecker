@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.util.Log
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -21,6 +22,8 @@ class QuestionnaireItem(
 ) : Item(), RecyclerViewFastScroller.OnPopupViewUpdate {
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
+            this.containerView.animation = AnimationUtils.loadAnimation(context, R.anim.fade_transtition)
+            this.containerView.animation = AnimationUtils.loadAnimation(context, R.anim.fade_scale_transtition)
             val dateTime = DateTimeParser().parse(questionnaireEntry.createdAt)
             val day = dateTime.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("ID"))
             val month = dateTime.month.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("ID"))

@@ -82,14 +82,15 @@ class IntroActivity : ScopedActivity(), KodeinAware {
     }
 
     private fun askPermission() {
-        SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+        val pdialod = SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             .setTitleText("Izin Akses")
             .setContentText("Agar aplikasi ${getString(R.string.app_name)} bisa berjalan normal, kami membutuhkan izin untuk mengakses: SMS, Kamera, Lokasi, dan Penyimpanan")
             .setConfirmText("Izinkan")
             .setConfirmClickListener { sDialog -> sDialog.dismissWithAnimation()
                 requestPermissions()
             }
-            .show()
+        pdialod.setCancelable(false)
+        pdialod.show()
     }
     private fun requestPermissions() {
         ActivityCompat.requestPermissions(
