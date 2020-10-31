@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/home_stat"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,10 +30,10 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialLayout_confirmed"
             android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_height="110dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="#FF4C60"
+            app:cardBackgroundColor="#FF5E78"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,23 +47,35 @@
                     android:id="@+id/textView_confirmed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text="Pasien\nterkonfirmasi"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Pasien\nterpapar"
                     android:textColor="#FFFFFF"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
                 <TextView
                     android:id="@+id/textView_data_confirmed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginBottom="8dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="---"
                     android:textColor="#FFFFFF"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/terpapar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -71,7 +83,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialLayout_recovered"
             android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_height="110dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
@@ -90,31 +102,42 @@
                     android:id="@+id/textView_recovered"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="Pasien\nsembuh"
                     android:textColor="#FFFFFF"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
                 <TextView
                     android:id="@+id/textView_data_recovered"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginBottom="8dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="---"
                     android:textColor="#FFFFFF"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/sehat"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialLayout_deaths"
             android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_height="110dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:cardBackgroundColor="#666666"
@@ -125,30 +148,41 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="100dp"
-                android:layout_height="80dp">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/textView_deaths"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="Pasien\nmeninggal"
                     android:textColor="#FFFFFF"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/imageView10" />
 
                 <TextView
                     android:id="@+id/textView_data_deaths"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginBottom="8dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="---"
                     android:textColor="#FFFFFF"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/mati"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -159,8 +193,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:fontFamily="sans-serif-medium"
+        android:padding="16dp"
         android:text="Berita Terbaru"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -170,7 +204,6 @@
         android:id="@+id/feed_refresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -180,7 +213,6 @@
             android:id="@+id/feed_recyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -89,14 +89,14 @@ class LocationItem(
                     context.startActivity(mapIntent)
                 }
                 showmap.setOnClickListener {
-                    if (mapView.visibility == View.VISIBLE){
+                    if (layoutrelative.visibility == View.VISIBLE){
                         showmap.text = "Lihat Disini"
-                        mapView.visibility = View.GONE
+                        layoutrelative.visibility = View.GONE
                     }
                     else{
                         showmap.text = "Sembunyikan"
                         creatmap(mapView, myLocation, cityName)
-                        mapView.visibility = View.VISIBLE
+                        layoutrelative.visibility = View.VISIBLE
                     }
                 }
             }

@@ -14,15 +14,40 @@
         android:layout_height="match_parent"
         android:padding="16dp">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
+        <RelativeLayout
+            android:id="@+id/layoutrelative"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:visibility="gone"
-            android:apiKey="@string/google_api_key"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:apiKey="@string/google_api_key"
+                android:visibility="visible" />
+
+            <View
+                android:id="@+id/gradient_top"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/mapView" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/gradient_top"
+                android:background="@drawable/gradient_map"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gradient_top" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/SetTitle"
@@ -35,7 +60,7 @@
             app:layout_constraintBottom_toTopOf="@+id/LocationTrack"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mapView" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutrelative" />
 
         <TextView
             android:id="@+id/LocationTrack"
