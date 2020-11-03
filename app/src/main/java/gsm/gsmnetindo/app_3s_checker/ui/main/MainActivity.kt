@@ -82,7 +82,10 @@ class MainActivity : ScopedActivity(), KodeinAware {
             4, 5 or 7 -> {
                 navbar.inflateMenu(R.menu.dashboard_menu_role_4_7)
             }
-            else -> { navbar.inflateMenu(R.menu.dashboard_menu_role_else) }
+            else -> {
+                accountViewModel.logout()
+                navbar.inflateMenu(R.menu.dashboard_menu_role_else)
+            }
         }
 //        navbar.inflateMenu(R.menu.dashboard_menu_role_2)
         navView.setOnNavigationItemSelectedListener { menuItem ->
@@ -124,7 +127,7 @@ class MainActivity : ScopedActivity(), KodeinAware {
             .setContentText("${getString(R.string.app_name)} Membutuhkan Terlalu banyak waktu untuk merespon. Coba Periksa koneksi internet anda")
             .setConfirmText("OK")
             .setConfirmClickListener { sDialog -> sDialog.dismissWithAnimation()
-                exitProcess(0)
+                onBackPressed()
             }
             .show()
     }

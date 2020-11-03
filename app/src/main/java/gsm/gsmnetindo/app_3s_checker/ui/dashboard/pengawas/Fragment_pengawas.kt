@@ -95,16 +95,21 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
                                     ).toMoment()
                                 }($timeAgo)"
                             )
+                            var colorRadius = 0
                             val icon = when (it.user.status.status) {
-                                "negative" -> {
+                                0 -> {
+                                    colorRadius = 0x2232A86D //Color.parseColor("#32a86d")
                                     R.drawable.circlemapme
                                 }
-                                "beresiko" -> {
+                                in 25..75 -> {
+                                    colorRadius = 0x22FFE369 //Color.parseColor("#FFE369")
                                     R.drawable.circlemapgreen
                                 }
-                                else -> {
+                                in 100..175 -> {
+                                    colorRadius = 0x22e60000 //Color.parseColor("#e60000")
                                     R.drawable.circlemap
                                 }
+                                else -> R.drawable.circlemapme
                             }
                             mMap.addMarker(
                                 MarkerOptions().position(LatLng(it.latitude, it.longitude))
@@ -119,6 +124,15 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
                                             (requireContext(), icon)
                                     )
                                     .flat(true)
+                            )
+                            mMap.addCircle(
+                                CircleOptions()
+                                    .radius(it.accuracy)
+                                    .center(LatLng(it.latitude, it.longitude))
+                                    .strokeWidth(0.1f)
+                                    .strokeColor(0x22+colorRadius)
+                                    .fillColor(0x22+colorRadius)
+//                                    .zIndex(0.1f)
                             )
 
                             val status = it.user.status
@@ -265,25 +279,21 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
 
     private fun setUserStatus(status: Status) {
         when (status.status) {
-            "negative" -> {
+            0 -> {
                 status_user.text = "SEHAT"
                 status_user.setTextColor(Color.parseColor("#32a86d"))
             }
-            "odp" -> {
-                status_user.text = "BERESIKO"
-                status_user.setTextColor(Color.parseColor("#dae600"))
-            }
-            "pdp" -> {
+            in 25..75 -> {
                 status_user.text = "BERESIKO"
                 status_user.setTextColor(Color.parseColor("#e67e00"))
             }
-            "positive" -> {
+            in 100..175 -> {
                 status_user.text = "POSITIF"
                 status_user.setTextColor(Color.parseColor("#e60000"))
             }
             else -> {
-                status_user.text = "Tidak Terverifikasi"
-                status_user.setTextColor(Color.parseColor("#00c5e3"))
+                status_user.text = "---"
+                status_user.setTextColor(Color.parseColor("#000000"))
             }
         }
     }
