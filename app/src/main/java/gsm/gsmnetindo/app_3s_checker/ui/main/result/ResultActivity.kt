@@ -50,36 +50,6 @@ class ResultActivity: ScopedActivity(), KodeinAware {
 
     }
     private fun bindViewModel() = launch {
-        val account = Account(
-            "asd",
-            "2020-02-22T12:12:12Z[UTC]",
-            "dio@mail.com",
-            "6281249499076",
-            7,
-            "active",
-            1,
-            "2020-02-22T12:12:12Z[UTC]",
-            "6281249499076"
-        )
-        val history = listOf<History>(
-            History("tidak", "tidak", "tidak", "tidak", 1, "2020-02-22T12:12:12Z[UTC]", 1, "2020-02-22T12:12:12Z[UTC]", true),
-            History("ya", "tidak", "tidak", "tidak", 1, "2020-02-22T12:12:12Z[UTC]", 1, "2020-02-22T12:12:12Z[UTC]", true)
-        )
-        val status = Status(
-            1,
-            "2020-02-22T12:12:12Z[UTC]",
-            "negative",
-            "2020-02-22T12:12:12Z[UTC]",
-            true
-        )
-        val user = User(
-            "1997-06-01",
-            "Banyuwangi",
-            "2020-02-22T12:12:12Z[UTC]",
-            "male",
-            "Dio Lantief Egalitarian",
-            "2020-02-22T12:12:12Z[UTC]"
-        )
 //        resultViewModel.setBarcode("xJ6UMTh3lokKiHvPI78my2ZprcNf5tV9")
 //        resultViewModel.setDetail(barcodeDetailResponse)
     }
