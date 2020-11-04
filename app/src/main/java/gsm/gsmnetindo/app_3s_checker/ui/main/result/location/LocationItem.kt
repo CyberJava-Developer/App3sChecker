@@ -41,7 +41,7 @@ import java.util.concurrent.TimeoutException
 class LocationItem(
     private val location: Location,
     private val context: Context,
-): Item(), RecyclerViewFastScroller.OnPopupViewUpdate {
+): Item() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun bind(viewHolder: ViewHolder, position: Int) {
@@ -131,9 +131,6 @@ class LocationItem(
         return "$day, ${zonedDateTime.dayOfMonth} $month ${zonedDateTime.year} ${zonedDateTime.toLocalTime()}"
     }
     override fun getLayout() = R.layout.item_location
-    override fun onUpdate(position: Int, popupTextView: TextView) {
-//        popupTextView.setBackgroundColor(Color.parseColor("#2D2F31")) // change some values etc
-    }
 
     private fun creatmap(mMap: MapView, myLocation: LatLng, cityName: String){
         val options: GoogleMapOptions = GoogleMapOptions()

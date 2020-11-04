@@ -74,14 +74,18 @@ class MainActivity : ScopedActivity(), KodeinAware {
         getLocation()
         when(accountViewModel.getRolePref()) {
             2 -> {
+                //keamanan
                 navbar.inflateMenu(R.menu.dashboard_menu_role_2)
             }
             3 -> {
+                //paramedis
                 navbar.inflateMenu(R.menu.dashboard_menu_role_3)
             }
+            //pengawas
             4, 5 or 7 -> {
                 navbar.inflateMenu(R.menu.dashboard_menu_role_4_7)
             }
+            //userbiasa
             else -> { navbar.inflateMenu(R.menu.dashboard_menu_role_else) }
         }
 //        navbar.inflateMenu(R.menu.dashboard_menu_role_2)
