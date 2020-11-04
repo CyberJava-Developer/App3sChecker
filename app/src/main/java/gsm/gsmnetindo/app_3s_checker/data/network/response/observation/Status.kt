@@ -8,7 +8,9 @@ data class Status(
     @SerializedName("created_at")
     val createdAt: String,
     val id: Int,
+    @SerializedName("status")
     val status: Int,
+    @SerializedName("accuracy")
     val accuracy: Int,
     @SerializedName("updated_at")
     val updatedAt: String,
