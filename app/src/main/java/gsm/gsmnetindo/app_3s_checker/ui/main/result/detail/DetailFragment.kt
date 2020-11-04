@@ -89,11 +89,6 @@ class DetailFragment : ScopedFragment(), KodeinAware {
                             bg.setBackgroundColor(Color.parseColor("#e60000"))
                         }
                     }
-                    val urls =
-                        "http://my3s.local/checker/v1/6281249499076/avatar/xJ6UMTh3lokKiHvPI78my2ZprcNf5tV9"
-//            resultViewModel.setBarcode("xJ6UMTh3lokKiHvPI78my2ZprcNf5tV9")
-
-
                     val url =
                         "${Secret.baseApi()}${Secret.apiVersion()}/${accountViewModel.getPhone().value}/avatar/${resultViewModel.barcode.value}"
                     glideUrl = GlideUrl(

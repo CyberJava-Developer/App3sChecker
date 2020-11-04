@@ -232,7 +232,7 @@
                     android:enabled="true"
                     android:text="Negatif" />
                 <RadioButton
-                    android:id="@+id/tidakada4"
+                    android:id="@+id/tidaktes4"
                     style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

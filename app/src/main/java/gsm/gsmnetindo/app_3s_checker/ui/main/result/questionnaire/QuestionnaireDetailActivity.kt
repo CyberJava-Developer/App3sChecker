@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.RadioButton
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostQuestionnaire
@@ -71,7 +70,7 @@ class QuestionnaireDetailActivity : ScopedActivity(), KodeinAware {
                 kuesioner_group_3.check(R.id.ragu3)
             }
             "iya" -> {
-                kuesioner_group_1.check(R.id.iya3)
+                kuesioner_group_3.check(R.id.iya3)
             }
             else -> {
             }
@@ -81,7 +80,10 @@ class QuestionnaireDetailActivity : ScopedActivity(), KodeinAware {
                 kuesioner_group_4.check(R.id.tidak4)
             }
             "positif" -> {
-                kuesioner_group_1.check(R.id.iya4)
+                kuesioner_group_4.check(R.id.iya4)
+            }
+            "tidak tes" -> {
+                kuesioner_group_4.check(R.id.tidaktes4)
             }
             else -> {
             }

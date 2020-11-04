@@ -31,7 +31,7 @@ class QuestionnaireItem(
             val month = dateTime.month.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("ID"))
             questionnaire_date.text = "$day, ${dateTime.dayOfMonth} $month ${dateTime.year} ${dateTime.toLocalTime()}"
             setStatus(questionnaireEntry.verified)
-            questionnaire_detail.visibility = if (latestId == questionnaireEntry.id){
+            questionnaire_detail.visibility = if (latestId == questionnaireEntry.id && !questionnaireEntry.verified){
                 View.VISIBLE
             } else {
                 View.GONE
