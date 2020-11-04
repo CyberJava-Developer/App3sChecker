@@ -63,13 +63,14 @@ class DetailFragment : ScopedFragment(), KodeinAware {
         bindData()
         status_refresh.setOnRefreshListener {
             bindData()
+            displayAvatar()
         }
+        status_refresh.isRefreshing = false
     }
 
     private fun bindData() = launch {
         status_refresh.isRefreshing = true
         try {
-            if (!resultViewModel.details.hasActiveObservers()){
                 resultViewModel.details.observe(viewLifecycleOwner, Observer {
                     when (it.status.status) {
                         0 -> {
@@ -95,47 +96,15 @@ class DetailFragment : ScopedFragment(), KodeinAware {
 
                     val url =
                         "${Secret.baseApi()}${Secret.apiVersion()}/${accountViewModel.getPhone().value}/avatar/${resultViewModel.barcode.value}"
-                    val glideUrl = GlideUrl(
+                    glideUrl = GlideUrl(
                         url,
                         LazyHeaders.Builder()
                             .addHeader("Api-Key", Secret.apiKey())
                             .addHeader("Authorization", "Bearer ${accountViewModel.getToken().value}")
                             .build()
                     )
-                    val key = ObjectKey(it.account.avatar)
-                    GlideApp.with(requireActivity())
-                        .load(glideUrl)
-                        .signature(key)
-                        .listener(object : RequestListener<Drawable> {
-                            override fun onLoadFailed(
-                                e: GlideException?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                avatar_progress.visibility = View.GONE
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Tidak bisa memuat gambar",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                return e != null
-                            }
-
-                            override fun onResourceReady(
-                                resource: Drawable?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                dataSource: DataSource?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                avatar_progress.visibility = View.GONE
-                                target.apply { status_user_avatar.setImageDrawable(resource) }
-                                return resource != null
-                            }
-
-                        })
-                        .into(status_user_avatar)
+                    key = ObjectKey(it.account.avatar)
+                    displayAvatar()
                     val lastUpdate = LocalDateTimeParser.utcToLocal(it.status.updatedAt)
                     val sixHoursLater = lastUpdate.plusHours(6)
                     status_last_check.text = dateTimeDisplay(lastUpdate.toLocalDateTime().toString())
@@ -143,26 +112,6 @@ class DetailFragment : ScopedFragment(), KodeinAware {
                     status_nama.text = it.user.name
                     status_ktp.text = "${it.user.bornPlace}, ${it.user.bornDate}"
 
-//                    val algo = it.history.last()
-                    Log.d("kuesioner", "${it.kuesioner}")
-//                    val likert = Likert(algo).get()
-//                    when (likert.status) {
-//                        0 -> {
-//                            status_status.text = "Sehat"
-//                            status_status.setTextColor(Color.parseColor("#32a86d"))
-//                            bg.setBackgroundColor(Color.parseColor("#32a86d"))
-//                        }
-//                        in 25..75 -> {
-//                            status_status.text = "Beresiko"
-//                            status_status.setTextColor(Color.parseColor("#E4B761"))
-//                            bg.setBackgroundColor(Color.parseColor("#E4B761"))
-//                        }
-//                        in 100..175 -> {
-//                            status_status.text = "Positif"
-//                            status_status.setTextColor(Color.parseColor("#e60000"))
-//                            bg.setBackgroundColor(Color.parseColor("#e60000"))
-//                        }
-//                    }
                     if (!it.status.verified) {
                         textView34.text = "*STATUS BELUM VERIFIKASI"
                         textView34.setTextColor(Color.parseColor("#e60000"))
@@ -172,12 +121,48 @@ class DetailFragment : ScopedFragment(), KodeinAware {
                     }
                     status_refresh.isRefreshing = false
                 })
-            } else resultViewModel.details
         } catch (e: Exception) {
             Log.e("bindData", e.message, e)
         }
     }
 
+    private lateinit var glideUrl: GlideUrl
+    private lateinit var key: ObjectKey
+    private fun displayAvatar(){
+        GlideApp.with(requireActivity())
+            .load(glideUrl)
+            .signature(key)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    avatar_progress.visibility = View.GONE
+                    Toast.makeText(
+                        requireContext(),
+                        "Tidak bisa memuat gambar",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return e != null
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    avatar_progress.visibility = View.GONE
+                    target.apply { status_user_avatar.setImageDrawable(resource) }
+                    return resource != null
+                }
+
+            })
+            .into(status_user_avatar)
+    }
     private fun dateTimeDisplay(dateTime: String): String {
         val rawDateTime = LocalDateTime.parse(dateTime)
         val zonedDateTime = ZonedDateTime.of(

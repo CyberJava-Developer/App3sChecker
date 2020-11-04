@@ -33,6 +33,7 @@ class Likert(data: History) {
             else -> 0
         }
         val pa4 = when(data.answer4) {
+            "tidak tes" -> 0
             null -> 0 // tidak ada data rapid test
             else -> 75 // negatif atau positif
         }

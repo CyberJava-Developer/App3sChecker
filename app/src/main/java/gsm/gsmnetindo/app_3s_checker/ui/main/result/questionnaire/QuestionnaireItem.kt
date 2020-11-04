@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.util.Log
+import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
@@ -18,6 +19,7 @@ import java.util.*
 
 class QuestionnaireItem(
     private val context: Context,
+    private val latestId: Int,
     private val questionnaireEntry: History
 ) : Item(), RecyclerViewFastScroller.OnPopupViewUpdate {
     override fun bind(viewHolder: ViewHolder, position: Int) {
@@ -29,11 +31,17 @@ class QuestionnaireItem(
             val month = dateTime.month.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("ID"))
             questionnaire_date.text = "$day, ${dateTime.dayOfMonth} $month ${dateTime.year} ${dateTime.toLocalTime()}"
             setStatus(questionnaireEntry.verified)
+            questionnaire_detail.visibility = if (latestId == questionnaireEntry.id){
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
             questionnaire_detail.setOnClickListener {
                 val question = "${questionnaireEntry.answer1},${questionnaireEntry.answer2}," +
                         "${questionnaireEntry.answer3},${questionnaireEntry.answer4}"
                 Log.d("Questionare", "$question")
-                Intent(context, lihat_questionare::class.java).apply {
+                Intent(context, QuestionnaireDetailActivity::class.java).apply {
+                    putExtra("questId", questionnaireEntry.id)
                     putExtra("questionare", question)
                     context.startActivity(this)
                 }

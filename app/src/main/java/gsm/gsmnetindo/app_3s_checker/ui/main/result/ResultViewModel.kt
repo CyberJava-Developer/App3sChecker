@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import gsm.gsmnetindo.app_3s_checker.R
+import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostQuestionnaire
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
 import gsm.gsmnetindo.app_3s_checker.data.repository.BarcodeRepository
 
@@ -33,4 +34,6 @@ class ResultViewModel(
         barcodeRepository.set(code, detailResponse)
     }
     fun clear() = barcodeRepository.clear()
+
+    suspend fun submitVerification(id: Int, dataPostQuestionnaire: DataPostQuestionnaire) = barcodeRepository.verifyQuestionnaire(id, dataPostQuestionnaire)
 }

@@ -1,11 +1,9 @@
 package gsm.gsmnetindo.app_3s_checker.ui.main.result.questionnaire
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
@@ -17,7 +15,6 @@ import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
-import kotlinx.android.synthetic.main.fragment_result_location.*
 import kotlinx.android.synthetic.main.fragment_result_questionnaire.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -42,7 +39,7 @@ class QuestionnaireFragment: ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        resultViewModel.details.observe(viewLifecycleOwner, Observer {
+        resultViewModel.details.observe(viewLifecycleOwner, {
             initRecyclerView(it.history)
         })
 
@@ -54,8 +51,13 @@ class QuestionnaireFragment: ScopedFragment(), KodeinAware {
         history_recyclerview.layoutManager = linearLayoutManager
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
+        var biggestId = 0
         item.map {
-            groupAdapter.add(QuestionnaireItem(requireContext(),it))
+            if (biggestId <= it.id) biggestId = it.id
+        }
+        item.map {
+
+            groupAdapter.add(QuestionnaireItem(requireContext(), biggestId, it))
         }
     }
 }

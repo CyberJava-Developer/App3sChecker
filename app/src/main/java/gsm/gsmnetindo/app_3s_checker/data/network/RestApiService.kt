@@ -4,6 +4,7 @@ import android.util.Log
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import gsm.gsmnetindo.app_3s_checker.data.db.entity.FeedItem
 import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostLogin
+import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostQuestionnaire
 import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
@@ -50,6 +51,13 @@ interface RestApiService {
     suspend fun observeAsync(
         @Path("phone") phone: String
     ): ObservationResponse
+
+    @POST("{phone}/questionnaire.json/{id}")
+    suspend fun verifyAsync(
+        @Path("phone") phone: String,
+        @Path("id") questId: Int,
+        @Body dataPostQuestionnaire: DataPostQuestionnaire
+    ): Boolean
 
     companion object {
         operator fun invoke(

@@ -135,12 +135,12 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
     }
     private fun scan(code: String) = launch {
         try {
-            barcodeViewModel.scan(code).observe(viewLifecycleOwner, Observer {
+            barcodeViewModel.scan(code).observe(viewLifecycleOwner, {
 //                showpopup(code, it)
                 showResult(code, it)
             })
-        } catch (e: HttpException) {
-            Toast.makeText(requireContext(), e.message(), Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
             codeScanner.startPreview()
         }
     }

@@ -1,6 +1,7 @@
 package gsm.gsmnetindo.app_3s_checker.data.repository
 
 import androidx.lifecycle.LiveData
+import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostQuestionnaire
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.observation.ObservationResponse
 
@@ -13,4 +14,6 @@ interface BarcodeRepository {
     fun clear()
 
     suspend fun getObserved(): LiveData<ObservationResponse>
+
+    suspend fun verifyQuestionnaire(id: Int, dataPostQuestionnaire: DataPostQuestionnaire): LiveData<Boolean>
 }

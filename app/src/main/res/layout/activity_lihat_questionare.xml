@@ -7,12 +7,11 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
     app:rippleColor="@color/colorAccent"
-    tools:context=".ui.main.result.questionnaire.lihat_questionare">
+    tools:context=".ui.main.result.questionnaire.QuestionnaireDetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -168,7 +167,7 @@
                     style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:text="Iya" />
 
                 <RadioButton
@@ -177,8 +176,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:enabled="false"
-                    android:text="tidak" />
+                    android:enabled="true"
+                    android:text="Tidak" />
 
                 <RadioButton
                     android:id="@+id/ragu3"
@@ -186,8 +185,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="40dp"
-                    android:enabled="false"
-                    android:text="ragu"
+                    android:enabled="true"
+                    android:text="Ragu"
                     android:textAlignment="textEnd" />
 
             </RadioGroup>
@@ -221,8 +220,8 @@
                     style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:text="Iya" />
+                    android:enabled="true"
+                    android:text="Positif" />
 
                 <RadioButton
                     android:id="@+id/tidak4"
@@ -230,10 +229,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:enabled="false"
-                    android:text="tidak" />
+                    android:enabled="true"
+                    android:text="Negatif" />
+                <RadioButton
+                    android:id="@+id/tidakada4"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:enabled="true"
+                    android:text="Tidak Tes" />
 
             </RadioGroup>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:enabled="false"
+                android:text="Submit"
+                app:layout_constraintTop_toBottomOf="@id/kuesioner_group_4"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

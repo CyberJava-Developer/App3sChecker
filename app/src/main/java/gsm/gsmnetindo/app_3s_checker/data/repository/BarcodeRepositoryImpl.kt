@@ -3,6 +3,7 @@ package gsm.gsmnetindo.app_3s_checker.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import gsm.gsmnetindo.app_3s_checker.data.network.RestApiNetworkDataSource
+import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostQuestionnaire
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.observation.ObservationResponse
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +35,13 @@ class BarcodeRepositoryImpl(
         restApiNetworkDataSource.fetchLocation()
         return withContext(Dispatchers.IO){
             return@withContext restApiNetworkDataSource.downloadedLocationsResponse
+        }
+    }
+
+    override suspend fun verifyQuestionnaire(id: Int, dataPostQuestionnaire: DataPostQuestionnaire): LiveData<Boolean> {
+        restApiNetworkDataSource.fetchVerify(id, dataPostQuestionnaire)
+        return withContext(Dispatchers.IO){
+            return@withContext restApiNetworkDataSource.downloadedVerifyResponse
         }
     }
 }

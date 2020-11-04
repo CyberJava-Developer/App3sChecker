@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
+import java.net.SocketTimeoutException
 
 class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
     override val kodein by closestKodein()
@@ -76,28 +77,51 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
                 }
             })
         } catch (e: Exception) {
-            Toast.makeText(this@VerificationActivity, "Nomor tidak terdaftar di sistem 3s Status", Toast.LENGTH_LONG).show()
-            finishAndRemoveTask()
-            finish()
+            when(e){
+                is SocketTimeoutException -> {
+                    retryTimer.onFinish()
+                    Toast.makeText(this@VerificationActivity, "Tidak bisa tersambung ke server", Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    Toast.makeText(this@VerificationActivity, "Nomor tidak terdaftar di sistem 3s Status", Toast.LENGTH_LONG).show()
+                    finishAndRemoveTask()
+                    finish()
+                }
+            }
             Log.e("login exception", e.message, e)
         }
+    }
+    private val retryTimer = object : CountDownTimer(60000, 1000){
+        override fun onTick(millisUntilFinished: Long) {
+            val sec = millisUntilFinished/1000
+            timertxt.text = "$sec detik"
+        }
+
+        override fun onFinish() {
+            resendEnabled(true)
+            loginProcess(false, "")
+            timertxt.visibility = View.GONE
+            this.cancel()
+        }
+
     }
     private fun startCountdown(milsec: Long) {
         timertxt.visibility = View.VISIBLE
         resendEnabled(false)
         loginProcess(true, "menunggu sms verifikasi")
-        object : CountDownTimer(milsec, 1000){
-            override fun onTick(millisUntilFinished: Long) {
-                val sec = millisUntilFinished/1000
-                timertxt.text = "$sec detik"
-            }
-
-            override fun onFinish() {
-                resendEnabled(true)
-                loginProcess(false, "")
-                timertxt.visibility = View.GONE
-            }
-        }.start()
+        retryTimer.start()
+//        object : CountDownTimer(milsec, 1000){
+//            override fun onTick(millisUntilFinished: Long) {
+//                val sec = millisUntilFinished/1000
+//                timertxt.text = "$sec detik"
+//            }
+//
+//            override fun onFinish() {
+//                resendEnabled(true)
+//                loginProcess(false, "")
+//                timertxt.visibility = View.GONE
+//            }
+//        }.start()
     }
     private fun resendEnabled(isIt: Boolean){
         resend_sms.apply {

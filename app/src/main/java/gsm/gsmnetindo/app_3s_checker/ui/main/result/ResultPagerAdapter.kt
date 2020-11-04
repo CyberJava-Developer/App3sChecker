@@ -4,11 +4,6 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.lifecycle.ViewModelProvider
-import gsm.gsmnetindo.app_3s_checker.ui.main.result.detail.DetailFragment
-import gsm.gsmnetindo.app_3s_checker.ui.main.result.location.LocationFragment
-import gsm.gsmnetindo.app_3s_checker.ui.main.result.questionnaire.QuestionnaireFragment
-import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 
 private val TAB_TITLES = arrayOf(
     "Detail", "Check Up", "Locations"
@@ -16,23 +11,24 @@ private val TAB_TITLES = arrayOf(
 
 class ResultPagerAdapter(
     private val context: Context,
-    fm: FragmentManager
+    private val pages: List<Page>,
+    fm: FragmentManager,
 ): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-    private val pages = listOf(
-        DetailFragment(),
-        QuestionnaireFragment(),
-        LocationFragment()
-    )
+//    private val pages = listOf(
+//        DetailFragment(),
+//        QuestionnaireFragment(),
+//        LocationFragment()
+//    )
 
     override fun getItem(position: Int): Fragment {
-        return pages[position] as Fragment
+        return pages[position].fragment
     }
 
     override fun getCount(): Int {
-        return TAB_TITLES.size
+        return pages.size
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return TAB_TITLES[position]
+        return pages[position].title
     }
 }

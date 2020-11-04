@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import gsm.gsmnetindo.app_3s_checker.data.db.entity.CovidDataItem
 import gsm.gsmnetindo.app_3s_checker.data.db.entity.FeedItem
 import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostLogin
+import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostQuestionnaire
 import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
@@ -140,6 +141,21 @@ class RestApiNetworkDataSourceImpl(
             }
         } catch (e: HttpException) {
             Log.e("location all Attempt", e.message.toString(), e)
+            throw e
+        }
+    }
+
+    private val _downloadedVerifyResponse = MutableLiveData<Boolean>()
+    override val downloadedVerifyResponse: LiveData<Boolean>
+        get() = _downloadedVerifyResponse
+
+    override suspend fun fetchVerify(id: Int, dataPostQuestionnaire: DataPostQuestionnaire) {
+        try {
+            restApiService.verifyAsync(getPhone(), id, dataPostQuestionnaire).apply {
+                _downloadedVerifyResponse.postValue(this)
+            }
+        } catch (e: Exception){
+            Log.e("verify questionnaire", e.message.toString(), e)
             throw e
         }
     }

@@ -3,6 +3,7 @@ package gsm.gsmnetindo.app_3s_checker.data.network
 import androidx.lifecycle.LiveData
 import gsm.gsmnetindo.app_3s_checker.data.db.entity.CovidDataItem
 import gsm.gsmnetindo.app_3s_checker.data.db.entity.FeedItem
+import gsm.gsmnetindo.app_3s_checker.data.network.body.DataPostQuestionnaire
 import gsm.gsmnetindo.app_3s_checker.data.network.response.UserLoginResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
@@ -17,6 +18,7 @@ interface RestApiNetworkDataSource {
     val downloadedDetailResponse: LiveData<UserDetailResponse>
     val downloadedScanResponse: LiveData<BarcodeDetailResponse>
     val downloadedLocationsResponse: LiveData<ObservationResponse>
+    val downloadedVerifyResponse: LiveData<Boolean>
 
     suspend fun fetchCovidData()
     suspend fun fetchVersion()
@@ -25,4 +27,5 @@ interface RestApiNetworkDataSource {
     suspend fun fetchDetail()
     suspend fun fetchBarcode(code: String)
     suspend fun fetchLocation()
+    suspend fun fetchVerify(id: Int, dataPostQuestionnaire: DataPostQuestionnaire)
 }
