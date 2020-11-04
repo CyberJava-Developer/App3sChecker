@@ -67,6 +67,8 @@ dependencies {
 
     //gulir cepat
     implementation 'com.quiph.ui:recyclerviewfastscroller:1.0.0'
+    implementation 'com.simplecityapps:recyclerview-fastscroll:2.0.1'
+    implementation 'me.henrytao:smooth-app-bar-layout:24.1.0.0'
 
     //uipage
     implementation 'com.klinkerapps:sliding-activity:1.5.2'
