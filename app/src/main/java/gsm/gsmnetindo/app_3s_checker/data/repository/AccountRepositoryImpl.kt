@@ -12,6 +12,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
+import java.lang.Exception
 
 class AccountRepositoryImpl(
     private val userManager: UserManager,
@@ -87,6 +88,10 @@ class AccountRepositoryImpl(
         get() = _detail
 
     override suspend fun fetchDetail() {
-        restApiNetworkDataSource.fetchDetail()
+        try {
+            restApiNetworkDataSource.fetchDetail()
+        } catch (e: Exception){
+            throw e
+        }
     }
 }

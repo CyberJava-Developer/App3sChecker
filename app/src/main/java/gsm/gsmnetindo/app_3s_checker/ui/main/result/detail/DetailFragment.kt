@@ -61,116 +61,118 @@ class DetailFragment : ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bindData()
+        status_refresh.setOnRefreshListener {
+            bindData()
+        }
     }
 
     private fun bindData() = launch {
+        status_refresh.isRefreshing = true
         try {
-            resultViewModel.details.observe(viewLifecycleOwner, Observer {
-                when (it.status.status) {
-                    "Sehat" -> {
-                        status_status.text = "Sehat"
-                        status_status.setTextColor(Color.parseColor("#32a86d"))
-                        bg.setBackgroundColor(Color.parseColor("#32a86d"))
+            if (!resultViewModel.details.hasActiveObservers()){
+                resultViewModel.details.observe(viewLifecycleOwner, Observer {
+                    when (it.status.status) {
+                        0 -> {
+                            status_status.text = "Sehat"
+                            status_status.setTextColor(Color.parseColor("#32a86d"))
+                            bg.setBackgroundColor(Color.parseColor("#32a86d"))
+                        }
+                        in 25..75 -> {
+                            status_status.text = "Beresiko"
+                            status_status.setTextColor(Color.parseColor("#dae600"))
+                            bg.setBackgroundColor(Color.parseColor("#dae600"))
+                        }
+                        in 100..175 -> {
+                            status_status.text = "Positif"
+                            status_status.setTextColor(Color.parseColor("#e60000"))
+                            bg.setBackgroundColor(Color.parseColor("#e60000"))
+                        }
                     }
-                    "Beresiko" -> {
-                        status_status.text = "Beresiko"
-                        status_status.setTextColor(Color.parseColor("#dae600"))
-                        bg.setBackgroundColor(Color.parseColor("#dae600"))
-                    }
-                    "Positif" -> {
-                        status_status.text = "Positif"
-                        status_status.setTextColor(Color.parseColor("#e60000"))
-                        bg.setBackgroundColor(Color.parseColor("#e60000"))
-                    }
-                    else -> {
-                        status_status.text = "Tidak Terverifikasi"
-                        status_status.setTextColor(Color.parseColor("#00c5e3"))
-                        bg.setBackgroundColor(Color.parseColor("#ffffff"))
-                    }
-                }
-                val urls =
-                    "http://my3s.local/checker/v1/6281249499076/avatar/xJ6UMTh3lokKiHvPI78my2ZprcNf5tV9"
+                    val urls =
+                        "http://my3s.local/checker/v1/6281249499076/avatar/xJ6UMTh3lokKiHvPI78my2ZprcNf5tV9"
 //            resultViewModel.setBarcode("xJ6UMTh3lokKiHvPI78my2ZprcNf5tV9")
 
 
-                val url =
-                    "${Secret.baseApi()}${Secret.apiVersion()}/${accountViewModel.getPhone().value}/avatar/${resultViewModel.barcode.value}"
-                val glideUrl = GlideUrl(
-                    url,
-                    LazyHeaders.Builder()
-                        .addHeader("Api-Key", Secret.apiKey())
-                        .addHeader("Authorization", "Bearer ${accountViewModel.getToken().value}")
-                        .build()
-                )
-                val key = ObjectKey(it.account.avatar)
-                GlideApp.with(requireActivity())
-                    .load(glideUrl)
-                    .signature(key)
-                    .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            avatar_progress.visibility = View.GONE
-                            Toast.makeText(
-                                requireContext(),
-                                "Tidak bisa memuat gambar",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            return e != null
-                        }
+                    val url =
+                        "${Secret.baseApi()}${Secret.apiVersion()}/${accountViewModel.getPhone().value}/avatar/${resultViewModel.barcode.value}"
+                    val glideUrl = GlideUrl(
+                        url,
+                        LazyHeaders.Builder()
+                            .addHeader("Api-Key", Secret.apiKey())
+                            .addHeader("Authorization", "Bearer ${accountViewModel.getToken().value}")
+                            .build()
+                    )
+                    val key = ObjectKey(it.account.avatar)
+                    GlideApp.with(requireActivity())
+                        .load(glideUrl)
+                        .signature(key)
+                        .listener(object : RequestListener<Drawable> {
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any?,
+                                target: Target<Drawable>?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                avatar_progress.visibility = View.GONE
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Tidak bisa memuat gambar",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                return e != null
+                            }
 
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            avatar_progress.visibility = View.GONE
-                            target.apply { status_user_avatar.setImageDrawable(resource) }
-                            return resource != null
-                        }
+                            override fun onResourceReady(
+                                resource: Drawable?,
+                                model: Any?,
+                                target: Target<Drawable>?,
+                                dataSource: DataSource?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                avatar_progress.visibility = View.GONE
+                                target.apply { status_user_avatar.setImageDrawable(resource) }
+                                return resource != null
+                            }
 
-                    })
-                    .into(status_user_avatar)
-                val lastUpdate = LocalDateTimeParser.utcToLocal(it.status.updatedAt)
-                val sixHoursLater = lastUpdate.plusHours(6)
-                status_last_check.text = dateTimeDisplay(lastUpdate.toLocalDateTime().toString())
-                status_expired_at.text = dateTimeDisplay(sixHoursLater.toLocalDateTime().toString())
-                status_nama.text = it.user.name
-                status_ktp.text = "${it.user.bornPlace}, ${it.user.bornDate}"
+                        })
+                        .into(status_user_avatar)
+                    val lastUpdate = LocalDateTimeParser.utcToLocal(it.status.updatedAt)
+                    val sixHoursLater = lastUpdate.plusHours(6)
+                    status_last_check.text = dateTimeDisplay(lastUpdate.toLocalDateTime().toString())
+                    status_expired_at.text = dateTimeDisplay(sixHoursLater.toLocalDateTime().toString())
+                    status_nama.text = it.user.name
+                    status_ktp.text = "${it.user.bornPlace}, ${it.user.bornDate}"
 
-                val algo = it.history.last()
-                Log.d("kuesioner", "${it.kuesioner}")
-                val likert = Likert(algo).get()
-                when (likert.status) {
-                    0 -> {
-                        status_status.text = "Sehat"
-                        status_status.setTextColor(Color.parseColor("#32a86d"))
-                        bg.setBackgroundColor(Color.parseColor("#32a86d"))
+//                    val algo = it.history.last()
+                    Log.d("kuesioner", "${it.kuesioner}")
+//                    val likert = Likert(algo).get()
+//                    when (likert.status) {
+//                        0 -> {
+//                            status_status.text = "Sehat"
+//                            status_status.setTextColor(Color.parseColor("#32a86d"))
+//                            bg.setBackgroundColor(Color.parseColor("#32a86d"))
+//                        }
+//                        in 25..75 -> {
+//                            status_status.text = "Beresiko"
+//                            status_status.setTextColor(Color.parseColor("#E4B761"))
+//                            bg.setBackgroundColor(Color.parseColor("#E4B761"))
+//                        }
+//                        in 100..175 -> {
+//                            status_status.text = "Positif"
+//                            status_status.setTextColor(Color.parseColor("#e60000"))
+//                            bg.setBackgroundColor(Color.parseColor("#e60000"))
+//                        }
+//                    }
+                    if (!it.status.verified) {
+                        textView34.text = "*STATUS BELUM VERIFIKASI"
+                        textView34.setTextColor(Color.parseColor("#e60000"))
+                    } else {
+                        textView34.text = "*STATUS TERVERIFIKASI\nKEABSAHAN DATA: ${it.status.accuracy}%"
+                        textView34.setTextColor(Color.parseColor("#32a86d"))
                     }
-                    in 25..75 -> {
-                        status_status.text = "Beresiko"
-                        status_status.setTextColor(Color.parseColor("#E4B761"))
-                        bg.setBackgroundColor(Color.parseColor("#E4B761"))
-                    }
-                    in 100..175 -> {
-                        status_status.text = "Positif"
-                        status_status.setTextColor(Color.parseColor("#e60000"))
-                        bg.setBackgroundColor(Color.parseColor("#e60000"))
-                    }
-                }
-                if (algo.answer3 == null) {
-                    textView34.text = "*STATUS BELUM VERIFIKASI"
-                    textView34.setTextColor(Color.parseColor("#e60000"))
-                } else {
-                    textView34.text = "*STATUS TERVERIFIKASI\nKEABSAHAN DATA: ${likert.accuracy}%"
-                    textView34.setTextColor(Color.parseColor("#32a86d"))
-                }
-            })
+                    status_refresh.isRefreshing = false
+                })
+            } else resultViewModel.details
         } catch (e: Exception) {
             Log.e("bindData", e.message, e)
         }

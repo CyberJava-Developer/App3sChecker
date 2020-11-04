@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -61,14 +62,23 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
         startCountdown(60000)
         try {
             accountViewModel.login(phone).observe(this@VerificationActivity, Observer {
-                codeServer= it.code
+                if (it.role < 2){
+                    Toast.makeText(this@VerificationActivity, "Anda tidak memiliki izin untuk mengakses 3s Checker", Toast.LENGTH_LONG).show()
+                    finishAndRemoveTask()
+                    finish()
+                } else {
+                    codeServer= it.code
 
-                // ngakali tanpa sms langsung login
-                codeSms = it.code
+                    // ngakali tanpa sms langsung login
+                    codeSms = it.code
 
-                match.postValue(matchCode())
+                    match.postValue(matchCode())
+                }
             })
         } catch (e: Exception) {
+            Toast.makeText(this@VerificationActivity, "Nomor tidak terdaftar di sistem 3s Status", Toast.LENGTH_LONG).show()
+            finishAndRemoveTask()
+            finish()
             Log.e("login exception", e.message, e)
         }
     }

@@ -132,7 +132,8 @@ class Splash : ScopedActivity(), KodeinAware {
             .setContentText("internet koneksi buruk, pastikan koneksi anda stabil dan silakan coba kembali")
             .setConfirmText("Terima Kasih")
             .setConfirmClickListener { sDialog -> sDialog.dismissWithAnimation()
-                exitProcess(0)
+                sDialog.dismissWithAnimation()
+                onBackPressed()
             }
             .show()
 
@@ -187,6 +188,8 @@ class Splash : ScopedActivity(), KodeinAware {
                 }
             } else {
                 Toast.makeText(this@Splash, "anda tidak memiliki izin untuk login", Toast.LENGTH_LONG).show()
+                accountViewModel.logout()
+                toLogin()
             }
         }
 //        Intent(this, MainActivity::class.java).apply {
