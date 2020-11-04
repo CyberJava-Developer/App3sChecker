@@ -23,6 +23,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import gsm.gsmnetindo.app_3s_checker.R
+import gsm.gsmnetindo.app_3s_checker.data.network.response.observation.ObservationResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.observation.Status
 import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser
 import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser.toMoment
@@ -80,6 +81,7 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
             mMap.clear()
             val me = accountViewModel.getPhonePref()
             barcodeViewModel.observation().observe(viewLifecycleOwner, { all ->
+                observerables = all
                 all.map {
                     if (it.updatedAt != null) {
                         if (it.user.account.phone != me) {
@@ -145,7 +147,7 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
                                 Log.d("GoogleMap", " click")
                                 //focus the marker
                                 mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.position))
-                                displayCustomeInfoWindow(marker, status, lang)
+                                displayCustomeInfoWindow(marker)
                                 true
                             }
                         }
@@ -163,15 +165,23 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
             }
         }
     }
+    private lateinit var observerables: ObservationResponse
 
-    private fun displayCustomeInfoWindow(marker: Marker, status: Status, lang: String) {
+    private fun displayCustomeInfoWindow(marker: Marker) {
         infowindow.visibility = View.VISIBLE
         namauser.text = marker.title
-        setUserStatus(status)
-        lang_user.text = lang
+        var latLng = ""
+        observerables.map {
+            if (marker.title == it.user.name){
+                setUserStatus(it.user.status)
+                latLng = "${it.latitude},${it.longitude}"
+                return@map
+            }
+        }
+        lang_user.text = latLng
         user_last_location.text = marker.snippet
         infowindow.setOnClickListener {
-            val gmmIntentUri = Uri.parse("http://maps.google.com/maps?q=${lang}")
+            val gmmIntentUri = Uri.parse("http://maps.google.com/maps?q=${latLng}")
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             context?.startActivity(mapIntent)
