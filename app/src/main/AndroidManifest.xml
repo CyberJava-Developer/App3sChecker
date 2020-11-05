@@ -36,7 +36,7 @@
             android:name=".ui.main.result.ResultActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.dashboard.scan.scane_number"
+            android:name=".ui.dashboard.scan.ScanNumberActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

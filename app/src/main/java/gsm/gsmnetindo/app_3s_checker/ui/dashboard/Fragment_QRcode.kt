@@ -2,49 +2,30 @@ package gsm.gsmnetindo.app_3s_checker.ui.dashboard
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.model.GlideUrl
-import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.signature.ObjectKey
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
-import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
-import gsm.gsmnetindo.app_3s_checker.internal.Secret
-import gsm.gsmnetindo.app_3s_checker.internal.glide.GlideApp
-import gsm.gsmnetindo.app_3s_checker.ui.dashboard.scan.scane_number
-import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
+import gsm.gsmnetindo.app_3s_checker.ui.dashboard.scan.ScanNumberActivity
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.*
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModelFactory
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_qrcode.*
-import kotlinx.android.synthetic.main.popup_qrcode_scanner.*
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
-import org.threeten.bp.format.TextStyle
-import retrofit2.HttpException
-import java.util.*
 
 class Fragment_QRcode : ScopedFragment(), KodeinAware {
     override val kodein by closestKodein()
@@ -107,7 +88,7 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
 //                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 //                startActivity(this)
 //                }
-            val intent = Intent(context, scane_number::class.java)
+            val intent = Intent(context, ScanNumberActivity::class.java)
             startActivity(intent)
         }
 
