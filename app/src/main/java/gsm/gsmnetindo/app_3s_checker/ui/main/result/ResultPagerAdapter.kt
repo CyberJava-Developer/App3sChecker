@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 class ResultPagerAdapter(
     private val pages: List<Page>,
-    fm: FragmentManager,
-): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    fragmentManager: FragmentManager
+): FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         return pages[position].fragment

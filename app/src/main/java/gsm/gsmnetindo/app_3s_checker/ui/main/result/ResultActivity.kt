@@ -2,7 +2,9 @@ package gsm.gsmnetindo.app_3s_checker.ui.main.result
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ogaclejapan.smarttablayout.SmartTabLayout
 import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
