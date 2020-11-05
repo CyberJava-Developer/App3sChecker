@@ -94,7 +94,7 @@ class LocationItem(
                         layoutrelative.visibility = View.GONE
                     }
                     else{
-                        showmap.text = "Sembunyikan"
+                        showmap.text = "Ciutkan"
                         creatmap(mapView, myLocation, cityName)
                         layoutrelative.visibility = View.VISIBLE
                     }

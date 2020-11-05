@@ -40,7 +40,9 @@ class QuestionnaireFragment: ScopedFragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         resultViewModel.details.observe(viewLifecycleOwner, {
-            initRecyclerView(it.history)
+            if(it.history!=null){
+                initRecyclerView(it.history)
+            }
         })
 
     }
