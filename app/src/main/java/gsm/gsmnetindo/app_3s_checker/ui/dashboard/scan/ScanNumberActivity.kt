@@ -21,6 +21,8 @@ import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
+import retrofit2.HttpException
+import java.net.SocketTimeoutException
 
 class ScanNumberActivity: ScopedActivity(), KodeinAware {
     override val kodein by closestKodein()
@@ -69,13 +71,25 @@ class ScanNumberActivity: ScopedActivity(), KodeinAware {
             })
         } catch (e: Exception){
             Log.e("scan phone", e.message, e)
-            Toast.makeText(this@ScanNumberActivity, e.message, Toast.LENGTH_LONG).show()
+            number_phone_edittext.setText("")
+            when(e){
+                is HttpException -> {
+                    if (e.code() == 404) Toast.makeText(this@ScanNumberActivity, "Nomor telepon tidak ditemukan", Toast.LENGTH_LONG).show()
+                    else Toast.makeText(this@ScanNumberActivity, e.message, Toast.LENGTH_LONG).show()
+                }
+                is SocketTimeoutException -> {
+                    Toast.makeText(this@ScanNumberActivity, "Tidak bisa tersambung dengan server", Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    Toast.makeText(this@ScanNumberActivity, e.message, Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
     private fun showResult(code: String, barcodeDetailResponse: BarcodeDetailResponse){
         resultViewModel.setDetail(code, barcodeDetailResponse)
         Intent(this, ResultActivity::class.java).apply {
-            putExtra("code", code)
+            putExtra(ResultActivity.INTENT_EXTRA_NAME, code)
             startActivity(this)
         }
     }

@@ -128,7 +128,7 @@ class Fragment_QRcode : ScopedFragment(), KodeinAware {
     private fun showResult(code: String, user: BarcodeDetailResponse){
         resultViewModel.setDetail(code, user)
         Intent(requireContext(), ResultActivity::class.java).apply {
-            putExtra("code", code)
+            putExtra(ResultActivity.INTENT_EXTRA_NAME, code)
 
 //                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(this)

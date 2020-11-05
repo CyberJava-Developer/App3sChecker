@@ -56,7 +56,7 @@ class ResultActivity : ScopedActivity(), KodeinAware {
                 Page("Detail", DetailFragment())
             )
         }
-        viewPager.adapter = ResultPagerAdapter(this, pages, supportFragmentManager)
+        viewPager.adapter = ResultPagerAdapter(pages, supportFragmentManager)
 //        when(accountViewModel.getRolePref()) {
 //            2 -> { viewPager.adapter = ResultPagerAdapterkeamanan(this, supportFragmentManager) }
 //            3 -> { viewPager.adapter = ResultPagerAdapterparamedis(this, supportFragmentManager) }
@@ -78,5 +78,8 @@ class ResultActivity : ScopedActivity(), KodeinAware {
     override fun onDestroy() {
         super.onDestroy()
         resultViewModel.clear()
+    }
+    companion object {
+        const val INTENT_EXTRA_NAME = "code"
     }
 }
