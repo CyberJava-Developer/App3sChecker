@@ -94,14 +94,14 @@
 
             <Button
                 android:id="@+id/copybtn"
-                android:layout_width="160dp"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Google Map" />
 
             <Button
                 android:id="@+id/showmap"
-                android:layout_width="160dp"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Lihat Disini" />

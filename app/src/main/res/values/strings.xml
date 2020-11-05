@@ -14,7 +14,7 @@
     <string name="vrf1" translatable="false">1. Apakah 2 hingga 4 hari anda merasa gejala sakit flu dan batuk ?</string>
     <string name="vrf2" translatable="false">2. Dalam 14 hari terakhir apakah anda beresiko terinfeksi COVID-19</string>
     <string name="vrf" translatable="false">untuk informasi No. 3 dan 4, diisi oleh pihak terkait atau hubungi RT/RW setempat</string>
-    <string name="vrf3" translatable="false">3. Setelah check secara langsung informasi no 1 dan 2 benar ?</string>
-    <string name="vrf4" translatable="false">2. Dari hasil Rapid test, menunjukkan bahwa status terhadap virus COVID-19?</string>
+    <string name="vrf3" translatable="false">3. Setelah check secara langsung apakah informasi no 1 dan 2 benar ?</string>
+    <string name="vrf4" translatable="false">4. Dari hasil Rapid test, menunjukkan bahwa status terhadap virus COVID-19?</string>
 
 </resources>

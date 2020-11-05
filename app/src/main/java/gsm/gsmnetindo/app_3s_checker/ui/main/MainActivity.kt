@@ -144,10 +144,11 @@ class MainActivity : ScopedActivity(), KodeinAware {
     }
     private fun getLocation() = launch {
         try {
-            mainViewModel.getAddress().observe(this@MainActivity, {
-                supportActionBar?.subtitle = "${it.subLocality} ,${it.subAdminArea}"
-                Log.i("getAddressMain", "$it")
-            })
+            requestLocation()
+//            mainViewModel.getAddress().observe(this@MainActivity, {
+//                supportActionBar?.subtitle = "${it.subLocality} ,${it.subAdminArea}"
+//                Log.i("getAddressMain", "$it")
+//            })
         } catch (e: Exception){
             when(e){
                 is LocationPermissionException -> {
