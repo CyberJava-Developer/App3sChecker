@@ -25,8 +25,10 @@ android {
 
         // versioning schema
         // Major.Minor.Patch.Stage
-        versionCode 118821
-        versionName "1.1.88.2-alpha-1"
+        // old code 118821
+        versionCode 118921
+        // old name  1.1.88.2-alpha-1
+        versionName "1.1.89.2-alpha-1"
 
         javaCompileOptions {
             annotationProcessorOptions {
