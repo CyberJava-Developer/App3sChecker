@@ -4,191 +4,214 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6EFEA"
+    android:background="#F9F9F9"
     tools:context=".ui.login.verificationlogin">
 
-    <EditText
-        android:id="@+id/num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:ems="4"
-        android:inputType="number"
-        android:maxLength="4"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
-
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/imageView13"
+        android:layout_width="512dp"
+        android:layout_height="512dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bgc" />
+        app:srcCompat="@drawable/ms3" />
 
-    <FrameLayout
-        android:id="@+id/frameLayout2"
-        android:layout_width="0dp"
-        android:layout_height="254dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout13"
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
+        android:background="#F9F9F9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/frameLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="#F9F9F9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <Button
-                android:id="@+id/btn_verify"
-                android:layout_width="360dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout12"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
-                android:background="@drawable/buttonui"
-                android:fontFamily="sans-serif"
-                android:text="Verifikasi"
-                android:textColor="#FFFFFF"
+                android:layout_marginBottom="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.49"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:id="@+id/ubahnomor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:clickable="true"
-                android:text="UBAH NOMOR PONSEL"
-                android:textColor="#E81D1D"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/btn_verify"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                <Button
+                    android:id="@+id/btn_verify"
+                    android:layout_width="360dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/buttonuirounded"
+                    android:fontFamily="@font/lato"
+                    android:text="Verify"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.49"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/id5"
-                android:layout_width="wrap_content"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Apakah Anda Salah Memasukan Nomor Ponsel ?"
-                android:textColor="#232323"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/ubahnomor"
+                android:background="#F9F9F9"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout12"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/ubahnomor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:text="UBAH NOMOR PONSEL"
+                    android:textColor="#E81D1D"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Apakah Anda Salah Memasukan Nomor Ponsel ?"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toTopOf="@+id/ubahnomor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.mukesh.OtpView
+                    android:id="@+id/otp_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:hint="****"
+                    android:inputType="number"
+                    android:itemBackground="#ECF0F2"
+                    android:padding="5dp"
+                    android:textColor="@android:color/secondary_text_light"
+                    app:itemCount="4"
+                    app:layout_constraintBottom_toTopOf="@+id/timertxt"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:lineColor="#F9F9F9"
+                    app:viewType="rectangle" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_extrabold"
+                    android:text="OTP Verifikasi"
+                    android:textAlignment="textStart"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/layouthor"
+                    app:layout_constraintEnd_toEndOf="@+id/layouthor"
+                    app:layout_constraintStart_toStartOf="@+id/layouthor" />
+
+                <LinearLayout
+                    android:id="@+id/layouthor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    app:layout_constraintBottom_toTopOf="@+id/progress_verification"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/vienomor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:paddingLeft="18dp"
+                        android:paddingEnd="8dp"
+                        android:text="Masukkan OTP yang dikirim ke"
+                        android:textColor="#A5A2A2"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/number_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="+6282229738027"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/resend_sms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:text="Kirim ulang sms verifikasi"
+                    android:textColor="@color/colorPrimaryDark"
+                    app:layout_constraintBottom_toTopOf="@+id/textView5"
+                    app:layout_constraintEnd_toEndOf="@+id/timertxt"
+                    app:layout_constraintHorizontal_bias="0.448"
+                    app:layout_constraintStart_toStartOf="@+id/timertxt" />
+
+                <TextView
+                    android:id="@+id/timertxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="01:00"
+                    app:layout_constraintBottom_toTopOf="@+id/resend_sms"
+                    app:layout_constraintEnd_toEndOf="@+id/otp_view"
+                    app:layout_constraintStart_toStartOf="@+id/otp_view" />
+
+                <ProgressBar
+                    android:id="@+id/progress_verification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/progress_hint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/progress_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="loading"
+                    app:layout_constraintBottom_toTopOf="@+id/otp_view"
+                    app:layout_constraintEnd_toEndOf="@+id/progress_verification"
+                    app:layout_constraintStart_toStartOf="@+id/progress_verification" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="0dp"
-        android:layout_height="350dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="43dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif"
-                android:text="Masukkan 6 angka kode verifikasi yang telah dikirim ke"
-                android:textColor="#232323"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView13"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/number_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="+628078367938"
-                android:textColor="#232323"
-                app:layout_constraintStart_toStartOf="@+id/textView3"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-            <TextView
-                android:id="@+id/resend_sms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:clickable="false"
-                android:enabled="false"
-                android:text="Kirim ulang kode verifikasi"
-                android:textColor="#232323"
-                app:layout_constraintEnd_toEndOf="@+id/timertxt"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="@+id/timertxt"
-                app:layout_constraintTop_toBottomOf="@+id/timertxt" />
-
-            <TextView
-                android:id="@+id/timertxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="220dp"
-                android:text="01:00"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-            <ProgressBar
-                android:id="@+id/progress_verification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView13" />
-
-            <TextView
-                android:id="@+id/progress_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="loading"
-                android:textColor="#232323"
-                app:layout_constraintEnd_toEndOf="@+id/progress_verification"
-                app:layout_constraintStart_toStartOf="@+id/progress_verification"
-                app:layout_constraintTop_toBottomOf="@+id/progress_verification" />
-
-            <ImageView
-                android:id="@+id/imageView13"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/verifikasi1" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
-
-    <com.mukesh.OtpView
-        android:id="@+id/otp_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:fontFamily="sans-serif-medium"
-        android:inputType="number"
-        android:itemBackground="@drawable/buttonui"
-        android:textColor="#FFFF"
-        android:textSize="24sp"
-        app:itemCount="4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lineColor="@color/colorPrimary"
-        app:viewType="rectangle" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

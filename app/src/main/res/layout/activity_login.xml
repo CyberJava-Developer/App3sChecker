@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/login1" />
 
-    <FrameLayout
+    <ScrollView
         android:id="@+id/frameLayout3"
         android:layout_width="0dp"
         android:layout_height="250dp"
@@ -32,6 +32,7 @@
                 android:id="@+id/textViewsyarat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="2dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/agreement1"
@@ -39,20 +40,20 @@
                 app:layout_constraintBottom_toTopOf="@+id/textkebijakan"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/next_login2" />
 
             <TextView
                 android:id="@+id/textkebijakan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="21dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/agreement2"
                 android:textColor="#9A2A2A"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewsyarat" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_layout"
@@ -117,13 +118,14 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:background="@drawable/buttonui"
+                android:background="@drawable/buttonuirounded"
                 android:padding="5dp"
                 android:paddingStart="10dp"
                 android:text="MULAI"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_input_layout" />
 
@@ -142,6 +144,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </FrameLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

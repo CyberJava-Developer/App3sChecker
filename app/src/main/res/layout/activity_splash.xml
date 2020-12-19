@@ -4,45 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".ui.splash.Splash">
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="31dp"
-        android:layout_marginEnd="29dp"
+        android:id="@+id/covid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/covid" />
+        app:srcCompat="@drawable/mainsplashcovid" />
 
     <ImageView
         android:id="@+id/Logo"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="260dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.397"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/asset_6" />
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="--"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/line_covid" />
-
-    <ImageView
-        android:id="@+id/textlogo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/Logo"
+        app:layout_constraintStart_toStartOf="@+id/Logo"
         app:layout_constraintTop_toBottomOf="@+id/Logo"
-        app:srcCompat="@drawable/menuh" />
+        app:srcCompat="@drawable/asset_5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
