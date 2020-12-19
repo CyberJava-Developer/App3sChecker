@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -36,11 +37,13 @@ import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.BarcodeViewModelFactory
 import kotlinx.android.synthetic.main.activity_pengawas.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import org.threeten.bp.ZonedDateTime
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 
@@ -75,85 +78,96 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
 
         return view
     }
+    private fun loop() = launch {
+        while (this@Fragment_pengawas.isVisible){
+            delay(TimeUnit.MINUTES.toMillis(1))
+            loadData()
+            Toast.makeText(requireContext(), "Data reloaded", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     private fun loadData() = launch {
         try {
-            mMap.clear()
             val me = accountViewModel.getPhonePref()
-            barcodeViewModel.observation().observe(viewLifecycleOwner, { all ->
-                observerables = all
-                all.map {
-                    if (it.updatedAt != null) {
-                        if (it.user.account.phone != me) {
-                            val timeAgo = ZonedDateTime.now()
-                                .toEpochSecond() - LocalDateTimeParser.utcToLocal(
-                                it.updatedAt
-                            ).toEpochSecond()
-                            Log.i(
-                                "addMarker",
-                                "${it.user.name} ${it.user.status} in {${it.latitude} ${it.longitude}} ${
-                                    LocalDateTimeParser.utcToLocal(
-                                        it.updatedAt
-                                    ).toMoment()
-                                }($timeAgo)"
-                            )
-                            var colorRadius = 0
-                            val icon = when (it.user.status.status) {
-                                0 -> {
-                                    colorRadius = 0x2232A86D //Color.parseColor("#32a86d")
-                                    R.drawable.circlemapme
+            if(!barcodeViewModel.observation().hasObservers()){
+                barcodeViewModel.observation().observe(viewLifecycleOwner, { all ->
+                    observerables = all
+                    mMap.clear()
+                    all.map {
+                        if (it.updatedAt != null) {
+                            if (it.user.account.phone != me) {
+                                val timeAgo = ZonedDateTime.now()
+                                    .toEpochSecond() - LocalDateTimeParser.utcToLocal(
+                                    it.updatedAt
+                                ).toEpochSecond()
+                                Log.i(
+                                    "addMarker",
+                                    "${it.user.name} ${it.user.status} in {${it.latitude} ${it.longitude}} ${
+                                        LocalDateTimeParser.utcToLocal(
+                                            it.updatedAt
+                                        ).toMoment()
+                                    }($timeAgo)"
+                                )
+                                var colorRadius = 0
+                                val icon = when (it.user.status.status) {
+                                    0 -> {
+                                        colorRadius = 0x2232A86D //Color.parseColor("#32a86d")
+                                        R.drawable.circlemapme
+                                    }
+                                    in 25..75 -> {
+                                        colorRadius = 0x22FFE369 //Color.parseColor("#FFE369")
+                                        R.drawable.circlemapgreen
+                                    }
+                                    in 100..175 -> {
+                                        colorRadius = 0x22e60000 //Color.parseColor("#e60000")
+                                        R.drawable.circlemap
+                                    }
+                                    else -> R.drawable.circlemapme
                                 }
-                                in 25..75 -> {
-                                    colorRadius = 0x22FFE369 //Color.parseColor("#FFE369")
-                                    R.drawable.circlemapgreen
-                                }
-                                in 100..175 -> {
-                                    colorRadius = 0x22e60000 //Color.parseColor("#e60000")
-                                    R.drawable.circlemap
-                                }
-                                else -> R.drawable.circlemapme
-                            }
-                            mMap.addMarker(
-                                MarkerOptions().position(LatLng(it.latitude, it.longitude))
-                                    .title("${it.user.name}")
-                                    .snippet(
-                                        "terakhir dilihat ${
-                                            LocalDateTimeParser.utcToLocal(it.updatedAt).toMoment()
-                                        }"
-                                    )
-                                    .icon(
-                                        bitmapDescriptorFromVector
-                                            (requireContext(), icon)
-                                    )
-                                    .flat(true)
-                            )
-                            mMap.addCircle(
-                                CircleOptions()
-                                    .radius(it.accuracy)
-                                    .center(LatLng(it.latitude, it.longitude))
-                                    .strokeWidth(0.1f)
-                                    .strokeColor(0x22+colorRadius)
-                                    .fillColor(0x22+colorRadius)
+                                mMap.addMarker(
+                                    MarkerOptions().position(LatLng(it.latitude, it.longitude))
+                                        .title("${it.user.name}")
+                                        .snippet(
+                                            "terakhir dilihat ${
+                                                LocalDateTimeParser.utcToLocal(it.updatedAt).toMoment()
+                                            }"
+                                        )
+                                        .icon(
+                                            bitmapDescriptorFromVector
+                                                (requireContext(), icon)
+                                        )
+                                        .flat(true)
+                                )
+                                mMap.addCircle(
+                                    CircleOptions()
+                                        .radius(it.accuracy)
+                                        .center(LatLng(it.latitude, it.longitude))
+                                        .strokeWidth(0.1f)
+                                        .strokeColor(0x22+colorRadius)
+                                        .fillColor(0x22+colorRadius)
 //                                    .zIndex(0.1f)
-                            )
+                                )
 
-                            val status = it.user.status
-                            val lang = "${it.latitude}, ${it.longitude}"
-                            mMap.setOnMapClickListener {
-                                infowindow.visibility = View.GONE
-                            }
-                            mMap.setOnMarkerClickListener { marker ->
-                                marker.showInfoWindow()
-                                Log.d("GoogleMap", " click")
-                                //focus the marker
-                                mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.position))
-                                displayCustomeInfoWindow(marker)
-                                true
+                                val status = it.user.status
+                                val lang = "${it.latitude}, ${it.longitude}"
+                                mMap.setOnMapClickListener {
+                                    infowindow.visibility = View.GONE
+                                }
+                                mMap.setOnMarkerClickListener { marker ->
+                                    marker.showInfoWindow()
+                                    Log.d("GoogleMap", " click")
+                                    //focus the marker
+                                    mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.position))
+                                    displayCustomInfoWindow(marker)
+                                    true
+                                }
                             }
                         }
                     }
-                }
-            })
+                })
+            } else {
+                barcodeViewModel.observation()
+            }
         } catch (e: Exception) {
             when(e){
                 is NoConnectivityException->{Log.d("Internet", "Internet Tidak Tersedia")}
@@ -167,7 +181,7 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
     }
     private lateinit var observerables: ObservationResponse
 
-    private fun displayCustomeInfoWindow(marker: Marker) {
+    private fun displayCustomInfoWindow(marker: Marker) {
         infowindow.visibility = View.VISIBLE
         namauser.text = marker.title
         var latLng = ""
@@ -199,6 +213,7 @@ class Fragment_pengawas : ScopedFragment(), OnMapReadyCallback, KodeinAware {
 
             loadData()
             myLocation()
+            loop()
 // Add some markers to the map, and add a data object to each marker.
         }catch (e:Exception){
             when(e){
