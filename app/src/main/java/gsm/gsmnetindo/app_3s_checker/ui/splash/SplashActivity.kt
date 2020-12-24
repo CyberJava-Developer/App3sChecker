@@ -10,7 +10,6 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -32,7 +31,7 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 import kotlin.system.exitProcess
 
-class Splash : ScopedActivity(), KodeinAware {
+class SplashActivity : ScopedActivity(), KodeinAware {
 
     override val kodein by closestKodein()
     private val splashViewModelFactory: SplashViewModelFactory by instance()
@@ -67,13 +66,13 @@ class Splash : ScopedActivity(), KodeinAware {
 
         handler = Handler()
         handler.postDelayed({
-            checkNetwork()
+            initApp()
 //            val intent = Intent(this, IntroActivity::class.java)
 //            startActivity(intent)
 //            finish()
         }, 3000)
     }
-    private fun checkNetwork(){
+    private fun initApp(){
         if (splashViewModel.isOnline().not()){
             alerndialog()
             Toast.makeText(this, "tidak ada koneksi internet", Toast.LENGTH_LONG).show();
@@ -96,10 +95,10 @@ class Splash : ScopedActivity(), KodeinAware {
 
     private fun checkUpdate() = launch {
         try {
-            splashViewModel.getLatestVersion().observe(this@Splash, Observer {
+            splashViewModel.getLatestVersion().observe(this@SplashActivity, Observer {
                 val currentVersion = BuildConfig.VERSION_CODE
                 if (currentVersion < it.appVersionCode) {
-                    SweetAlertDialog(this@Splash, SweetAlertDialog.SUCCESS_TYPE).apply {
+                    SweetAlertDialog(this@SplashActivity, SweetAlertDialog.SUCCESS_TYPE).apply {
                         setTitleText("Versi terbaru telah rilis")
                             .setContentText("Mohon update ${it.appName} ke versi ${it.appVersionName}")
                             .setConfirmText("OK")
@@ -130,7 +129,7 @@ class Splash : ScopedActivity(), KodeinAware {
                 else -> {
 //                    Toast.makeText(this@Splash, e.message, Toast.LENGTH_LONG).show()
                     Toast.makeText(
-                        this@Splash,
+                        this@SplashActivity,
                         "Tidak bisa menyambung ke server, coba beberapa saat lagi",
                         Toast.LENGTH_LONG
                     ).show()
@@ -177,7 +176,7 @@ class Splash : ScopedActivity(), KodeinAware {
                     //Toast.makeText(this@Splash, "Tidak bisa menyambung ke server, coba beberapa saat lagi", Toast.LENGTH_LONG).show()
                 }
                 else -> {
-                    Toast.makeText(this@Splash, e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@SplashActivity, e.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -195,14 +194,14 @@ class Splash : ScopedActivity(), KodeinAware {
     private fun toMain(){
         accountViewModel.getRolePref().apply {
             if (this >= 2) {
-                Intent(this@Splash, MainActivity::class.java).apply {
+                Intent(this@SplashActivity, MainActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(this)
                     finish()
                 }
             } else {
                 Toast.makeText(
-                    this@Splash,
+                    this@SplashActivity,
                     "anda tidak memiliki izin untuk login",
                     Toast.LENGTH_LONG
                 ).show()
