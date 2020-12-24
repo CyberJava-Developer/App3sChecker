@@ -54,7 +54,7 @@ class SplashActivity : ScopedActivity(), KodeinAware {
         splashViewModel = ViewModelProvider(this, splashViewModelFactory).get(SplashViewModel::class.java)
         accountViewModel = ViewModelProvider(this, accountViewModelFactory).get(AccountViewModel::class.java)
         val versionCode = BuildConfig.VERSION_NAME
-        version.text = "Versi: ${versionCode}"
+        version.text = "Versi: $versionCode"
         topanim = AnimationUtils.loadAnimation(this, R.anim.top_animation)
         buttomanim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
         image = findViewById(R.id.Logo)
