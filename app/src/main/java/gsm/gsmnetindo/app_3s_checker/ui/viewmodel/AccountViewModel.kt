@@ -18,7 +18,11 @@ class AccountViewModel(
     val detail = accountRepository.detail
     suspend fun syncDetail() = accountRepository.fetchDetail()
 
-
+    fun setDeviceCredentials(phone: String, token: String, registered: Boolean){
+        accountRepository.setPhone(phone)
+        accountRepository.setToken(token)
+        accountRepository.setRegistered(registered)
+    }
     fun getPhone() = accountRepository.getLivePhone()
     fun getPhonePref() = accountRepository.getPhonePref()
 

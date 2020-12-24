@@ -21,7 +21,6 @@ import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import kotlinx.android.synthetic.main.activity_verificationlogin.*
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -38,7 +37,7 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
     private var codeSms: String = "sms"
     private var phone: String = ""
     private var jwt: String = ""
-    private var role: Int = 0
+    private var registered: Boolean = false
     private val match = MutableLiveData<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +46,7 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
         setContentView(R.layout.activity_verificationlogin)
         ubahnomor.setOnClickListener { finishAndRemoveTask() }
         val phone = intent.getStringExtra("phoneNumber")
+//        Toast.makeText(this, phone, Toast.LENGTH_LONG).show()
         AlertDialog.Builder(this).apply {
             setTitle("Izinkan aplikasi membaca SMS")
             setMessage("Agar aplikasi bisa menerima kode verifikasi, mohon izinkan aplikasi untuk membaca SMS")
@@ -56,21 +56,13 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
             }
             show()
         }
-        btn_verify.setOnClickListener {
-            if (otp_view.text.toString() == codeServer){
-                codeSms = otp_view.text.toString()
-                match.postValue(matchCode())
-//                Toast.makeText(this, "Code verifikasi Sukses", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(this, "Kode verifikasi tidak valid", Toast.LENGTH_LONG).show()
-            }
-        }
 //        initReceiver()
 //        login(phone)
 //        resend_sms.setOnClickListener { login(phone) }
 //        SmsReceiver.bindListener(this)
     }
-    private fun requestSmsPermission(phone: String){
+
+    private fun requestSmsPermission(phone: String) {
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -80,7 +72,8 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
         )
         startVerification(phone)
     }
-    private fun startVerification(phone: String){
+
+    private fun startVerification(phone: String) {
         initReceiver()
         login(phone)
         this.phone = phone
@@ -88,21 +81,41 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
         resend_sms.setOnClickListener { login(phone) }
         SmsReceiver.bindListener(this)
     }
+
+    private fun btnverify(){
+        btn_verify.setOnClickListener {
+            if (otp_view.text.toString() == codeServer){
+                codeSms = codeServer
+                match.postValue(matchCode())
+                Toast.makeText(this, "Code verifikasi Sukses", Toast.LENGTH_LONG).show()
+            }
+            else{
+                Toast.makeText(this, "Code verifikasi tidak valid", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
     private fun matchCode(): Boolean {
-        Log.d("code", "sms: $codeSms == server:$codeServer")
+        Log.i("code", "sms: $codeSms - server:$codeServer")
         return codeServer == codeSms
     }
     private fun initReceiver(){
-        match.observe(this, {
+        match.observe(this, Observer {
             if (it) {
-                accountViewModel.setDeviceCredentials(phone, jwt, role)
-                Intent(Intent(this@VerificationActivity, MainActivity::class.java)).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(this)
-                    finish()
+                accountViewModel.setDeviceCredentials(phone, jwt, registered)
+                if (registered) {
+                    Intent(Intent(this@VerificationActivity, MainActivity::class.java)).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(this)
+                        finish()
+                    }
+                } else {
+                    Intent(Intent(this@VerificationActivity, VerificationActivity::class.java)).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(this)
+                        finishAndRemoveTask()
+                    }
                 }
-            } else {
-                codeSms = ""
             }
         })
     }
@@ -115,29 +128,18 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
                     finishAndRemoveTask()
                     finish()
                 } else {
-                    codeServer= it.code
+                    registered = it.registered
+                    codeServer = it.code
                     this@VerificationActivity.phone = it.phone
                     jwt = it.jwt
-                    role = it.role
 
                     // ngakali tanpa sms langsung login
-//                    codeSms = it.code
-
-                    match.postValue(matchCode())
+//                codeSms = it.code
+                    btnverify()
+//                match.postValue(matchCode())
                 }
             })
         } catch (e: Exception) {
-            when(e){
-                is SocketTimeoutException -> {
-                    retryTimer.onFinish()
-                    Toast.makeText(this@VerificationActivity, "Tidak bisa tersambung ke server", Toast.LENGTH_LONG).show()
-                }
-                else -> {
-                    Toast.makeText(this@VerificationActivity, "Nomor tidak terdaftar di sistem 3s Status", Toast.LENGTH_LONG).show()
-                    finishAndRemoveTask()
-                    finish()
-                }
-            }
             Log.e("login exception", e.message, e)
         }
     }
@@ -153,12 +155,24 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
             timertxt.visibility = View.GONE
             this.cancel()
         }
+
     }
     private fun startCountdown(milsec: Long) {
         timertxt.visibility = View.VISIBLE
         resendEnabled(false)
-        loginProcess(true, "menunggu sms verifikasi")
-        retryTimer.start()
+        loginProcess(true, "Menunggu sms verifikasi")
+        object : CountDownTimer(milsec, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val sec = millisUntilFinished / 1000
+                timertxt.text = "$sec detik"
+            }
+
+            override fun onFinish() {
+                resendEnabled(true)
+                loginProcess(false, "")
+                timertxt.visibility = View.GONE
+            }
+        }.start()
     }
     private fun resendEnabled(isIt: Boolean){
         resend_sms.apply {
@@ -185,18 +199,11 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
             startActivity(this)
         }
     }
-    override fun messageReceived(smsCode: String) {
-        codeSms = smsCode
-        Log.d("sms code received", smsCode)
-        animateReceivedCode(codeSms)
-    }
-    private fun animateReceivedCode(code: String) = launch {
-        var temp = ""
-        for (i in code.indices step 1 ){
-            temp += i
-            otp_view.setText(temp)
-            delay(500)
-        }
+    override fun messageReceived(message: String) {
+        codeSms = message
+        Log.d("code sms", codeSms)
+        otp_view.setText(codeSms)
+        Toast.makeText(this, "Code verifikasi Sukses", Toast.LENGTH_LONG).show()
         match.postValue(matchCode())
     }
 }

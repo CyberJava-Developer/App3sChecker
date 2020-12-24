@@ -44,15 +44,14 @@ class AccountRepositoryImpl(
     override fun getPhonePref() = userManager.getPhonePref()
 
     override fun setPhone(phone: String) = userManager.setPhone(phone)
+    override fun setToken(token: String) = userManager.setToken(token)
+
     override fun getToken() = userManager.getToken()
 
-    override fun setVerified(verified: Boolean) {
-        TODO("Not yet implemented")
-    }
+    override fun setVerified(verified: Boolean) = userManager.setVerified(verified)
+    override fun isVerified() = userManager.isVerified()
 
-    override fun isVerified(): LiveData<Boolean> {
-        TODO("Not yet implemented")
-    }
+    override fun setRegistered(registered: Boolean) = userManager.setRegistered(registered)
 
     override fun setRegistered() = userManager.setRegistered(true)
 
