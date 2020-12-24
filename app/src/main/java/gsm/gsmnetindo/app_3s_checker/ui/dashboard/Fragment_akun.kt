@@ -62,6 +62,7 @@ class Fragment_akun : ScopedFragment(), KodeinAware {
     }
 
     private fun logout() {
+        accountViewModel.detail.removeObservers(viewLifecycleOwner)
         accountViewModel.logout()
         if (activity != null) {
             Intent(activity, LoginActivity::class.java).apply {

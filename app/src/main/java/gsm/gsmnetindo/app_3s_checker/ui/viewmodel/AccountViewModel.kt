@@ -9,6 +9,11 @@ class AccountViewModel(
     fun isLoggedIn() = accountRepository.isLoggedIn()
     suspend fun login(phone: String) = accountRepository.doLogin(phone)
     fun logout() = accountRepository.doLogout()
+    fun setDeviceCredentials(phone: String, token: String, role: Int){
+        accountRepository.setPhone(phone)
+        accountRepository.setToken(token)
+        accountRepository.setRole(role)
+    }
 
     val detail = accountRepository.detail
     suspend fun syncDetail() = accountRepository.fetchDetail()

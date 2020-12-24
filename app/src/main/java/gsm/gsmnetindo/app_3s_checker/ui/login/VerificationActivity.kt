@@ -1,11 +1,14 @@
 package gsm.gsmnetindo.app_3s_checker.ui.login
 
+import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,10 +16,12 @@ import gsm.gsmnetindo.app_3s_checker.R
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedActivity
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsListener
 import gsm.gsmnetindo.app_3s_checker.smsgateway.SmsReceiver
+import gsm.gsmnetindo.app_3s_checker.ui.Intro.PERMISSION_ID
 import gsm.gsmnetindo.app_3s_checker.ui.main.MainActivity
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModelFactory
 import kotlinx.android.synthetic.main.activity_verificationlogin.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -31,6 +36,9 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
 
     private var codeServer: String = "server"
     private var codeSms: String = "sms"
+    private var phone: String = ""
+    private var jwt: String = ""
+    private var role: Int = 0
     private val match = MutableLiveData<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,23 +47,62 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
         setContentView(R.layout.activity_verificationlogin)
         ubahnomor.setOnClickListener { finishAndRemoveTask() }
         val phone = intent.getStringExtra("phoneNumber")
+        AlertDialog.Builder(this).apply {
+            setTitle("Izinkan aplikasi membaca SMS")
+            setMessage("Agar aplikasi bisa menerima kode verifikasi, mohon izinkan aplikasi untuk membaca SMS")
+            setPositiveButton("OK") { dialog, _ ->
+                requestSmsPermission(phone)
+                dialog.dismiss()
+            }
+            show()
+        }
+        btn_verify.setOnClickListener {
+            if (otp_view.text.toString() == codeServer){
+                codeSms = otp_view.text.toString()
+                match.postValue(matchCode())
+//                Toast.makeText(this, "Code verifikasi Sukses", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "Kode verifikasi tidak valid", Toast.LENGTH_LONG).show()
+            }
+        }
+//        initReceiver()
+//        login(phone)
+//        resend_sms.setOnClickListener { login(phone) }
+//        SmsReceiver.bindListener(this)
+    }
+    private fun requestSmsPermission(phone: String){
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.RECEIVE_SMS
+            ),
+            PERMISSION_ID
+        )
+        startVerification(phone)
+    }
+    private fun startVerification(phone: String){
         initReceiver()
         login(phone)
+        this.phone = phone
+        number_txt.text = phone
         resend_sms.setOnClickListener { login(phone) }
         SmsReceiver.bindListener(this)
     }
     private fun matchCode(): Boolean {
-        Log.i("code", "sms: $codeSms - server:$codeServer")
+        Log.d("code", "sms: $codeSms == server:$codeServer")
         return codeServer == codeSms
     }
     private fun initReceiver(){
-        match.observe(this, Observer {
+        match.observe(this, {
             if (it) {
+                accountViewModel.setDeviceCredentials(phone, jwt, role)
                 Intent(Intent(this@VerificationActivity, MainActivity::class.java)).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(this)
                     finish()
                 }
+            } else {
+                codeSms = ""
             }
         })
     }
@@ -69,9 +116,12 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
                     finish()
                 } else {
                     codeServer= it.code
+                    this@VerificationActivity.phone = it.phone
+                    jwt = it.jwt
+                    role = it.role
 
                     // ngakali tanpa sms langsung login
-                    codeSms = it.code
+//                    codeSms = it.code
 
                     match.postValue(matchCode())
                 }
@@ -103,25 +153,12 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
             timertxt.visibility = View.GONE
             this.cancel()
         }
-
     }
     private fun startCountdown(milsec: Long) {
         timertxt.visibility = View.VISIBLE
         resendEnabled(false)
         loginProcess(true, "menunggu sms verifikasi")
         retryTimer.start()
-//        object : CountDownTimer(milsec, 1000){
-//            override fun onTick(millisUntilFinished: Long) {
-//                val sec = millisUntilFinished/1000
-//                timertxt.text = "$sec detik"
-//            }
-//
-//            override fun onFinish() {
-//                resendEnabled(true)
-//                loginProcess(false, "")
-//                timertxt.visibility = View.GONE
-//            }
-//        }.start()
     }
     private fun resendEnabled(isIt: Boolean){
         resend_sms.apply {
@@ -148,8 +185,18 @@ class VerificationActivity: ScopedActivity(), KodeinAware, SmsListener {
             startActivity(this)
         }
     }
-    override fun messageReceived(message: String) {
-        codeSms = message
+    override fun messageReceived(smsCode: String) {
+        codeSms = smsCode
+        Log.d("sms code received", smsCode)
+        animateReceivedCode(codeSms)
+    }
+    private fun animateReceivedCode(code: String) = launch {
+        var temp = ""
+        for (i in code.indices step 1 ){
+            temp += i
+            otp_view.setText(temp)
+            delay(500)
+        }
         match.postValue(matchCode())
     }
 }

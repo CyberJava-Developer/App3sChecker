@@ -69,9 +69,9 @@ class AccountRepositoryImpl(
         restApiNetworkDataSource.fetchLogin(phone)
         return withContext(Dispatchers.IO) {
             restApiNetworkDataSource.downloadedLoginResponse.value?.let {
-                userManager.setPhone(it.phone)
-                userManager.setToken(it.jwt)
-                userManager.setRole(it.role)
+//                userManager.setPhone(it.phone)
+//                userManager.setToken(it.jwt)
+//                userManager.setRole(it.role)
             }
             return@withContext restApiNetworkDataSource.downloadedLoginResponse
         }
@@ -86,6 +86,10 @@ class AccountRepositoryImpl(
     private val _detail = MutableLiveData<UserDetailResponse>()
     override val detail: LiveData<UserDetailResponse>
         get() = _detail
+
+    override fun setToken(token: String) {
+        userManager.setToken(token)
+    }
 
     override suspend fun fetchDetail() {
         try {

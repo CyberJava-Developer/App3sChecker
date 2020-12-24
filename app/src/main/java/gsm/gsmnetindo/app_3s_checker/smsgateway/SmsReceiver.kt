@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.telephony.SmsMessage
+import android.util.Log
 
 class SmsReceiver : BroadcastReceiver() {
 
@@ -21,14 +22,17 @@ class SmsReceiver : BroadcastReceiver() {
         val pdus = extras?.get("pdus") as Array<*>
         for (item in pdus) {
             val smsMessage: SmsMessage
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            smsMessage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 val format = extras.getString("format")
-                smsMessage = SmsMessage.createFromPdu(item as ByteArray, format)
+                SmsMessage.createFromPdu(item as ByteArray, format)
             } else {
-                smsMessage = SmsMessage.createFromPdu(item as ByteArray)
+                SmsMessage.createFromPdu(item as ByteArray)
             }
             val message = smsMessage.messageBody
-            smsListener?.messageReceived(message)
+            val numbers = message.filter { c -> c.isDigit() }
+            val code = numbers.take(4)
+            Log.d("SmsReceiver", code)
+            smsListener?.messageReceived(code)
         }
     }
 

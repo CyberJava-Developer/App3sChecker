@@ -42,6 +42,7 @@ class UserManagerImpl(
     private val verified = MutableLiveData<Boolean>()
     private val registered = MutableLiveData<Boolean>()
     private val role = MutableLiveData<Int>()
+    private val isLoggedIn = MutableLiveData<Boolean>(false)
 
     init {
         phonePreferences = context.getSharedPreferences(
@@ -83,6 +84,9 @@ class UserManagerImpl(
         verified.postValue(verifiedPreferences.getBoolean(ACCOUNT_VERIFIED, false))
         registered.postValue(registeredPreferences.getBoolean(ACCOUNT_REGISTERED, false))
         role.postValue(rolePreferences.getInt(ACCOUNT_Role, 1))
+        val isLogin = (phonePreferences.getString(ACCOUNT_PHONE, "") != "") && (jwtPreferences.getString(
+            ACCOUNT_JWT, "") != "")
+        if (isLoggedIn.value != isLogin) isLoggedIn.postValue(isLogin)
     }
 
     override fun login(phone: String, jwt: String, verified: Boolean, registered: Boolean) {
@@ -100,16 +104,8 @@ class UserManagerImpl(
     }
 
     override fun isLoggedIn(): LiveData<Boolean> {
-        val p = phonePreferences.getString(ACCOUNT_PHONE, "") == ""
-        val j = jwtPreferences.getString(ACCOUNT_JWT, "") == ""
-        val pj = MutableLiveData<Boolean>().apply {
-            value = phonePreferences.getString(ACCOUNT_PHONE, "") != ""
-                    && jwtPreferences.getString(ACCOUNT_JWT, "") != ""
-        }
-        //pj.postValue(p && j)
-        Log.d("isLoginDaoData", "${phone.value} & ${jwt.value}")
-        Log.d("isLoginDao", "$p & $j = ${pj.value}")
-        return pj
+        reInit()
+        return isLoggedIn
     }
 
     override fun setPhone(phone: String) {

@@ -199,8 +199,8 @@ class verificationlogin : ScopedActivity(), SmsListener, KodeinAware {
         }
     }
 
-    override fun messageReceived(message: String) {
-        messageReceived1(message)
+    override fun messageReceived(smsCode: String) {
+        messageReceived1(smsCode)
     }
 
     private fun messageReceived1(message: String) {

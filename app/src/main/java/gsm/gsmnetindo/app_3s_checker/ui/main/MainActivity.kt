@@ -14,6 +14,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.andrefrsousa.superbottomsheet.SuperBottomSheetFragment
@@ -72,6 +73,11 @@ class MainActivity : ScopedActivity(), KodeinAware {
             ).commit()
         }
         getLocation()
+        accountViewModel.isLoggedIn().observe(this, Observer {
+            if(it){
+
+            }
+        })
         when(accountViewModel.getRolePref()) {
             2 -> {
                 //keamanan

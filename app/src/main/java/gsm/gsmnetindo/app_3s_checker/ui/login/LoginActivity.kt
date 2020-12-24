@@ -22,7 +22,7 @@ class LoginActivity: AppCompatActivity() {
         Log.i("Activity Started", "Login Activity")
         initUI()
         phone_login.addTextChangedListener(PhoneNumberFormattingTextWatcher("ID"))
-        smsPermission()
+//        smsPermission()
     }
     private fun initUI(){
         initValidator()
