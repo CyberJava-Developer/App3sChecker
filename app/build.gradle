@@ -27,10 +27,10 @@ android {
         // Major.Minor.Patch.Stage
         // old code 118821
         // old code 118821
-        versionCode 119021
+        versionCode 119022
         // old name  1.1.88.2-alpha-1
         // old name  1.1.88.2-alpha-1
-        versionName "1.1.90.2-alpha-1"
+        versionName "1.1.90.2-alpha-2"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -68,6 +68,9 @@ dependencies {
 
     //ui alern dialog
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
+    //api sms listerner
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.4.0'
 
     //gulir cepat
     implementation 'com.quiph.ui:recyclerviewfastscroller:1.0.0'

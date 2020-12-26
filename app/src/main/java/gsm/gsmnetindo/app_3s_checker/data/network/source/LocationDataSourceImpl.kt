@@ -77,19 +77,23 @@ class LocationDataSourceImpl(
     }
     @SuppressLint("MissingPermission")
     private fun requestNewLocation(){
-        mLocationRequest = LocationRequest()
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = 5
-        mLocationRequest.fastestInterval = 3
-        mLocationRequest.numUpdates = 1
+        try {
+            mLocationRequest = LocationRequest()
+            mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            mLocationRequest.interval = 5
+            mLocationRequest.fastestInterval = 3
+            mLocationRequest.numUpdates = 1
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(application)
-        fusedLocationProviderClient.removeLocationUpdates(mLocationCallback)
-        if (isPermissionGranted()) throw LocationPermissionException()
-        if (!isLocationEnabled()) throw LocationNotEnabledException()
-        fusedLocationProviderClient.requestLocationUpdates(
-            mLocationRequest, mLocationCallback, Looper.getMainLooper()
-        )
+            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(application)
+            fusedLocationProviderClient.removeLocationUpdates(mLocationCallback)
+            if (isPermissionGranted()) throw LocationPermissionException()
+            if (!isLocationEnabled()) throw LocationNotEnabledException()
+            fusedLocationProviderClient.requestLocationUpdates(
+                mLocationRequest, mLocationCallback, Looper.getMainLooper()
+            )
+        }catch (e:Exception){
+
+        }
     }
     private fun isPermissionGranted(): Boolean{
         return ActivityCompat.checkSelfPermission(
