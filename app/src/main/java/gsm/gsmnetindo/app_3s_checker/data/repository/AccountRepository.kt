@@ -20,8 +20,6 @@ interface AccountRepository {
     fun setRegistered()
     fun isRegistered(): LiveData<Boolean>
 
-    fun setToken(token: String)
-
     fun doLogout()
 
     suspend fun doLogin(phone: String): LiveData<UserLoginResponse>

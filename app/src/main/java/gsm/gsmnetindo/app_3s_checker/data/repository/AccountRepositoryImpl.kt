@@ -86,10 +86,6 @@ class AccountRepositoryImpl(
     override val detail: LiveData<UserDetailResponse>
         get() = _detail
 
-    override fun setToken(token: String) {
-        userManager.setToken(token)
-    }
-
     override suspend fun fetchDetail() {
         try {
             restApiNetworkDataSource.fetchDetail()
