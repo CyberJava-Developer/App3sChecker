@@ -69,8 +69,8 @@ dependencies {
     //ui alern dialog
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
     //api sms listerner
-    implementation 'com.google.android.gms:play-services-auth:17.0.0'
-    implementation 'com.google.android.gms:play-services-auth-api-phone:17.4.0'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
 
     //gulir cepat
     implementation 'com.quiph.ui:recyclerviewfastscroller:1.0.0'

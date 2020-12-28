@@ -12,6 +12,7 @@ interface AccountRepository {
     fun getPhonePref(): String?
     fun setPhone(phone: String)
     fun getToken(): LiveData<String>
+    fun setToken(token: String)
 
     fun setVerified(verified: Boolean)
     fun isVerified(): LiveData<Boolean>

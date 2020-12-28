@@ -14,6 +14,7 @@ import gsm.gsmnetindo.app_3s_checker.data.network.response.VersionResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.BarcodeDetailResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.detail.UserDetailResponse
 import gsm.gsmnetindo.app_3s_checker.data.network.response.observation.ObservationResponse
+import gsm.gsmnetindo.app_3s_checker.internal.AppSignatureHashHelper
 import retrofit2.HttpException
 
 class RestApiNetworkDataSourceImpl(
@@ -71,7 +72,8 @@ class RestApiNetworkDataSourceImpl(
     override val downloadedLoginResponse: LiveData<UserLoginResponse>
         get() = _downloadedJWT
     override suspend fun fetchLogin(phone: String) {
-        val data = DataPostLogin(phone)
+        val hash = AppSignatureHashHelper(context).appSignatures.toString()
+        val data = DataPostLogin(phone, hash)
         Log.d("fetchJWTLogin", data.toString())
         try {
             restApiService

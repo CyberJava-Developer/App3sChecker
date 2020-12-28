@@ -46,6 +46,7 @@ class AccountRepositoryImpl(
     override fun setPhone(phone: String) = userManager.setPhone(phone)
 
     override fun getToken() = userManager.getToken()
+    override fun setToken(token: String) = userManager.setToken(token)
 
     override fun setVerified(verified: Boolean) = userManager.setVerified(verified)
     override fun isVerified() = userManager.isVerified()

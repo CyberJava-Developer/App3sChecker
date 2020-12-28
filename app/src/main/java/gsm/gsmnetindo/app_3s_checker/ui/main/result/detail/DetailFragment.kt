@@ -18,12 +18,10 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.signature.ObjectKey
 import gsm.gsmnetindo.app_3s_checker.R
-import gsm.gsmnetindo.app_3s_checker.data.network.response.barcode.Kuesioner
 import gsm.gsmnetindo.app_3s_checker.internal.LocalDateTimeParser
 import gsm.gsmnetindo.app_3s_checker.internal.ScopedFragment
 import gsm.gsmnetindo.app_3s_checker.internal.Secret
 import gsm.gsmnetindo.app_3s_checker.internal.glide.GlideApp
-import gsm.gsmnetindo.app_3s_checker.internal.process.Likert
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModel
 import gsm.gsmnetindo.app_3s_checker.ui.main.result.ResultViewModelFactory
 import gsm.gsmnetindo.app_3s_checker.ui.viewmodel.AccountViewModel
@@ -108,11 +106,11 @@ class DetailFragment : ScopedFragment(), KodeinAware {
                     status_ktp.text = "${it.user.bornPlace}, ${it.user.bornDate}"
 
                     if (!it.status.verified) {
-                        textView34.text = "*STATUS BELUM VERIFIKASI"
-                        textView34.setTextColor(Color.parseColor("#e60000"))
+                        status_verified.text = "*STATUS BELUM VERIFIKASI"
+                        status_verified.setTextColor(Color.parseColor("#e60000"))
                     } else {
-                        textView34.text = "*STATUS TERVERIFIKASI\nKEABSAHAN DATA: ${it.status.accuracy}%"
-                        textView34.setTextColor(Color.parseColor("#32a86d"))
+                        status_verified.text = "*STATUS TERVERIFIKASI\nKEABSAHAN DATA: ${it.status.accuracy}%"
+                        status_verified.setTextColor(Color.parseColor("#32a86d"))
                     }
                     status_refresh.isRefreshing = false
                 })
