@@ -128,17 +128,33 @@
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/account_text" />
-
-            <ImageView
-                android:id="@+id/account_avatar"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/status_user_avatar_container"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
-                android:adjustViewBounds="true"
+                android:background="#323232"
+                android:maxWidth="120dp"
+                android:minWidth="120dp"
                 android:scaleX="1"
                 android:scaleY="1"
-                android:src="@drawable/user120"
+                android:visibility="visible"
+                app:cardCornerRadius="10dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/account_avatar"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:minHeight="120dp"
+                    android:minWidth="120dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/user120"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </com.google.android.material.card.MaterialCardView>
+
+
 
             <TextView
                 android:id="@+id/account_text"
@@ -147,8 +163,8 @@
                 android:layout_marginTop="8dp"
                 android:text="Data diperbarui pada:"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@id/account_avatar"
-                app:layout_constraintTop_toBottomOf="@id/account_avatar" />
+                app:layout_constraintStart_toStartOf="@id/status_user_avatar_container"
+                app:layout_constraintTop_toBottomOf="@id/status_user_avatar_container" />
 
             <ProgressBar
                 android:id="@+id/progressktp"
