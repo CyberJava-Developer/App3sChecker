@@ -144,8 +144,9 @@ class IntroActivity : ScopedActivity(), KodeinAware {
                 viewModelProvider.setFirst()
                 Log.d("set First", viewModelProvider.isFirst().value.toString())
 
-                startActivity(Intent(this, loginverification::class.java))
-                finish()
+//                startActivity(Intent(this, loginverification::class.java))
+//                finish()
+                toLogin()
             }
         }
     }
