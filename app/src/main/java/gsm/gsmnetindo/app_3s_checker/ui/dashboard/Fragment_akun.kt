@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import gsm.gsmnetindo.app_3s_checker.BuildConfig
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.bumptech.glide.load.DataSource

@@ -149,6 +149,7 @@ class VerificationActivity: ScopedActivity(), KodeinAware {
                         Toast.makeText(this@VerificationActivity, "Anda tidak memiliki izin untuk mengakses 3s Checker", Toast.LENGTH_LONG).show()
                         finishAndRemoveTask()
                         finish()
+                        return@observe
                     } else {
                         registered = it.registered
                         codeServer = it.code
@@ -156,6 +157,7 @@ class VerificationActivity: ScopedActivity(), KodeinAware {
                         jwt = it.jwt
                         role = it.role
 
+                        Log.d("otp code", it.code)
                         // ngakali tanpa sms langsung login
 //                codeSms = it.code
                         btnverify()
